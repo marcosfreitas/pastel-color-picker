@@ -1,0 +1,244 @@
+/* Color Picker Component Styles */
+
+/* Base component classes */
+.color-picker-circles {
+  /* Circles variant container */
+}
+
+.color-picker-circles--sm {
+  gap: 0.375rem; /* 6px */
+}
+
+.color-picker-circles--md {
+  gap: 0.5rem; /* 8px */
+}
+
+.color-picker-circles--lg {
+  gap: 0.75rem; /* 12px */
+}
+
+.color-picker-circles--disabled {
+  pointer-events: none;
+}
+
+.color-picker-circle {
+  /* Individual color circle */
+  cursor: pointer;
+  position: relative;
+}
+
+.color-picker-circle:hover {
+  /* Hover state for circles */
+}
+
+.color-picker-circle--selected {
+  /* Selected circle state */
+  border-color: #000000 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transform: scale(1.05);
+}
+
+.color-picker-more-button {
+  /* More options button in circles variant */
+}
+
+.color-picker-button {
+  /* Button and simple variant button */
+  cursor: pointer;
+}
+
+.color-picker-button--sm {
+  /* Small button size */
+}
+
+.color-picker-button--md {
+  /* Medium button size */
+}
+
+.color-picker-button--lg {
+  /* Large button size */
+}
+
+.color-picker-button--disabled {
+  /* Disabled button state */
+}
+
+.color-picker-simple {
+  /* Simple variant specific styles */
+}
+
+.color-picker-simple--sm {
+  /* Small simple variant */
+}
+
+.color-picker-simple--md {
+  /* Medium simple variant */
+}
+
+.color-picker-simple--lg {
+  /* Large simple variant */
+}
+
+.color-picker-simple--disabled {
+  /* Disabled simple variant */
+}
+
+.color-picker-default {
+  /* Default button variant */
+}
+
+.color-picker-random {
+  /* Random variant button */
+  position: relative;
+}
+
+.color-picker-random--sm {
+  /* Small random variant */
+}
+
+.color-picker-random--md {
+  /* Medium random variant */
+}
+
+.color-picker-random--lg {
+  /* Large random variant */
+}
+
+.color-picker-random--disabled {
+  /* Disabled random variant */
+}
+
+/* Dialog and picker styles */
+.color-picker-dialog {
+  /* Main dialog container */
+}
+
+.color-picker-preview {
+  /* Color preview area */
+}
+
+.color-picker-controls {
+  /* Controls container */
+}
+
+.color-picker-slider {
+  /* Individual slider container */
+}
+
+.color-picker-presets {
+  /* Preset colors container */
+}
+
+.color-picker-preset-color {
+  /* Individual preset color */
+}
+
+/* Custom properties for easy theming */
+:root {
+  --color-picker-border-radius: 0.5rem;
+  --color-picker-border-color: #e5e7eb;
+  --color-picker-border-hover: #d1d5db;
+  --color-picker-selected-border: #000000;
+  --color-picker-focus-ring: #3b82f6;
+  --color-picker-transition: all 0.2s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .color-picker-circles {
+    gap: 0.25rem;
+  }
+  
+  .color-picker-circles--sm {
+    gap: 0.25rem;
+  }
+  
+  .color-picker-circles--md {
+    gap: 0.375rem;
+  }
+  
+  .color-picker-circles--lg {
+    gap: 0.5rem;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .color-picker-circle {
+    border-width: 3px;
+  }
+  
+  .color-picker-circle--selected {
+    border-width: 4px;
+  }
+  
+  .color-picker-button {
+    border-width: 3px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .color-picker-circle,
+  .color-picker-button,
+  .color-picker-random,
+  .color-picker-more-button {
+    transition: none;
+  }
+  
+  .color-picker-circle:hover,
+  .color-picker-button:hover {
+    transform: none;
+  }
+}
+
+/* Custom slider styles for color picker */
+.hueSlider {
+  background: linear-gradient(to right, 
+    #ff0000 0%, 
+    #ffff00 17%, 
+    #00ff00 33%, 
+    #00ffff 50%, 
+    #0000ff 67%, 
+    #ff00ff 83%, 
+    #ff0000 100%);
+  border-radius: 8px;
+  height: 12px;
+}
+
+.saturationSlider {
+  background: linear-gradient(to right, #808080, var(--current-hue, #ff0000));
+  border-radius: 8px;
+  height: 12px;
+}
+
+.lightnessSlider {
+  background: linear-gradient(to right, #000000, var(--current-hue, #ff0000), #ffffff);
+  border-radius: 8px;
+  height: 12px;
+}
+
+.alphaSlider {
+  background: linear-gradient(to right, transparent, var(--current-color, #000000));
+  border-radius: 8px;
+  height: 12px;
+  position: relative;
+}
+
+.alphaSlider::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #ccc 75%), 
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  border-radius: 8px;
+  z-index: -1;
+} 

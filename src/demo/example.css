@@ -1,0 +1,16 @@
+/* Color scheme classes for example page */
+.example-bg {
+  background-color: #FDF9EF;
+}
+
+.example-title-main {
+  color: #0B3462; /* nice dark*/
+}
+
+.example-title-secondary {
+  color: #388BE9;
+}
+
+.example-text {
+  color: #0B3462;
+} 

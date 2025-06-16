@@ -1,0 +1,49 @@
+/* Custom slider styles for color picker */
+.hueSlider {
+  background: linear-gradient(
+    to right,
+    hsl(0, 100%, 50%),
+    hsl(60, 100%, 50%),
+    hsl(120, 100%, 50%),
+    hsl(180, 100%, 50%),
+    hsl(240, 100%, 50%),
+    hsl(300, 100%, 50%),
+    hsl(360, 100%, 50%)
+  );
+  border-radius: 0.375rem;
+}
+
+.saturationSlider {
+  background: linear-gradient(
+    to right,
+    hsl(var(--current-hue, 0), 0%, 50%),
+    var(--current-hue, hsl(0, 100%, 50%))
+  );
+  border-radius: 0.375rem;
+}
+
+.lightnessSlider {
+  background: linear-gradient(
+    to right,
+    hsl(var(--current-hue, 0), 100%, 0%),
+    hsl(var(--current-hue, 0), 100%, 50%),
+    hsl(var(--current-hue, 0), 100%, 100%)
+  );
+  border-radius: 0.375rem;
+}
+
+.alphaSlider {
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--current-color, rgb(0, 0, 0))
+  ),
+  /* Checkerboard pattern for transparency */
+  linear-gradient(45deg, #ccc 25%, transparent 25%),
+  linear-gradient(-45deg, #ccc 25%, transparent 25%),
+  linear-gradient(45deg, transparent 75%, #ccc 75%),
+  linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px;
+  background-position: 0 0, 0 0, 4px 0, 4px -4px, 0 4px;
+  border-radius: 0.375rem;
+} 
