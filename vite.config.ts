@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
-import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -19,7 +18,7 @@ export default defineConfig(({ mode }) => {
       ],
       build: {
         lib: {
-          entry: path.resolve(__dirname, 'src/index.ts'),
+          entry: './src/index.ts',
           formats: ['es', 'cjs'],
           fileName: (format) => `index.${format === 'es' ? 'esm' : format}.js`
         },
@@ -39,20 +38,22 @@ export default defineConfig(({ mode }) => {
   // Demo build configuration for GitHub Pages
   return {
     plugins: [react()],
-    root: '.',
     base: '/pastel-color-picker/',
     build: {
       outDir: 'dist',
-      assetsDir: 'assets',
+      sourcemap: false,
       rollupOptions: {
-        input: {
-          main: path.resolve(__dirname, 'index.html')
+        output: {
+          manualChunks: undefined,
+          entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]'
         }
       }
     },
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src')
+        '@': './src'
       }
     }
   }
