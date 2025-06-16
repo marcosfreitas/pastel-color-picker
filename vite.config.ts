@@ -36,14 +36,19 @@ export default defineConfig(({ mode }) => {
     }
   }
 
-  // Demo build configuration
+  // Demo build configuration for GitHub Pages
   return {
     plugins: [react()],
     root: '.',
     base: '/pastel-color-picker/',
     build: {
       outDir: 'dist',
-      assetsDir: 'assets'
+      assetsDir: 'assets',
+      rollupOptions: {
+        input: {
+          main: path.resolve(__dirname, 'index.html')
+        }
+      }
     },
     resolve: {
       alias: {
