@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Color scheme classes for example page */
 .example-bg {
   background-color: #FDF9EF;

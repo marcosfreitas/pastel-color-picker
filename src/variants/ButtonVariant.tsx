@@ -69,6 +69,7 @@ export function ButtonVariant({
           disabled={disabled}
           className={cn(
             'color-picker-button color-picker-default',
+            'bg-background text-foreground',
             'rounded-lg border-2 border-gray-200 hover:border-gray-300',
             'transition-all duration-200 flex items-center justify-center gap-2',
             'hover:scale-105 outline-none',

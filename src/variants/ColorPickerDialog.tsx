@@ -56,7 +56,7 @@ export function ColorPickerDialog({
   };
 
   return (
-    <DialogContent className="sm:max-w-md">
+    <DialogContent className="sm:max-w-md bg-background">
       <DialogHeader>
         <DialogTitle>Color Picker</DialogTitle>
       </DialogHeader>
@@ -115,6 +115,9 @@ export function ColorPickerDialog({
                   max={360}
                   step={1}
                   className="w-full"
+                  spectrum={{
+                    trackClassName: 'bg-transparent',
+                  }}
                 />
                 <div className={cn("absolute inset-0 -z-10", styles.hueSlider)} />
               </div>
@@ -132,9 +135,6 @@ export function ColorPickerDialog({
                 />
                 <div 
                   className={cn("absolute inset-0 -z-10", styles.saturationSlider)}
-                  style={{
-                    '--current-hue': `hsl(${color.hsva.h}, 100%, 50%)`
-                  } as React.CSSProperties}
                 />
               </div>
             </div>
@@ -172,7 +172,8 @@ export function ColorPickerDialog({
                   <div 
                     className={cn("absolute inset-0 -z-10", styles.alphaSlider)}
                     style={{
-                      '--current-color': `rgb(${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b})`
+                      '--current-color': `rgb(${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b})`,
+                      '--current-alpha': color.rgba.a.toString()
                     } as React.CSSProperties}
                   />
                 </div>
