@@ -1,7 +1,7 @@
 # 🎨 Pastel Color Picker
 
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18+-green.svg)](https://reactjs.org/)
+[![React](https://img.shields.io/badge/React-22+-green.svg)](https://reactjs.org/)
 
 A comprehensive React color picker component with multiple variants, pastel color support, and alpha channel control. Built with Radix UI primitives and styled with Tailwind CSS.
 
