@@ -317,13 +317,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Icons from [Lucide React](https://lucide.dev/)
 - Inspired by modern design systems
 
-## 📊 Stats
-
-![GitHub stars](https://img.shields.io/github/stars/ordinarylink/pastel-color-picker?style=social)
-![GitHub forks](https://img.shields.io/github/forks/ordinarylink/pastel-color-picker?style=social)
-![GitHub issues](https://img.shields.io/github/issues/ordinarylink/pastel-color-picker)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/ordinarylink/pastel-color-picker)
-
 ---
 
-Made with ❤️ by [Ordinary Links](https://github.com/ordinarylink)
+Made with ❤️ by [Ordinary Link]([https://github.com/ordinarylink](https://ordinarylink.co/))
