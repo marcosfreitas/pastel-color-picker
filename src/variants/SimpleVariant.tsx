@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { Palette } from 'lucide-react';
 import { cn } from '../utils/cn';
@@ -11,6 +10,7 @@ interface SimpleVariantProps {
   localColor: ColorValue;
   handleColorChange: (color: ColorValue) => void;
   isPastel: boolean;
+  hideSliders?: boolean;
   showIcon: boolean;
   label?: string;
   size: 'sm' | 'md' | 'lg';
@@ -24,6 +24,7 @@ export function SimpleVariant({
   localColor,
   handleColorChange,
   isPastel,
+  hideSliders,
   showIcon,
   label,
   size,
@@ -69,6 +70,7 @@ export function SimpleVariant({
         color={localColor}
         onChange={handleColorChange}
         isPastel={isPastel}
+        hideSliders={hideSliders}
       />
     </Dialog>
   );

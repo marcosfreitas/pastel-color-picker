@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { Palette } from 'lucide-react';
 import { cn } from '../utils/cn';
@@ -15,6 +14,7 @@ interface ButtonVariantProps {
   showAlpha: boolean;
   showColorArea: boolean;
   isPastel: boolean;
+  hideSliders?: boolean;
   onRandomColor: () => void;
   onHueChange: (hue: number[]) => void;
   onSaturationChange: (saturation: number[]) => void;
@@ -37,6 +37,7 @@ export function ButtonVariant({
   showAlpha,
   showColorArea,
   isPastel,
+  hideSliders,
   onRandomColor,
   onHueChange,
   onSaturationChange,
@@ -90,6 +91,7 @@ export function ButtonVariant({
         showAlpha={showAlpha}
         showColorArea={showColorArea}
         isPastel={isPastel}
+        hideSliders={hideSliders}
         onRandomColor={onRandomColor}
         onHueChange={onHueChange}
         onSaturationChange={onSaturationChange}

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
@@ -16,6 +15,7 @@ interface CirclesVariantProps {
   showAlpha: boolean;
   showColorArea: boolean;
   isPastel: boolean;
+  hideSliders?: boolean;
   onRandomColor: () => void;
   onHueChange: (hue: number[]) => void;
   onSaturationChange: (saturation: number[]) => void;
@@ -37,6 +37,7 @@ export function CirclesVariant({
   showAlpha,
   showColorArea,
   isPastel,
+  hideSliders,
   onRandomColor,
   onHueChange,
   onSaturationChange,
@@ -56,7 +57,7 @@ export function CirclesVariant({
 
   return (
     <div className={cn(
-      'color-picker-circles flex items-center gap-2',
+      'color-picker-circles flex items-center gap-2 flex-shrink-0',
       `color-picker-circles--${size}`,
       disabled && 'color-picker-circles--disabled',
       className
@@ -70,7 +71,7 @@ export function CirclesVariant({
             disabled={disabled}
             className={cn(
               'color-picker-circle rounded-full border-2 transition-all duration-200',
-              'hover:scale-110 outline-none',
+              'hover:scale-110 outline-none flex-shrink-0',
               sizeClasses[size],
               isSelected 
                 ? 'border-black shadow-md scale-105' 
@@ -92,7 +93,7 @@ export function CirclesVariant({
               'color-picker-more-button rounded-full border-2 border-dashed transition-all duration-200',
               'border-gray-300 hover:border-gray-400 hover:scale-110',
               'flex items-center justify-center bg-gray-50 hover:bg-gray-100',
-              'outline-none',
+              'outline-none flex-shrink-0',
               sizeClasses[size],
               disabled && 'opacity-50 cursor-not-allowed hover:scale-100'
             )}
@@ -108,6 +109,7 @@ export function CirclesVariant({
           showAlpha={showAlpha}
           showColorArea={showColorArea}
           isPastel={isPastel}
+          hideSliders={hideSliders}
           onRandomColor={onRandomColor}
           onHueChange={onHueChange}
           onSaturationChange={onSaturationChange}

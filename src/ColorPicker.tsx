@@ -23,7 +23,8 @@ export function ColorPicker({
   disabled = false,
   showPresets = true,
   showIcon = true,
-  label
+  label,
+  hideSliders = false
 }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [localColor, setLocalColor] = useState<ColorValue>(
@@ -108,6 +109,7 @@ export function ColorPicker({
     showAlpha,
     showColorArea,
     isPastel,
+    hideSliders,
     onRandomColor: handleRandomColor,
     onHueChange: handleHueChange,
     onSaturationChange: handleSaturationChange,

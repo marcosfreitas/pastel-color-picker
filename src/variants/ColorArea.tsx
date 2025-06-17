@@ -7,6 +7,7 @@ interface ColorAreaProps {
   hue: number;
   saturation: number;
   lightness: number;
+  alpha?: number;
   onChange: (saturation: number, lightness: number) => void;
   className?: string;
 }
@@ -15,6 +16,7 @@ export function ColorArea({
   hue,
   saturation,
   lightness,
+  alpha = 1,
   onChange,
   className
 }: ColorAreaProps) {
@@ -88,6 +90,15 @@ export function ColorArea({
   const cursorX = (saturation / 100) * 100;
   const cursorY = (100 - lightness) / 100 * 100;
 
+  // Checkered pattern for transparency - always present
+  const checkerPattern = `url("data:image/svg+xml,%3csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='checkerboard' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3e%3crect x='0' y='0' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='10' y='10' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='0' y='10' width='10' height='10' fill='%23e0e0e0'/%3e%3crect x='10' y='0' width='10' height='10' fill='%23e0e0e0'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23checkerboard)'/%3e%3c/svg%3e")`;
+
+  // Create the gradient with alpha
+  const gradientWithAlpha = `
+    linear-gradient(to top, rgba(0, 0, 0, ${alpha}), transparent),
+    linear-gradient(to right, rgba(255, 255, 255, ${alpha}), hsla(${hue}, 100%, 50%, ${alpha}))
+  `;
+
   return (
     <div
       ref={canvasRef}
@@ -96,10 +107,7 @@ export function ColorArea({
         className
       )}
       style={{
-        background: `
-          linear-gradient(to top, black, transparent),
-          linear-gradient(to right, white, hsl(${hue}, 100%, 50%))
-        `
+        background: `${gradientWithAlpha}, ${checkerPattern}`
       }}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}

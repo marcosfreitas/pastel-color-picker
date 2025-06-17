@@ -15,12 +15,14 @@ interface SimpleColorPickerDialogProps {
   color: ColorValue;
   onChange: (color: ColorValue) => void;
   isPastel: boolean;
+  hideSliders?: boolean;
 }
 
 export function SimpleColorPickerDialog({
   color,
   onChange,
-  isPastel // eslint-disable-line @typescript-eslint/no-unused-vars
+  isPastel, // eslint-disable-line @typescript-eslint/no-unused-vars
+  hideSliders = false
 }: SimpleColorPickerDialogProps) {
   return (
     <DialogContent className="sm:max-w-sm">
@@ -53,37 +55,50 @@ export function SimpleColorPickerDialog({
           <ColorBar 
             hue={color.hsva.h} 
             saturation={color.hsva.s} 
-            lightness={color.hsva.v} 
+            lightness={color.hsva.v}
+            alpha={color.rgba.a}
+            onChange={(saturation, lightness) => {
+              const [r, g, b] = hslToRgb(color.hsva.h, saturation, lightness);
+              const hex = rgbToHex(r, g, b);
+              const newColor: ColorValue = {
+                hexa: hex,
+                rgba: { r, g, b, a: color.rgba.a },
+                hsva: { ...color.hsva, s: saturation, v: lightness }
+              };
+              onChange(newColor);
+            }}
           />
         </div>
 
         {/* Hue Control Only */}
-        <div className="space-y-2">
-          <Label>Hue</Label>
-          <div className="relative">
-            <Slider
-              value={[color.hsva.h]}
-              onValueChange={(value) => {
-                const hue = value[0];
-                // Preserve current saturation and lightness, only change hue
-                const saturation = color.hsva.s;
-                const lightness = color.hsva.v;
-                const [r, g, b] = hslToRgb(hue, saturation, lightness);
-                const hex = rgbToHex(r, g, b);
-                const newColor: ColorValue = {
-                  hexa: hex,
-                  rgba: { r, g, b, a: color.rgba.a },
-                  hsva: { h: hue, s: saturation, v: lightness, a: color.rgba.a }
-                };
-                onChange(newColor);
-              }}
-              max={360}
-              step={1}
-              className="w-full"
-            />
-            <div className={cn("absolute inset-0 -z-10", styles.hueSlider)} />
+        {!hideSliders && (
+          <div className="space-y-2">
+            <Label>Hue</Label>
+            <div className="relative">
+              <Slider
+                value={[color.hsva.h]}
+                onValueChange={(value) => {
+                  const hue = value[0];
+                  // Preserve current saturation and lightness, only change hue
+                  const saturation = color.hsva.s;
+                  const lightness = color.hsva.v;
+                  const [r, g, b] = hslToRgb(hue, saturation, lightness);
+                  const hex = rgbToHex(r, g, b);
+                  const newColor: ColorValue = {
+                    hexa: hex,
+                    rgba: { r, g, b, a: color.rgba.a },
+                    hsva: { h: hue, s: saturation, v: lightness, a: color.rgba.a }
+                  };
+                  onChange(newColor);
+                }}
+                max={360}
+                step={1}
+                className="w-full"
+              />
+              <div className={cn("absolute inset-0 -z-10", styles.hueSlider)} />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </DialogContent>
   );

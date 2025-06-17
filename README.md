@@ -1,6 +1,6 @@
 # 🎨 Pastel Color Picker
 
-[![npm version](https://badge.fury.io/js/@ordinary-link/pastel-color-picker.svg)](https://badge.fury.io/js/@ordinary-link/pastel-color-picker)
+[![npm version](https://badge.fury.io/js/@marcosfreitas/pastel-color-picker.svg)](https://badge.fury.io/js/@marcosfreitas/pastel-color-picker)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18+-green.svg)](https://reactjs.org/)
@@ -75,7 +75,7 @@ Result: Beautiful light blue color! 🎉
 ## 📦 Installation
 
 ```bash
-npm install @ordinary-link/pastel-color-picker
+npm install @marcosfreitas/pastel-color-picker
 ```
 
 ### Peer Dependencies
@@ -87,7 +87,7 @@ npm install react react-dom @radix-ui/react-dialog @radix-ui/react-slider lucide
 ## 🎯 Quick Start
 
 ```tsx
-import { ColorPicker, ColorValue } from '@ordinary-link/pastel-color-picker';
+import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker';
 
 function App() {
   const [color, setColor] = useState<ColorValue>();
@@ -115,11 +115,15 @@ function App() {
 | `variant` | `'circles' \| 'button' \| 'random' \| 'simple'` | `'button'` | Presentation variant |
 | `isPastel` | `boolean` | `true` | Whether to use pastel colors |
 | `showAlpha` | `boolean` | `true` | Whether to show alpha channel controls |
+| `showColorArea` | `boolean` | `false` | Whether to show 2D color area instead of individual sliders |
+| `hideSliders` | `boolean` | `false` | Whether to hide all slider controls in dialogs |
 | `presetColors` | `string[]` | - | Custom preset colors (hex values) |
 | `className` | `string` | - | Custom CSS class |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `disabled` | `boolean` | `false` | Disabled state |
 | `showPresets` | `boolean` | `true` | Show preset colors in dialog |
+| `showIcon` | `boolean` | `true` | Whether to show icons in button variants |
+| `label` | `string` | - | Label text to display with the button/random/simple variants |
 
 ### ColorValue Interface
 
@@ -221,6 +225,45 @@ const brandColors = [
   showPresets={false}
   isPastel={false}
 />
+```
+
+### Minimalist Color Picker
+
+```tsx
+function MinimalistPicker() {
+  const [color, setColor] = useState<ColorValue>();
+
+  return (
+    <ColorPicker
+      variant="button"
+      value={color}
+      onChange={setColor}
+      hideSliders={true}
+      showColorArea={true}
+      showPresets={false}
+      label="Pick Color"
+    />
+  );
+}
+```
+
+### Transparency-Aware Color Picker
+
+```tsx
+function TransparencyPicker() {
+  const [bgColor, setBgColor] = useState<ColorValue>();
+
+  return (
+    <ColorPicker
+      variant="button"
+      value={bgColor}
+      onChange={setBgColor}
+      showAlpha={true}
+      showColorArea={true}
+      hideSliders={false}
+    />
+  );
+}
 ```
 
 ### Form Integration

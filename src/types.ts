@@ -33,4 +33,6 @@ export interface ColorPickerProps {
   showIcon?: boolean;
   /** Label text to display with the button/random/simple variants */
   label?: string;
+  /** Whether to hide all slider controls in dialogs */
+  hideSliders?: boolean;
 } 

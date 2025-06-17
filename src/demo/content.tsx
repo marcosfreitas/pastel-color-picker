@@ -43,6 +43,7 @@ export function Content() {
   const [showPresets, setShowPresets] = useState(true);
   const [showIcons, setShowIcons] = useState(true);
   const [showColorArea, setShowColorArea] = useState(false);
+  const [hideSliders, setHideSliders] = useState(false);
 
   // Reset all colors to defaults when configuration changes
   const resetAllColors = (newIsPastel?: boolean) => {
@@ -125,6 +126,11 @@ export function Content() {
     resetAllColors();
   };
 
+  const handleHideSlidersChange = (checked: boolean) => {
+    setHideSliders(checked);
+    resetAllColors();
+  };
+
   return (
     <div className="space-y-8 p-6 max-w-7xl mx-auto">
       {/* Supported by OrdinaryLink.co */}
@@ -155,22 +161,22 @@ export function Content() {
         <div className="space-y-4">
           <div>
             <h3 className="font-medium mb-2">Install the Package</h3>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`npm install @ordinary-link/pastel-color-picker`}
-            </pre>
+                          <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`npm install @marcosfreitas/pastel-color-picker`}
+              </pre>
           </div>
           
           <div>
             <h3 className="font-medium mb-2">Install Peer Dependencies</h3>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
+            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
 {`npm install react react-dom @radix-ui/react-dialog @radix-ui/react-slider @radix-ui/react-separator @radix-ui/react-switch @radix-ui/react-label @radix-ui/react-slot lucide-react clsx class-variance-authority`}
             </pre>
           </div>
 
           <div>
             <h3 className="font-medium mb-2">Import and Use</h3>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`import { ColorPicker, ColorValue } from '@ordinary-link/pastel-color-picker';
+                          <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker';
 import { useState } from 'react';
 
 function App() {
@@ -186,7 +192,7 @@ function App() {
     />
   );
 }`}
-            </pre>
+              </pre>
           </div>
 
           <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
@@ -197,49 +203,159 @@ function App() {
         </div>
       </Card>
 
+      {/* Configuration Explanation */}
+      <Card className="p-6">
+        <h2 className="text-xl font-semibold mb-4">📋 Available Configurations</h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          The Color Picker component offers extensive customization options to fit your specific needs. 
+          Here's a comprehensive overview of all available properties:
+        </p>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium mb-3">🎨 Core Configuration</h3>
+            
+            <div className="space-y-3">
+              <div className="p-3 bg-muted rounded-lg">
+                <h4 className="font-medium text-sm mb-1">Pastel Colors</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <code className="bg-background px-1 py-0.5 rounded text-xs">isPastel: boolean</code>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Controls the color palette mode. Pastel colors are softer and more elegant, 
+                  while vibrant colors are bold and energetic.
+                </p>
+              </div>
+
+              <div className="p-3 bg-muted rounded-lg">
+                <h4 className="font-medium text-sm mb-1">Show Alpha Channel</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <code className="bg-background px-1 py-0.5 rounded text-xs">showAlpha: boolean</code>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Enables transparency control with an opacity slider. The color bar and area 
+                  will show a checkered background pattern when alpha &lt; 100%.
+                </p>
+              </div>
+
+              <div className="p-3 bg-muted rounded-lg">
+                <h4 className="font-medium text-sm mb-1">2D Color Area</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <code className="bg-background px-1 py-0.5 rounded text-xs">showColorArea: boolean</code>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Replaces individual saturation/lightness sliders with an interactive 2D canvas. 
+                  Perfect for visual color selection.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <h3 className="text-lg font-medium mb-3">🛠️ Interface Control</h3>
+            
+            <div className="space-y-3">
+              <div className="p-3 bg-muted rounded-lg">
+                <h4 className="font-medium text-sm mb-1">Hide Sliders</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <code className="bg-background px-1 py-0.5 rounded text-xs">hideSliders: boolean</code>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  <span className="inline-block w-2 h-2 bg-green-500 rounded-full mr-1"></span>
+                  <strong>NEW!</strong> Hides all individual sliders for a cleaner interface. 
+                  Users can only select colors using the visual color bar/area.
+                </p>
+              </div>
+
+              <div className="p-3 bg-muted rounded-lg">
+                <h4 className="font-medium text-sm mb-1">Show Preset Colors</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <code className="bg-background px-1 py-0.5 rounded text-xs">showPresets: boolean</code>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Displays a grid of preset colors in the dialog for quick selection. 
+                  Can be combined with custom preset colors.
+                </p>
+              </div>
+
+              <div className="p-3 bg-muted rounded-lg">
+                <h4 className="font-medium text-sm mb-1">Show Icons</h4>
+                <p className="text-xs text-muted-foreground mb-2">
+                  <code className="bg-background px-1 py-0.5 rounded text-xs">showIcon: boolean</code>
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Shows/hides the palette icon in button variants. Useful when using text labels.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <h4 className="font-medium text-sm mb-2 text-blue-900">💡 Pro Tips</h4>
+          <ul className="text-xs text-blue-800 space-y-1">
+            <li>• <strong>Minimalist UI:</strong> Use <code>hideSliders={true}</code> + <code>showColorArea={true}</code> for the cleanest interface</li>
+            <li>• <strong>Precise Control:</strong> Keep sliders enabled when users need exact color values</li>
+            <li>• <strong>Quick Selection:</strong> Use <code>variant="circles"</code> with custom presets for brand colors</li>
+            <li>• <strong>Simple Mode:</strong> <code>variant="simple"</code> gives users hue selection only</li>
+          </ul>
+        </div>
+      </Card>
+
       {/* Configuration Panel */}
       <Card className="p-6">
-        <h2 className="text-xl font-semibold mb-4">Configuration</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-          <div className="flex items-center space-x-2">
+        <h2 className="text-xl font-semibold mb-4">⚙️ Live Configuration</h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          Toggle these settings to see how they affect all color pickers below
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-8">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="pastel-mode" className="text-sm font-medium">Pastel Colors</Label>
             <Switch
               id="pastel-mode"
               checked={isPastel}
               onCheckedChange={handlePastelChange}
             />
-            <Label htmlFor="pastel-mode">Pastel Colors</Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="alpha-channel" className="text-sm font-medium">Show Alpha Channel</Label>
             <Switch
               id="alpha-channel"
               checked={showAlpha}
               onCheckedChange={handleAlphaChange}
             />
-            <Label htmlFor="alpha-channel">Show Alpha Channel</Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="show-presets" className="text-sm font-medium">Show Preset Colors</Label>
             <Switch
               id="show-presets"
               checked={showPresets}
               onCheckedChange={handlePresetsChange}
             />
-            <Label htmlFor="show-presets">Show Preset Colors</Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="show-icons" className="text-sm font-medium">Show Icons</Label>
             <Switch
               id="show-icons"
               checked={showIcons}
               onCheckedChange={handleIconsChange}
             />
-            <Label htmlFor="show-icons">Show Icons</Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="show-color-area" className="text-sm font-medium">2D Color Area</Label>
             <Switch
               id="show-color-area"
               checked={showColorArea}
               onCheckedChange={handleColorAreaChange}
             />
-            <Label htmlFor="show-color-area">2D Color Area</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="hide-sliders" className="text-sm font-medium">Hide Sliders</Label>
+            <Switch
+              id="hide-sliders"
+              checked={hideSliders}
+              onCheckedChange={handleHideSlidersChange}
+            />
           </div>
         </div>
       </Card>
@@ -269,6 +385,7 @@ function App() {
                   showColorArea={showColorArea}
                   showPresets={showPresets}
                   showIcon={showIcons}
+                  hideSliders={hideSliders}
                 />
               </div>
               <div className="flex items-center gap-4">
@@ -283,6 +400,7 @@ function App() {
                   showColorArea={showColorArea}
                   showPresets={showPresets}
                   showIcon={showIcons}
+                  hideSliders={hideSliders}
                 />
               </div>
               <div className="flex items-center gap-4">
@@ -297,6 +415,7 @@ function App() {
                   showColorArea={showColorArea}
                   showPresets={showPresets}
                   showIcon={showIcons}
+                  hideSliders={hideSliders}
                 />
               </div>
               <div className="flex items-center gap-4">
@@ -312,6 +431,7 @@ function App() {
                   showPresets={showPresets}
                   showIcon={showIcons}
                   label="Choose Color"
+                  hideSliders={hideSliders}
                 />
               </div>
             </div>
@@ -337,7 +457,7 @@ function App() {
             </div>
             <Separator />
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-4">
                 <Label>Small:</Label>
                 <ColorPicker
                   variant="circles"
@@ -348,9 +468,10 @@ function App() {
                   showAlpha={showAlpha}
                   showColorArea={showColorArea}
                   showPresets={showPresets}
+                  hideSliders={hideSliders}
                 />
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-4">
                 <Label>Medium:</Label>
                 <ColorPicker
                   variant="circles"
@@ -361,9 +482,10 @@ function App() {
                   showAlpha={showAlpha}
                   showColorArea={showColorArea}
                   showPresets={showPresets}
+                  hideSliders={hideSliders}
                 />
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full overflow-x-auto">
                 <Label>Large:</Label>
                 <ColorPicker
                   variant="circles"
@@ -374,6 +496,7 @@ function App() {
                   showAlpha={showAlpha}
                   showColorArea={showColorArea}
                   showPresets={showPresets}
+                  hideSliders={hideSliders}
                 />
               </div>
             </div>
@@ -399,8 +522,8 @@ function App() {
             </div>
             <Separator />
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Label>Small:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[4rem]">Small:</Label>
                 <ColorPicker
                   variant="random"
                   size="sm"
@@ -409,8 +532,8 @@ function App() {
                   isPastel={isPastel}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <Label>Medium:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[4rem]">Medium:</Label>
                 <ColorPicker
                   variant="random"
                   size="md"
@@ -419,8 +542,8 @@ function App() {
                   isPastel={isPastel}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <Label>Large:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[4rem]">Large:</Label>
                 <ColorPicker
                   variant="random"
                   size="lg"
@@ -429,8 +552,8 @@ function App() {
                   isPastel={isPastel}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <Label>With Label:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[5rem]">With Label:</Label>
                 <ColorPicker
                   variant="random"
                   size="md"
@@ -463,38 +586,41 @@ function App() {
             </div>
             <Separator />
             <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <Label>Small:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[4rem]">Small:</Label>
                 <ColorPicker
                   variant="simple"
                   size="sm"
                   value={simpleColor}
                   onChange={setSimpleColor}
                   showIcon={showIcons}
+                  hideSliders={hideSliders}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <Label>Medium:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[4rem]">Medium:</Label>
                 <ColorPicker
                   variant="simple"
                   size="md"
                   value={simpleColor}
                   onChange={setSimpleColor}
                   showIcon={showIcons}
+                  hideSliders={hideSliders}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <Label>Large:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[4rem]">Large:</Label>
                 <ColorPicker
                   variant="simple"
                   size="lg"
                   value={simpleColor}
                   onChange={setSimpleColor}
                   showIcon={showIcons}
+                  hideSliders={hideSliders}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <Label>With Label:</Label>
+              <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                <Label className="font-medium min-w-[5rem]">With Label:</Label>
                 <ColorPicker
                   variant="simple"
                   size="md"
@@ -502,6 +628,7 @@ function App() {
                   onChange={setSimpleColor}
                   showIcon={showIcons}
                   label="Simple"
+                  hideSliders={hideSliders}
                 />
               </div>
             </div>
@@ -541,6 +668,7 @@ function App() {
                     showPresets={showPresets}
                     showIcon={showIcons}
                     label="Sliders Only"
+                    hideSliders={hideSliders}
                   />
                   <p className="text-xs text-muted-foreground">
                     Shows color reference bar + individual sliders for precise control
@@ -559,6 +687,7 @@ function App() {
                     showPresets={showPresets}
                     showIcon={showIcons}
                     label="2D Canvas"
+                    hideSliders={hideSliders}
                   />
                   <p className="text-xs text-muted-foreground">
                     Interactive 2D canvas for selecting saturation and lightness simultaneously
@@ -605,13 +734,14 @@ function App() {
               showColorArea={showColorArea}
               showIcon={showIcons}
               label="Custom Colors"
+              hideSliders={hideSliders}
             />
           </div>
 
           <div className="p-3 bg-muted rounded-md">
             <p className="text-xs text-muted-foreground mb-2">Example usage:</p>
-            <pre className="text-xs font-mono">
-{`import { ColorPicker } from '@ordinary-link/pastel-color-picker';
+            <pre className="text-xs font-mono overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
 
 <ColorPicker
   variant="button"
@@ -638,8 +768,8 @@ function App() {
         <div className="space-y-4">
           <div>
             <h4 className="font-medium mb-2 example-text">Basic Usage</h4>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`import { ColorPicker, ColorValue } from '@ordinary-link/pastel-color-picker';
+            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker';
 
 const [color, setColor] = useState<ColorValue>();
 
@@ -655,8 +785,8 @@ const [color, setColor] = useState<ColorValue>();
 
           <div>
             <h4 className="font-medium mb-2 example-text">2D Color Area (Interactive Canvas)</h4>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`import { ColorPicker } from '@ordinary-link/pastel-color-picker';
+            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
 
 <ColorPicker
   variant="button"
@@ -669,8 +799,8 @@ const [color, setColor] = useState<ColorValue>();
           
           <div>
             <h4 className="font-medium mb-2 example-text">Circles Variant with Custom Presets</h4>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`import { ColorPicker } from '@ordinary-link/pastel-color-picker';
+            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
 
 <ColorPicker
   variant="circles"
@@ -683,8 +813,8 @@ const [color, setColor] = useState<ColorValue>();
 
           <div>
             <h4 className="font-medium mb-2 example-text">Simple Hue-Only Picker</h4>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`import { ColorPicker } from '@ordinary-link/pastel-color-picker';
+            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
 
 <ColorPicker
   variant="simple"
@@ -696,8 +826,8 @@ const [color, setColor] = useState<ColorValue>();
 
           <div>
             <h4 className="font-medium mb-2 example-text">Random Color Generator</h4>
-            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto">
-{`import { ColorPicker } from '@ordinary-link/pastel-color-picker';
+            <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+{`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
 
 <ColorPicker
   variant="random"
