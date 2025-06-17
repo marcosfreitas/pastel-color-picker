@@ -74,6 +74,44 @@ Result: Beautiful light blue color! 🎉
 
 ## 📦 Installation
 
+### From GitHub Packages (Recommended)
+
+This package is published to GitHub Packages. To install it, you need to configure npm to use GitHub Packages for the `@marcosfreitas` scope.
+
+#### 1. Create or update your `.npmrc` file:
+
+```bash
+# Create .npmrc in your project root
+echo "@marcosfreitas:registry=https://npm.pkg.github.com" > .npmrc
+```
+
+#### 2. Authenticate with GitHub (choose one method):
+
+**Option A: Using Personal Access Token (PAT)**
+```bash
+# Create a GitHub Personal Access Token with 'read:packages' scope
+# Then authenticate:
+npm login --scope=@marcosfreitas --registry=https://npm.pkg.github.com
+# Username: your-github-username
+# Password: your-personal-access-token
+# Email: your-github-email
+```
+
+**Option B: Using GitHub CLI**
+```bash
+# Install GitHub CLI and authenticate
+gh auth login
+# Then configure npm to use the token:
+npm config set //npm.pkg.github.com/:_authToken $(gh auth token)
+```
+
+#### 3. Install the package:
+```bash
+npm install @marcosfreitas/pastel-color-picker
+```
+
+### From npm (if published to public registry)
+
 ```bash
 npm install @marcosfreitas/pastel-color-picker
 ```

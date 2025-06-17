@@ -20,7 +20,10 @@
     "type-check": "tsc --noEmit",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "prepublishOnly": "npm run build:lib"
+    "prepublishOnly": "npm run build:lib",
+    "release:patch": "./scripts/release.sh patch",
+    "release:minor": "./scripts/release.sh minor",
+    "release:major": "./scripts/release.sh major"
   },
   "keywords": [
     "react",
@@ -92,6 +95,7 @@
     "vite-plugin-dts": "^3.9.1"
   },
   "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
     "access": "public"
   }
 }
