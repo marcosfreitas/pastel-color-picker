@@ -1,6 +1,6 @@
 {
   "name": "@marcosfreitas/pastel-color-picker",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "type": "module",
   "description": "A comprehensive React color picker component with multiple variants, pastel color support, and alpha channel control",
   "main": "dist/index.js",
