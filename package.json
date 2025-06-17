@@ -43,11 +43,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ordinarylink/pastel-color-picker.git"
+    "url": "git+https://github.com/marcosfreitas/pastel-color-picker.git"
   },
-  "homepage": "https://ordinarylink.github.io/pastel-color-picker",
+  "homepage": "https://marcosfreitas.github.io/pastel-color-picker",
   "bugs": {
-    "url": "https://github.com/ordinarylink/pastel-color-picker/issues"
+    "url": "https://github.com/marcosfreitas/pastel-color-picker/issues"
   },
   "contributors": [
     {
