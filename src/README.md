@@ -244,7 +244,3 @@ The component includes:
 - `@radix-ui/react-slider`: Slider component  
 - `lucide-react`: Icons
 - `React`: 18+
-
-## License
-
-MIT License
