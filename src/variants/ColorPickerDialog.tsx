@@ -10,7 +10,7 @@ import { Badge } from '../components/ui/badge';
 import { Shuffle } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { ColorValue } from '../types';
-import { hexToColorValue, hslToRgb, rgbToHex } from '../utils/colorUtils';
+import { hexToColorValue, hslToRgb, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
 import styles from '../ColorPicker.module.css';
@@ -44,19 +44,19 @@ export function ColorPickerDialog({
   onLightnessChange,
   onAlphaChange
 }: ColorPickerDialogProps) {
-  const handleColorAreaChange = (saturation: number, lightness: number) => {
-    const [r, g, b] = hslToRgb(color.hsva.h, saturation, lightness);
+  const handleColorAreaChange = (saturation: number, value: number) => {
+    const [r, g, b] = hsvToRgb(color.hsva.h, saturation, value);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
       hexa: hex,
       rgba: { r, g, b, a: color.rgba.a },
-      hsva: { ...color.hsva, s: saturation, v: lightness }
+      hsva: { ...color.hsva, s: saturation, v: value }
     };
     onChange(newColor);
   };
 
   return (
-    <DialogContent className="sm:max-w-md bg-background">
+    <DialogContent className="sm:max-w-md">
       <DialogHeader>
         <DialogTitle>Color Picker</DialogTitle>
       </DialogHeader>
@@ -208,7 +208,7 @@ export function ColorPickerDialog({
                   <button
                     key={index}
                     type="button"
-                    className="w-8 h-8 rounded border-2 border-transparent hover:border-gray-300 transition-colors"
+                    className="w-8 h-8 rounded border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
                     style={{ backgroundColor: preset }}
                     onClick={() => {
                       const colorValue = hexToColorValue(preset, color.rgba.a);

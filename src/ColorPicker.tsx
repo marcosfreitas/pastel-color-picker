@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { ColorPickerProps, ColorValue } from './types';
 import { PRESET_COLORS, PRESET_PASTEL_COLORS } from './constants';
-import { generateRandomColor, hexToColorValue, hslToRgb, rgbToHex } from './utils/colorUtils';
+import { generateRandomColor, hexToColorValue, hslToRgb, hsvToRgb, rgbToHex } from './utils/colorUtils';
 import { ButtonVariant } from './variants/ButtonVariant';
 import { CirclesVariant } from './variants/CirclesVariant';
 import { RandomVariant } from './variants/RandomVariant';
@@ -27,21 +27,32 @@ export function ColorPicker({
   hideSliders = false
 }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [localColor, setLocalColor] = useState<ColorValue>(
-    value || hexToColorValue('#45B7D1', 1)
-  );
-
-  // Sync internal state with value prop changes
-  useEffect(() => {
-    if (value) {
-      setLocalColor(value);
-    }
-  }, [value]);
-
+  
+  // Determine the appropriate preset list and default color
   const presets = useMemo(() => {
     if (presetColors) return presetColors;
     return isPastel ? PRESET_PASTEL_COLORS : PRESET_COLORS;
   }, [presetColors, isPastel]);
+
+  // Get default color from first preset color
+  const defaultColor = useMemo(() => {
+    const firstPresetColor = presets[0] || '#45B7D1'; // Fallback to original default
+    return hexToColorValue(firstPresetColor, 1);
+  }, [presets]);
+
+  const [localColor, setLocalColor] = useState<ColorValue>(
+    value || defaultColor
+  );
+
+  // Sync internal state with value prop changes or preset changes
+  useEffect(() => {
+    if (value) {
+      setLocalColor(value);
+    } else {
+      // Update default color when presets change (e.g., when isPastel changes)
+      setLocalColor(defaultColor);
+    }
+  }, [value, defaultColor]);
 
   const handleColorChange = useCallback((newColor: ColorValue) => {
     setLocalColor(newColor);
@@ -59,7 +70,7 @@ export function ColorPicker({
   }, [localColor.rgba.a, handleColorChange]);
 
   const handleHueChange = useCallback((hue: number[]) => {
-    const [r, g, b] = hslToRgb(hue[0], localColor.hsva.s, localColor.hsva.v);
+    const [r, g, b] = hsvToRgb(hue[0], localColor.hsva.s, localColor.hsva.v);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
       hexa: hex,
@@ -70,7 +81,7 @@ export function ColorPicker({
   }, [localColor, handleColorChange]);
 
   const handleSaturationChange = useCallback((saturation: number[]) => {
-    const [r, g, b] = hslToRgb(localColor.hsva.h, saturation[0], localColor.hsva.v);
+    const [r, g, b] = hsvToRgb(localColor.hsva.h, saturation[0], localColor.hsva.v);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
       hexa: hex,
@@ -81,7 +92,7 @@ export function ColorPicker({
   }, [localColor, handleColorChange]);
 
   const handleLightnessChange = useCallback((lightness: number[]) => {
-    const [r, g, b] = hslToRgb(localColor.hsva.h, localColor.hsva.s, lightness[0]);
+    const [r, g, b] = hsvToRgb(localColor.hsva.h, localColor.hsva.s, lightness[0]);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
       hexa: hex,

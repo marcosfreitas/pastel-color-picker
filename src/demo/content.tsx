@@ -7,6 +7,8 @@ import { Label } from '../components/ui/label';
 import { Switch } from '../components/ui/switch';
 import { Separator } from '../components/ui/separator';
 import { Github } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
+import { EXAMPLE_PASTEL_VARIATIONS, PRESET_COLORS, PRESET_PASTEL_COLORS } from '../constants';
 
 export function Content() {
   // Default color values
@@ -135,7 +137,7 @@ export function Content() {
   return (
     <div className="space-y-8 p-6 max-w-7xl mx-auto">
       {/* Header with GitHub link */}
-      <div className="relative py-4 border-b border-gray-100">
+      <div className="relative py-4 border-b border-gray-100 dark:border-gray-800">
 
         {/* Supported by OrdinaryLink.co - center */}
         <div className="text-center">
@@ -154,11 +156,12 @@ export function Content() {
 
                  {/* GitHub and NPM links - top right */}
          <div className="flex justify-center gap-3 top-4 relative md:absolute md:top-0 right-0">
+           <ThemeToggle />
            <a 
              href="https://www.npmjs.com/package/@marcosfreitas/pastel-color-picker" 
              target="_blank" 
              rel="noopener noreferrer"
-             className="flex items-center gap-2 px-3 py-2 text-sm text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md"
+             className="flex items-center gap-2 px-3 py-2 text-sm text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md dark:text-white dark:bg-black dark:hover:bg-white dark:hover:text-black dark:border-white"
              aria-label="View on NPM"
            >
                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -172,7 +175,7 @@ export function Content() {
              href="https://github.com/marcosfreitas/pastel-color-picker" 
              target="_blank" 
              rel="noopener noreferrer"
-             className="flex items-center gap-2 px-3 py-2 text-sm text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md"
+             className="flex items-center gap-2 px-3 py-2 text-sm text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md dark:text-white dark:bg-black dark:hover:bg-white dark:hover:text-black dark:border-white"
              aria-label="View on GitHub"
            >
              <Github className="w-5 h-5" />
@@ -190,7 +193,7 @@ export function Content() {
       </div>
 
       {/* Installation & Setup */}
-      <Card className="p-6">
+      <Card className="p-6 border border-border">
         <h2 className="text-xl font-semibold mb-4">🚀 Installation & Setup</h2>
         <div className="space-y-4">
           <div>
@@ -238,7 +241,7 @@ function App() {
       </Card>
 
       {/* Configuration Explanation */}
-      <Card className="p-6">
+      <Card className="p-6 border border-border">
         <h2 className="text-xl font-semibold mb-4">📋 Available Configurations</h2>
         <p className="text-sm text-muted-foreground mb-6">
           The Color Picker component offers extensive customization options to fit your specific needs. 
@@ -257,7 +260,8 @@ function App() {
                 </p>
                 <p className="text-xs text-muted-foreground">
                   Controls the color palette mode. Pastel colors are softer and more elegant, 
-                  while vibrant colors are bold and energetic.
+                  while vibrant colors are bold and energetic. <strong>Automatically selects the first color 
+                  from the corresponding preset list as the default.</strong>
                 </p>
               </div>
 
@@ -337,7 +341,7 @@ function App() {
       </Card>
 
       {/* Configuration Panel */}
-      <Card className="p-6">
+      <Card className="p-6 border border-border">
         <h2 className="text-xl font-semibold mb-4">⚙️ Live Configuration</h2>
         <p className="text-sm text-muted-foreground mb-6">
           Toggle these settings to see how they affect all color pickers below
@@ -397,7 +401,7 @@ function App() {
       {/* Color Picker Variants */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Button Variant */}
-        <Card className="p-6">
+        <Card className="p-6 border border-border">
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold example-title-secondary">Button Variant</h3>
@@ -481,7 +485,7 @@ function App() {
         </Card>
 
         {/* Circles Variant */}
-        <Card className="p-6">
+        <Card className="p-6 border border-border">
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold example-title-secondary">Circles Variant</h3>
@@ -519,7 +523,7 @@ function App() {
                   hideSliders={hideSliders}
                 />
               </div>
-              <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full overflow-x-auto">
+              <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full overflow-x-auto min-h-[100px]">
                 <Label>Large:</Label>
                 <ColorPicker
                   variant="circles"
@@ -546,7 +550,7 @@ function App() {
         </Card>
 
         {/* Random Variant */}
-        <Card className="p-6">
+        <Card className="p-6 border border-border">
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold example-title-secondary">Random Variant</h3>
@@ -618,7 +622,7 @@ function App() {
         </Card>
 
         {/* Simple Variant */}
-        <Card className="p-6">
+        <Card className="p-6 border border-border">
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold example-title-secondary">Simple Variant</h3>
@@ -686,7 +690,7 @@ function App() {
         </Card>
 
         {/* Color Area Feature Showcase */}
-        <Card className="p-6">
+        <Card className="p-6 border border-border">
           <div className="space-y-4">
             <div>
               <h3 className="text-lg font-semibold example-title-secondary">2D Color Area Feature</h3>
@@ -751,7 +755,7 @@ function App() {
       </div>
 
       {/* Custom Color Preset Example */}
-      <Card className="p-6">
+      <Card className="p-6 border border-border">
         <h3 className="text-lg font-semibold mb-4 example-title-secondary">Custom Preset Colors</h3>
         <div className="space-y-4">
           <div>
@@ -804,8 +808,135 @@ function App() {
         </div>
       </Card>
 
+      {/* RGB(226, 115, 126) Pastel Color Analysis */}
+      <Card className="p-6 border border-border">
+        <h3 className="text-lg font-semibold mb-4 example-title-secondary">Pastel Color Analysis: RGB(226, 115, 126)</h3>
+        <div className="space-y-4">
+          <div className="p-4 bg-muted rounded-lg">
+            <h4 className="font-medium mb-2 example-text">Reference Color Analysis</h4>
+            <div className="flex items-center gap-4 mb-3">
+              <div
+                className="w-12 h-12 rounded-lg border-2 shadow-sm"
+                style={{ backgroundColor: 'rgb(226, 115, 126)' }}
+              />
+              <div className="space-y-1">
+                <p className="text-sm font-mono">RGB(226, 115, 126)</p>
+                <p className="text-sm font-mono">#E2737E</p>
+                <p className="text-xs text-muted-foreground">HSL(351°, 62%, 67%)</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              This dusty rose color exemplifies perfect pastel characteristics: <strong>moderate saturation (62%)</strong> and <strong>balanced lightness (67%)</strong>. Our improved pastel system generates colors within similar ranges.
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-medium mb-2 example-text">Generated Pastel Variations</h4>
+            <p className="text-sm text-muted-foreground mb-3">
+              Using our <code className="bg-background px-1 py-0.5 rounded text-xs">generatePastelVariation()</code> function 
+              with the RGB(226, 115, 126) base:
+            </p>
+            <div className="flex gap-2 mb-3">
+              {EXAMPLE_PASTEL_VARIATIONS.map((color, index) => (
+                <div key={index} className="text-center">
+                  <div
+                    className="w-12 h-12 rounded-lg border-2 shadow-sm"
+                    style={{ backgroundColor: color }}
+                  />
+                  <p className="text-xs font-mono mt-1">{color}</p>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Left to right: <strong>Darker variation</strong>, <strong>Original</strong>, <strong>Lighter variation</strong>
+            </p>
+          </div>
+
+          <div>
+            <h4 className="font-medium mb-2 example-text">Enhanced Pastel Generation</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Old Algorithm</Label>
+                <div className="p-3 bg-red-50 dark:bg-red-950 rounded-md">
+                  <p className="text-xs text-red-800 dark:text-red-200">
+                    <strong>Saturation:</strong> 70-100% (too bright)<br/>
+                    <strong>Lightness:</strong> 75-90% (too washed out)
+                  </p>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">New Algorithm</Label>
+                <div className="p-3 bg-green-50 dark:bg-green-950 rounded-md">
+                  <p className="text-xs text-green-800 dark:text-green-200">
+                    <strong>Saturation:</strong> 45-75% (balanced)<br/>
+                    <strong>Lightness:</strong> 60-80% (better contrast)
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Label>Test Improved Pastel Generator:</Label>
+            <ColorPicker
+              variant="random"
+              size="md"
+              isPastel={true}
+              showAlpha={showAlpha}
+              showIcon={showIcons}
+              label="Enhanced Pastels"
+            />
+          </div>
+
+          <div className="p-3 bg-muted rounded-md">
+            <p className="text-xs text-muted-foreground mb-2">New Pastel Color Characteristics:</p>
+            <ul className="text-xs text-muted-foreground space-y-1">
+              <li>• <strong>Balanced saturation (45-75%):</strong> Rich enough to be expressive, muted enough to be soft</li>
+              <li>• <strong>Optimal lightness (60-80%):</strong> Better contrast while maintaining pastel feel</li>
+              <li>• <strong>Consistent with RGB(226, 115, 126):</strong> Similar intensity and visual weight</li>
+              <li>• <strong>Dark theme optimized:</strong> Less bright borders and better contrast</li>
+              <li>• <strong>Smart defaults:</strong> Automatically selects first preset color as default</li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-medium mb-2 example-text">Auto-Selection Demo</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Pastel Mode (Default: {PRESET_PASTEL_COLORS[0]})</Label>
+                <ColorPicker
+                  variant="button"
+                  size="md"
+                  isPastel={true}
+                  showAlpha={showAlpha}
+                  showIcon={showIcons}
+                  label="Auto Pastel"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Automatically defaults to first pastel preset: <strong>RGB(226, 115, 126)</strong>
+                </p>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Vibrant Mode (Default: {PRESET_COLORS[0]})</Label>
+                <ColorPicker
+                  variant="button"
+                  size="md"
+                  isPastel={false}
+                  showAlpha={showAlpha}
+                  showIcon={showIcons}
+                  label="Auto Vibrant"
+                />
+                <p className="text-xs text-muted-foreground">
+                  Automatically defaults to first vibrant preset: <strong>#FF6B6B</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
+
       {/* Usage Examples */}
-      <Card className="p-6">
+      <Card className="p-6 border border-border">
         <h3 className="text-lg font-semibold mb-4 example-title-secondary">Usage Examples</h3>
         <div className="space-y-4">
           <div>

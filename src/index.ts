@@ -27,7 +27,15 @@ export { Switch } from './components/ui/switch';
 export { cn } from './utils/cn';
 
 // Constants
-export { PRESET_COLORS, PRESET_PASTEL_COLORS } from './constants';
+export { 
+  PRESET_COLORS, 
+  PRESET_PASTEL_COLORS, 
+  generatePastelVariation,
+  EXAMPLE_PASTEL_VARIATIONS 
+} from './constants';
+
+// Utility functions
+export { generatePastelFromRgb } from './utils/colorUtils';
 
 // Types
 export type { ButtonProps } from './components/ui/button';

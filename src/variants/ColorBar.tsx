@@ -6,7 +6,7 @@ import { cn } from '../utils/cn';
 interface ColorBarProps {
   hue: number;
   saturation: number;
-  lightness: number;
+  lightness: number; // This is actually HSV Value/brightness, keeping same prop name for compatibility
   alpha?: number;
   onChange?: (saturation: number, lightness: number) => void;
   className?: string;
@@ -17,47 +17,59 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
   const handleRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
 
-  // Helper function to convert saturation/lightness to position (0-100%)
+  // Helper function to convert saturation/value to position (0-100%)
   // The bar represents: white (0%) → pure hue (50%) → black (100%)
-  const satLightToPosition = useCallback((sat: number, light: number): number => {
-    if (light >= 50) {
-      // Light side: interpolate between white (0%) and pure hue (50%)
-      // At light=100, sat=0 → position=0 (white)
-      // At light=50, sat=100 → position=50 (pure hue)
-      if (sat === 0) return 0; // Pure white
-      const lightFactor = (100 - light) / 50; // 0 to 1 as we go from light=100 to light=50
-      const satFactor = sat / 100; // 0 to 1
-      return lightFactor * satFactor * 50;
+  // For HSV: when V=100 and S=0, we get white; when V=100 and S=100, we get pure hue; when V=0, we get black
+  const satValueToPosition = useCallback((sat: number, value: number): number => {
+    // For HSV color space:
+    // - Pure white: S=0, V=100 → position 0%
+    // - Pure hue: S=100, V=100 → position 50%
+    // - Pure black: V=0 (any S) → position 100%
+    
+    if (value === 0) return 100; // Pure black
+    if (sat === 0) return 0; // White/gray
+    
+    // Calculate position based on saturation and value
+    // When value is high (bright), position depends more on saturation
+    // When value is low (dark), position shifts toward black (100%)
+    
+    const valueFactor = value / 100; // 0 to 1
+    const satFactor = sat / 100; // 0 to 1
+    
+    // Position calculation for HSV color bar
+    // 0% = white, 50% = pure hue, 100% = black
+    if (valueFactor >= 0.5) {
+      // Bright side: interpolate between white and pure hue
+      const position = satFactor * 50;
+      return position;
     } else {
-      // Dark side: interpolate between pure hue (50%) and black (100%)  
-      // At light=50, sat=100 → position=50 (pure hue)
-      // At light=0, sat=100 → position=100 (black)
-      if (sat === 0) return 0; // Desaturated colors stay on the white side
-      const darkFactor = (50 - light) / 50; // 0 to 1 as we go from light=50 to light=0
-      const satFactor = sat / 100; // 0 to 1
-      return 50 + (darkFactor * satFactor * 50);
+      // Dark side: interpolate between pure hue and black
+      const normalizedValue = valueFactor * 2; // 0 to 1 when value is 0 to 50
+      const huePosition = satFactor * 50; // Position of pure hue
+      const blackPosition = 100; // Position of black
+      return huePosition + (1 - normalizedValue) * (blackPosition - huePosition);
     }
   }, []);
 
-  // Helper function to convert position (0-100%) to saturation/lightness
-  const positionToSatLight = useCallback((position: number): [number, number] => {
+  // Helper function to convert position (0-100%) to saturation/value
+  const positionToSatValue = useCallback((position: number): [number, number] => {
     if (position <= 50) {
       // Left side: white to pure hue
-      if (position === 0) return [0, 100]; // Pure white
+      if (position === 0) return [0, 100]; // Pure white (S=0, V=100)
       const factor = position / 50; // 0 to 1
       const newSaturation = Math.round(factor * 100);
-      const newLightness = Math.round(100 - (factor * 50));
-      return [newSaturation, newLightness];
+      const newValue = 100; // Full brightness on the left side
+      return [newSaturation, newValue];
     } else {
       // Right side: pure hue to black
       const factor = (position - 50) / 50; // 0 to 1
-      const newSaturation = 100;
-      const newLightness = Math.round(50 - (factor * 50));
-      return [newSaturation, newLightness];
+      const newSaturation = 100; // Full saturation
+      const newValue = Math.round(100 - (factor * 100)); // Decreasing brightness toward black
+      return [newSaturation, newValue];
     }
   }, []);
 
-  const position = satLightToPosition(saturation, lightness);
+  const position = satValueToPosition(saturation, lightness);
 
   const handleInteraction = useCallback((event: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
     if (!barRef.current || !onChange) return;
@@ -70,9 +82,9 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
     const x = Math.max(0, Math.min(rect.width, clientX - rect.left));
     const percentage = (x / rect.width) * 100; // 0 to 100
 
-    const [newSaturation, newLightness] = positionToSatLight(percentage);
-    onChange(newSaturation, newLightness);
-  }, [onChange, positionToSatLight]);
+    const [newSaturation, newValue] = positionToSatValue(percentage);
+    onChange(newSaturation, newValue);
+  }, [onChange, positionToSatValue]);
 
   const handleMouseDown = useCallback((event: React.MouseEvent) => {
     if (!onChange || !handleRef.current) return;

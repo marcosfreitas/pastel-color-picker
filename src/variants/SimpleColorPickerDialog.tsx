@@ -7,7 +7,7 @@ import { Slider } from '../components/ui/slider';
 import { Badge } from '../components/ui/badge';
 import { cn } from '../utils/cn';
 import { ColorValue } from '../types';
-import { hslToRgb, rgbToHex } from '../utils/colorUtils';
+import { hslToRgb, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorBar } from './ColorBar';
 import styles from '../ColorPicker.module.css';
 
@@ -57,13 +57,13 @@ export function SimpleColorPickerDialog({
             saturation={color.hsva.s} 
             lightness={color.hsva.v}
             alpha={color.rgba.a}
-            onChange={(saturation, lightness) => {
-              const [r, g, b] = hslToRgb(color.hsva.h, saturation, lightness);
+            onChange={(saturation, value) => {
+              const [r, g, b] = hsvToRgb(color.hsva.h, saturation, value);
               const hex = rgbToHex(r, g, b);
               const newColor: ColorValue = {
                 hexa: hex,
                 rgba: { r, g, b, a: color.rgba.a },
-                hsva: { ...color.hsva, s: saturation, v: lightness }
+                hsva: { ...color.hsva, s: saturation, v: value }
               };
               onChange(newColor);
             }}
