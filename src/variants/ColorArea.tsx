@@ -48,6 +48,7 @@ export function ColorArea({
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
     if (!isDragging) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleInteraction(event as any);
   }, [isDragging, handleInteraction]);
 
@@ -63,6 +64,7 @@ export function ColorArea({
   const handleTouchMove = useCallback((event: TouchEvent) => {
     if (!isDragging) return;
     event.preventDefault();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     handleInteraction(event as any);
   }, [isDragging, handleInteraction]);
 

@@ -6,7 +6,7 @@ import { Card } from '../components/ui/card';
 import { Label } from '../components/ui/label';
 import { Switch } from '../components/ui/switch';
 import { Separator } from '../components/ui/separator';
-import { Github, Package } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 export function Content() {
   // Default color values
