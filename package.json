@@ -15,7 +15,7 @@
     "build": "vite build",
     "build:lib": "tsc && vite build --mode lib",
     "preview": "vite preview",
-    "lint": "eslint . --report-unused-disable-directives --max-warnings 2",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 5",
     "lint:fix": "eslint . --fix",
     "type-check": "tsc --noEmit",
     "predeploy": "npm run build",

@@ -3,7 +3,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { ColorPickerProps, ColorValue } from './types';
 import { PRESET_COLORS, PRESET_PASTEL_COLORS } from './constants';
-import { generateRandomColor, hexToColorValue, hslToRgb, hsvToRgb, rgbToHex } from './utils/colorUtils';
+import { generateRandomColor, hexToColorValue, hsvToRgb, rgbToHex } from './utils/colorUtils';
 import { ButtonVariant } from './variants/ButtonVariant';
 import { CirclesVariant } from './variants/CirclesVariant';
 import { RandomVariant } from './variants/RandomVariant';

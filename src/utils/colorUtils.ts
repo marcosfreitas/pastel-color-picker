@@ -171,7 +171,7 @@ export function generateRandomColor(isPastel: boolean = true): ColorValue {
 // Generate a pastel color based on a specific RGB example
 export function generatePastelFromRgb(baseR: number, baseG: number, baseB: number): ColorValue {
   // Convert base RGB to HSL to understand its characteristics
-  const [baseH, baseS, baseL] = rgbToHsl(baseR, baseG, baseB);
+  const [_baseH, baseS, baseL] = rgbToHsl(baseR, baseG, baseB);
   
   // Generate a new hue while maintaining similar saturation and lightness characteristics
   const h = Math.floor(Math.random() * 360);

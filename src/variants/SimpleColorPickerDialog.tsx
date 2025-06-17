@@ -21,7 +21,7 @@ interface SimpleColorPickerDialogProps {
 export function SimpleColorPickerDialog({
   color,
   onChange,
-  isPastel, // eslint-disable-line @typescript-eslint/no-unused-vars
+  isPastel: _isPastel,
   hideSliders = false
 }: SimpleColorPickerDialogProps) {
   return (

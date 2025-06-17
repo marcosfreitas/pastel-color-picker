@@ -10,7 +10,7 @@ import { Badge } from '../components/ui/badge';
 import { Shuffle } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { ColorValue } from '../types';
-import { hexToColorValue, hslToRgb, hsvToRgb, rgbToHex } from '../utils/colorUtils';
+import { hexToColorValue, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
 import styles from '../ColorPicker.module.css';
