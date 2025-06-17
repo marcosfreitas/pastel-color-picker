@@ -6,6 +6,7 @@ import { Card } from '../components/ui/card';
 import { Label } from '../components/ui/label';
 import { Switch } from '../components/ui/switch';
 import { Separator } from '../components/ui/separator';
+import { Github, Package } from 'lucide-react';
 
 export function Content() {
   // Default color values
@@ -133,19 +134,52 @@ export function Content() {
 
   return (
     <div className="space-y-8 p-6 max-w-7xl mx-auto">
-      {/* Supported by OrdinaryLink.co */}
-      <div className="text-center py-4 border-b border-gray-100">
-        <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <span>Supported by</span>
-          <a 
-            href="https://OrdinaryLink.co?utm_source=pastel-color-picker&utm_medium=demo&utm_campaign=open-source-support" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="font-medium text-foreground hover:opacity-80 transition-opacity"
-          >
-            OrdinaryLink.co
-          </a>
+      {/* Header with GitHub link */}
+      <div className="relative py-4 border-b border-gray-100">
+
+        {/* Supported by OrdinaryLink.co - center */}
+        <div className="text-center">
+          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <span>Supported by</span>
+            <a 
+              href="https://OrdinaryLink.co?utm_source=pastel-color-picker&utm_medium=demo&utm_campaign=open-source-support" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-medium text-foreground hover:opacity-80 transition-opacity"
+            >
+              OrdinaryLink.co
+            </a>
+          </div>
         </div>
+
+                 {/* GitHub and NPM links - top right */}
+         <div className="flex justify-center gap-3 top-4 relative md:absolute md:top-0 right-0">
+           <a 
+             href="https://www.npmjs.com/package/@marcosfreitas/pastel-color-picker" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="flex items-center gap-2 px-3 py-2 text-sm text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md"
+             aria-label="View on NPM"
+           >
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                <title>NPM</title>
+                <path fill="#c12127" d="M0,16V0H16V16ZM3,3V13H8V5h3v8h2V3Z"/>
+                <path fill="#ffffff" d="M3,3H13V13H11V5H8v8H3Z"/>
+              </svg>
+             <span className="hidden sm:inline">NPM</span>
+           </a>
+           <a 
+             href="https://github.com/marcosfreitas/pastel-color-picker" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             className="flex items-center gap-2 px-3 py-2 text-sm text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md"
+             aria-label="View on GitHub"
+           >
+             <Github className="w-5 h-5" />
+             <span className="hidden sm:inline">GitHub</span>
+           </a>
+         </div>
+        
       </div>
 
       <div className="text-center space-y-2">
@@ -524,44 +558,52 @@ function App() {
             <div className="space-y-4">
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                 <Label className="font-medium min-w-[4rem]">Small:</Label>
-                <ColorPicker
-                  variant="random"
-                  size="sm"
-                  value={randomColor}
-                  onChange={setRandomColor}
-                  isPastel={isPastel}
-                />
+                <div className="flex-shrink-0 w-auto">
+                  <ColorPicker
+                    variant="random"
+                    size="sm"
+                    value={randomColor}
+                    onChange={setRandomColor}
+                    isPastel={isPastel}
+                  />
+                </div>
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                 <Label className="font-medium min-w-[4rem]">Medium:</Label>
-                <ColorPicker
-                  variant="random"
-                  size="md"
-                  value={randomColor}
-                  onChange={setRandomColor}
-                  isPastel={isPastel}
-                />
+                <div className="flex-shrink-0 w-auto">
+                  <ColorPicker
+                    variant="random"
+                    size="md"
+                    value={randomColor}
+                    onChange={setRandomColor}
+                    isPastel={isPastel}
+                  />
+                </div>
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                 <Label className="font-medium min-w-[4rem]">Large:</Label>
-                <ColorPicker
-                  variant="random"
-                  size="lg"
-                  value={randomColor}
-                  onChange={setRandomColor}
-                  isPastel={isPastel}
-                />
+                <div className="flex-shrink-0 w-auto">
+                  <ColorPicker
+                    variant="random"
+                    size="lg"
+                    value={randomColor}
+                    onChange={setRandomColor}
+                    isPastel={isPastel}
+                  />
+                </div>
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                 <Label className="font-medium min-w-[5rem]">With Label:</Label>
-                <ColorPicker
-                  variant="random"
-                  size="md"
-                  value={randomColor}
-                  onChange={setRandomColor}
-                  isPastel={isPastel}
-                  label="Random"
-                />
+                <div className="flex-shrink-0 w-auto">
+                  <ColorPicker
+                    variant="random"
+                    size="md"
+                    value={randomColor}
+                    onChange={setRandomColor}
+                    isPastel={isPastel}
+                    label="Random"
+                  />
+                </div>
               </div>
             </div>
             <div className="p-3 bg-muted rounded-md">

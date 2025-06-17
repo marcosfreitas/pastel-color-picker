@@ -31,7 +31,7 @@ export function RandomVariant({
     <Button
       type="button"
       className={cn(
-        'color-picker-random relative',
+        'color-picker-random relative flex-shrink-0 w-auto',
         `color-picker-random--${size}`,
         disabled && 'color-picker-random--disabled',
         className
