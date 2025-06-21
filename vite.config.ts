@@ -35,10 +35,13 @@ export default defineConfig(({ mode }) => {
               'react': 'React',
               'react-dom': 'ReactDOM'
             },
-            // Bundle CSS as separate file
+            // Bundle CSS as separate file with proper naming
             assetFileNames: (assetInfo) => {
-              if (assetInfo.name === 'style.css') return 'style.css';
-              return assetInfo.name || 'assets/[name]-[hash][extname]';
+              // Force CSS files to be named 'style.css'
+              if (assetInfo.names?.[0]?.endsWith('.css') || assetInfo.type === 'asset') {
+                return 'style.css';
+              }
+              return assetInfo.names?.[0] || 'assets/[name]-[hash][extname]';
             }
           }
         },
