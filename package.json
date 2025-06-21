@@ -6,14 +6,31 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "style": "dist/style.css",
   "files": [
     "dist",
     "README.md"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./css": "./dist/style.css",
+    "./headless": {
+      "types": "./dist/headless.d.ts",
+      "import": "./dist/headless.esm.js",
+      "require": "./dist/headless.js"
+    },
+    "./src": "./src/index.ts"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:lib": "tsc && vite build --mode lib",
+    "build:css": "node scripts/build-css.js",
     "preview": "vite preview",
     "lint": "eslint . --report-unused-disable-directives --max-warnings 5",
     "lint:fix": "eslint . --fix",

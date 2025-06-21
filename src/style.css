@@ -1,0 +1,6 @@
+/* Pastel Color Picker Styles */
+@import "./ColorPicker.css";
+@import "./ColorPicker.module.css";
+
+/* Import all demo styles for completeness */
+@import "./demo/App.css"; 

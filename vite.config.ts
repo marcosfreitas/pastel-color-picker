@@ -18,9 +18,15 @@ export default defineConfig(({ mode }) => {
       ],
       build: {
         lib: {
-          entry: './src/index.ts',
+          entry: {
+            index: './src/index.ts',
+            headless: './src/headless.ts'
+          },
           formats: ['es', 'cjs'],
-          fileName: (format) => `index.${format === 'es' ? 'esm' : format}.js`
+          fileName: (format, entryName) => {
+            if (entryName === 'headless') return `headless.${format === 'es' ? 'esm' : format}.js`;
+            return `index.${format === 'es' ? 'esm' : format}.js`;
+          }
         },
         rollupOptions: {
           external: ['react', 'react-dom'],
@@ -28,9 +34,18 @@ export default defineConfig(({ mode }) => {
             globals: {
               'react': 'React',
               'react-dom': 'ReactDOM'
+            },
+            // Bundle CSS as separate file
+            assetFileNames: (assetInfo) => {
+              if (assetInfo.name === 'style.css') return 'style.css';
+              return assetInfo.name || 'assets/[name]-[hash][extname]';
             }
           }
-        }
+        },
+        // Ensure CSS is extracted and not split
+        cssCodeSplit: false,
+        // Copy CSS files to dist
+        copyPublicDir: false
       }
     }
   }

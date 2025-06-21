@@ -68,7 +68,7 @@ Result: Beautiful light blue color! 🎉
 
 ## 🚀 Demo
 
-[**Live Demo →**](https://ordinarylink.github.io/pastel-color-picker)
+[**Live Demo →**](https://marcosfreitas.github.io/pastel-color-picker)
 
 ## 📦 Installation
 
@@ -363,3 +363,107 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 ---
 
 Made with ❤️ by [Ordinary Link]([https://github.com/ordinarylink](https://ordinarylink.co/))
+
+## Usage Options
+
+This library provides **three different usage patterns** to fit different needs:
+
+### Option 1: Self-Contained (Recommended for Quick Setup)
+
+```typescript
+import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
+import '@marcosfreitas/pastel-color-picker/style.css';
+
+// Works out of the box - no Tailwind config needed
+```
+
+### Option 2: Headless (Best for Tailwind v4 Projects)
+
+```typescript
+import { ColorPicker } from '@marcosfreitas/pastel-color-picker/headless';
+
+// No CSS import needed - uses your Tailwind config
+// Ensure your tailwind.config includes the package in content:
+// content: ['./node_modules/@marcosfreitas/pastel-color-picker/**/*.js']
+```
+
+**What is "Headless"?**
+- ✅ **Same components & functionality** as the regular version
+- ✅ **Zero bundled CSS** - uses your project's Tailwind utilities
+- ✅ **Smaller bundle size** (~35KB CSS savings)
+- ✅ **Perfect integration** with existing Tailwind v4 projects
+- ⚠️ **Requires** your project to have all necessary Tailwind utilities
+
+**Best for:**
+- Projects already using Tailwind CSS v4
+- Teams with custom design systems
+- Performance-critical applications
+- When you want full control over styling
+
+### Option 3: Source Import (Maximum Customization)
+
+```typescript
+import { ColorPicker } from '@marcosfreitas/pastel-color-picker/src';
+
+// Direct source import - full control over styling
+```
+
+**Which option to choose:**
+
+| Scenario | Use This | Why |
+|----------|----------|-----|
+| 🚀 **Quick prototyping** | Self-contained | Works immediately, no setup |
+| ⚡ **Existing Tailwind v4 project** | **Headless** | Avoids duplicate CSS, smaller bundle |
+| 🎨 **Custom design system** | Headless or Source | Full control over styling |
+| 🔧 **Need to modify components** | Source | Direct access to component code |
+| 📦 **Bundle size matters** | **Headless** | ~35KB CSS savings |
+
+## Usage
+
+```tsx
+import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
+import '@marcosfreitas/pastel-color-picker/style.css'; // Don't forget this!
+
+function App() {
+  const [color, setColor] = useState('#ff6b6b');
+
+  return (
+    <ColorPicker
+      value={color}
+      onChange={setColor}
+      variant="circles"
+    />
+  );
+}
+```
+
+## 🔧 Headless Version Setup
+
+For the headless version, ensure your `tailwind.config.js` includes:
+
+```javascript
+module.exports = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@marcosfreitas/pastel-color-picker/**/*.js', // Add this!
+  ],
+  // ... rest of your config
+}
+```
+
+### Troubleshooting Missing Classes
+
+If you see unstyled components with the headless version:
+
+1. **Check content path**: Ensure the package is included in your Tailwind content
+2. **Verify utilities**: Make sure your project has these utilities:
+   - `size-4`, `ring-ring/50`, `outline-hidden`, `focus-visible:ring-4`
+3. **Add missing utilities**: Add them to your CSS if needed:
+
+```css
+@layer utilities {
+  .size-4 { width: 1rem; height: 1rem; }
+  .ring-ring\/50 { --tw-ring-color: oklch(var(--ring) / 0.5); }
+  .outline-hidden { outline: 2px solid transparent; }
+}
+```
