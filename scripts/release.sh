@@ -84,4 +84,4 @@ git push origin $NEW_VERSION
 
 print_status "Release process completed!"
 print_status "The GitHub Actions workflow will automatically publish the package to GitHub Packages."
-print_status "You can monitor the progress at: https://github.com/ordinarylink/pastel-color-picker/actions" 
+print_status "You can monitor the progress at: https://github.com/marcosfreitas/pastel-color-picker/actions" 

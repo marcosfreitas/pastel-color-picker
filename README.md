@@ -362,7 +362,7 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 
 ---
 
-Made with ❤️ by [Ordinary Link]([https://github.com/ordinarylink](https://ordinarylink.co/))
+Made with ❤️ by [Ordinary Link]([https://github.com/marcosfreitas](https://marcosfreitas.co/))
 
 ## Usage Options
 
