@@ -1,218 +1,39 @@
-/* Color Picker Component Styles - Self-contained to avoid conflicts */
+@import "tailwindcss" prefix(pcp);
 
-/* Essential utilities with pcp- prefix to avoid conflicts */
+/* Essential component-specific styles that can't be handled by Tailwind alone */
 
-/* Size utilities */
-.pcp-size-4 { width: 1rem; height: 1rem; }
-.pcp-size-5 { width: 1.25rem; height: 1.25rem; }
-.pcp-size-6 { width: 1.5rem; height: 1.5rem; }
-.pcp-size-8 { width: 2rem; height: 2rem; }
-.pcp-size-10 { width: 2.5rem; height: 2.5rem; }
-.pcp-size-12 { width: 3rem; height: 3rem; }
-
-/* Width utilities */
-.pcp-w-4 { width: 1rem; }
-.pcp-w-5 { width: 1.25rem; }
-.pcp-w-8 { width: 2rem; }
-.pcp-w-10 { width: 2.5rem; }
-.pcp-w-11 { width: 2.75rem; }
-.pcp-w-12 { width: 3rem; }
-.pcp-w-16 { width: 4rem; }
-.pcp-w-full { width: 100%; }
-
-/* Height utilities */
-.pcp-h-4 { height: 1rem; }
-.pcp-h-5 { height: 1.25rem; }
-.pcp-h-8 { height: 2rem; }
-.pcp-h-10 { height: 2.5rem; }
-.pcp-h-11 { height: 2.75rem; }
-.pcp-h-12 { height: 3rem; }
-.pcp-h-16 { height: 4rem; }
-.pcp-h-full { height: 100%; }
-
-/* Outline utilities */
-.pcp-outline-hidden {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+/* Color Picker Slider Styles - Essential for functionality */
+.pcp-slider--hue {
+  background: linear-gradient(90deg, red, #ff0, #0f0, #0ff, #00f, #f0f, red);
+  border-radius: 0.375rem;
+  height: 6px;
 }
 
-/* Focus utilities */
-.pcp-focus-visible\:outline-hidden:focus-visible {
-  outline: 2px solid transparent;
-  outline-offset: 2px;
+.pcp-slider--saturation {
+  background: linear-gradient(to left, hsl(var(--current-hue, 0), 0%, 10%), hsl(var(--current-hue, 0), 100%, 100%));
+  border-radius: 0.375rem;
+  height: 6px;
 }
 
-/* Ring utilities */
-.pcp-ring-ring-50 {
-  --tw-ring-color: oklch(0.708 0 0 / 0.5);
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+.pcp-slider--lightness {
+  background: linear-gradient(to left, hsl(var(--current-hue, 0), 100%, 10%), hsl(var(--current-hue, 0), 100%, 100%));
+  border-radius: 0.375rem;
+  height: 6px;
 }
 
-.pcp-focus-visible\:ring-4:focus-visible {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+.pcp-slider--alpha {
+  background: linear-gradient(to right, rgba(255, 255, 255, var(--current-alpha, 1)), var(--current-color, rgba(0, 0, 0, var(--current-alpha, 1)))),
+              url("data:image/svg+xml,%3csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='checkerboard' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3e%3crect x='0' y='0' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='10' y='10' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='0' y='10' width='10' height='10' fill='%23e0e0e0'/%3e%3crect x='10' y='0' width='10' height='10' fill='%23e0e0e0'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23checkerboard)'/%3e%3c/svg%3e");
+  background-size: 100% 100%, 20px 20px;
+  border-radius: 0.375rem;
+  height: 6px;
 }
 
-.pcp-hover\:ring-4:hover {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-}
-
-.pcp-focus-visible\:ring-2:focus-visible {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-}
-
-/* Shadow utilities */
-.pcp-shadow-xs {
-  --tw-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-/* Transition utilities */
-.pcp-transition-colors {
-  transition-property: color, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 0.15s;
-}
-
-/* Form validation utilities */
-.pcp-aria-invalid\:ring-destructive-20[aria-invalid="true"] {
-  --tw-ring-color: oklch(0.577 0.245 27.325 / 0.2);
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-}
-
-.pcp-aria-invalid\:border-destructive[aria-invalid="true"] {
-  border-color: oklch(0.577 0.245 27.325);
-}
-
-/* Component-specific base classes */
-.color-picker-circles--sm { gap: 0.375rem; }
-.color-picker-circles--md { gap: 0.5rem; }
-.color-picker-circles--lg { gap: 0.75rem; }
-.color-picker-circles--disabled { pointer-events: none; }
-
-.color-picker-circle {
-  cursor: pointer;
-  position: relative;
-}
-
-.color-picker-circle--selected {
-  border-color: #000000 !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  transform: scale(1.05);
-}
-
-.color-picker-button {
-  cursor: pointer;
-}
-
-.color-picker-random {
-  position: relative;
-}
-
-/* CSS variables for theming */
-:root {
-  --color-picker-border-radius: 0.5rem;
-  --color-picker-border-color: #e5e7eb;
-  --color-picker-border-hover: #d1d5db;
-  --color-picker-selected-border: #000000;
-  --color-picker-focus-ring: #3b82f6;
-  --color-picker-transition: all 0.2s ease-in-out;
-}
-
-.dark {
-  --color-picker-border-color: #2d3748;
-  --color-picker-border-hover: #3a4553;
-  --color-picker-selected-border: #e2e8f0;
-  --color-picker-focus-ring: #4a90e2;
-}
-
-/* Responsive adjustments */
-@media (max-width: 640px) {
-  .color-picker-circles,
-  .color-picker-circles--sm { gap: 0.25rem; }
-  .color-picker-circles--md { gap: 0.375rem; }
-  .color-picker-circles--lg { gap: 0.5rem; }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .color-picker-circle { border-width: 3px; }
-  .color-picker-circle--selected { border-width: 4px; }
-  .color-picker-button { border-width: 3px; }
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .color-picker-circle,
-  .color-picker-button,
-  .color-picker-random,
-  .color-picker-more-button {
-    transition: none;
+/* Dark theme alpha slider */
+@media (prefers-color-scheme: dark) {
+  .pcp-slider--alpha {
+    background: linear-gradient(to right, rgba(255, 255, 255, var(--current-alpha, 1)), var(--current-color, rgba(0, 0, 0, var(--current-alpha, 1)))),
+                url("data:image/svg+xml,%3csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='checkerboard-dark' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3e%3crect x='0' y='0' width='10' height='10' fill='%23404040'/%3e%3crect x='10' y='10' width='10' height='10' fill='%23404040'/%3e%3crect x='0' y='10' width='10' height='10' fill='%23303030'/%3e%3crect x='10' y='0' width='10' height='10' fill='%23303030'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23checkerboard-dark)'/%3e%3c/svg%3e");
+    background-size: 100% 100%, 20px 20px;
   }
-  
-  .color-picker-circle:hover,
-  .color-picker-button:hover {
-    transform: none;
-  }
-}
-
-/* CSS Module styles for sliders */
-.hueSlider {
-  background: linear-gradient(to right, red, #ff0 17%, #0f0 33%, #0ff, #00f 67%, #f0f 83%, red);
-  border-radius: 8px;
-  height: 12px;
-}
-
-.saturationSlider {
-  background: linear-gradient(to right, #808080, var(--current-hue, #ff0000));
-  border-radius: 8px;
-  height: 12px;
-}
-
-.lightnessSlider {
-  background: linear-gradient(to right, #000000, var(--current-hue, #ff0000), #ffffff);
-  border-radius: 8px;
-  height: 12px;
-}
-
-.alphaSlider {
-  background: linear-gradient(to right, transparent, var(--current-color, #000000));
-  border-radius: 8px;
-  height: 12px;
-  position: relative;
-}
-
-.alphaSlider::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(45deg, #ccc 25%, transparent 25%),
-    linear-gradient(-45deg, #ccc 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #ccc 75%),
-    linear-gradient(-45deg, transparent 75%, #ccc 75%);
-  background-size: 8px 8px;
-  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
-  border-radius: 8px;
-  z-index: -1;
-}
-
-.dark .alphaSlider::before {
-  background-image: 
-    linear-gradient(45deg, #666 25%, transparent 25%),
-    linear-gradient(-45deg, #666 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #666 75%),
-    linear-gradient(-45deg, transparent 75%, #666 75%);
 } 

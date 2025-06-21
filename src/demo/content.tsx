@@ -6,7 +6,7 @@ import { Card } from '../components/ui/card';
 import { Label } from '../components/ui/label';
 import { Switch } from '../components/ui/switch';
 import { Separator } from '../components/ui/separator';
-import { Github, Menu, X, Code, Settings, Download, Wrench, Zap, PaintBucket } from 'lucide-react';
+import { Github, Menu, X, Code, Settings, Download, Wrench, Zap, PaintBucket, Palette } from 'lucide-react';
 import { EXAMPLE_PASTEL_VARIATIONS, PRESET_COLORS, PRESET_PASTEL_COLORS } from '../constants';
 
 export function Content() {
@@ -43,7 +43,7 @@ export function Content() {
   const [isPastel, setIsPastel] = useState(true);
   const [showAlpha, setShowAlpha] = useState(true);
   const [showPresets, setShowPresets] = useState(true);
-  const [showIcons, setShowIcons] = useState(true);
+
   const [showColorArea, setShowColorArea] = useState(false);
   const [hideSliders, setHideSliders] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -142,10 +142,7 @@ export function Content() {
     resetAllColors();
   };
 
-  const handleIconsChange = (checked: boolean) => {
-    setShowIcons(checked);
-    resetAllColors();
-  };
+
 
   const handleColorAreaChange = (checked: boolean) => {
     setShowColorArea(checked);
@@ -155,6 +152,51 @@ export function Content() {
   const handleHideSlidersChange = (checked: boolean) => {
     setHideSliders(checked);
     resetAllColors();
+  };
+
+  const renderDiceIcon = () => {
+    return (
+      <svg width="24px" height="24px" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <g id="a"/><g id="b"/><g id="c"/><g id="d"/><g id="e"/><g id="f"/><g id="g"/><g id="h"/><g id="i"/><g id="j"/><g id="k"/><g id="l"/><g id="m"/><g id="n"/><g id="o"/><g id="p"/><g id="q"/><g id="r"/><g id="s"/><g id="t"/><g id="u"/><g id="v"/><g id="w"/><g id="x"/><g id="y"/><g id="a`"/><g id="aa"/><g id="ab"/><g id="ac"/><g id="ad"/><g id="ae"/><g id="af"/><g id="ag"/><g id="ah"/><g id="ai"/>
+        <g id="aj">
+          <path d="M24.47,23.4c.31-.6,.79-1.12,1.42-1.48l16.87-9.74c1.75-1.01,3.96-.41,4.97,1.33l10.78,18.68c1.01,1.75,.41,3.96-1.33,4.97l-16.87,9.74c-1.75,1.01-3.96,.41-4.97-1.33-1.23-2.13-.12,.04-10.87-22.17Z" fill="#e4ecf0" fill-rule="evenodd"/>
+          <path d="M28.9,20.18l-3.01,1.74c-.63,.36-1.11,.88-1.42,1.48,11.39,23.54,10.93,22.27,10.87,22.17,.53,.92,1.39,1.51,2.34,1.73,.12-.23,.22-.49,.3-.75l5.04-18.82c.52-1.95-.63-3.94-2.57-4.46l-11.55-3.09Z" fill="#d9e3e9" fill-rule="evenodd"/>
+          <path d="M14.62,20.76l20.84,5.58c1.95,.52,3.1,2.51,2.57,4.46l-5.04,18.82c-.52,1.95-2.51,3.09-4.46,2.57l-20.84-5.58c-1.95-.52-3.09-2.51-2.57-4.46l5.04-18.82c.52-1.95,2.51-3.09,4.46-2.57Z" fill="#f0f3f5" fill-rule="evenodd"/>
+          <path d="M45.8,21.96c-.31,1.15-1.5,1.84-2.65,1.53-2.77-.74-1.65-4.92,1.12-4.18,1.16,.31,1.84,1.5,1.53,2.65Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M41.44,38.24c-.31,1.15-1.5,1.84-2.65,1.53-1.16-.31-1.84-1.5-1.53-2.65,.31-1.15,1.5-1.84,2.65-1.53,1.15,.31,1.84,1.5,1.53,2.65Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M22.66,38.35c-1.03,.6-2.36,.24-2.96-.79-.6-1.03-.24-2.36,.79-2.96,1.04-.6,2.36-.24,2.96,.79,.6,1.04,.24,2.36-.79,2.96Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M29.96,34.13c-1.04,.6-2.36,.24-2.96-.79-.6-1.04-.24-2.36,.79-2.96,1.04-.6,2.36-.24,2.96,.79,.6,1.03,.24,2.36-.79,2.96Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M15.36,42.56c-1.04,.6-2.36,.24-2.96-.79-.6-1.04-.24-2.36,.79-2.96,1.03-.6,2.36-.24,2.96,.79,.6,1.03,.24,2.36-.79,2.96Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M23.92,44.86c-.6-1.04-.24-2.36,.79-2.96,1.03-.6,2.36-.24,2.96,.79,.6,1.03,.24,2.36-.79,2.96-1.04,.6-2.36,.24-2.96-.79Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M15.49,30.25c-.6-1.04-.24-2.36,.79-2.96,1.03-.6,2.36-.24,2.96,.79,.6,1.03,.24,2.36-.79,2.96-1.04,.6-2.36,.24-2.96-.79Z" fill="#9fa9b6" fill-rule="evenodd"/>
+          <path d="M57.18,37.16c1.75-1.01,2.34-3.23,1.33-4.97l-10.78-18.68c-.69-1.2-1.96-1.86-3.25-1.82-.59,.02-1.18,.17-1.73,.49l-2.79,1.61c1.68-.73,3.66-.1,4.59,1.52l10.79,18.68c1.01,1.75,.41,3.97-1.33,4.97l3.17-1.8Z" fill="#d9e3e9" fill-rule="evenodd"/>
+          <path d="M30.57,25.03c1.95,.52,3.09,2.51,2.57,4.46l-5.04,18.82c-.52,1.94-2.49,3.09-4.43,2.58l4.87,1.3c1.95,.52,3.93-.62,4.46-2.57l5.04-18.81c.52-1.95-.63-3.94-2.57-4.46l-4.89-1.31Z" fill="#e4ecf0" fill-rule="evenodd"/>
+          <path d="M7.44,47.57l20.84,5.58c.4,.11,.81,.16,1.21,.16,.8,0,1.6-.21,2.31-.62,1.07-.62,1.84-1.62,2.16-2.82l.9-3.36c.9,1.18,2.1,1.88,3.63,1.88,.8,0,1.6-.21,2.32-.63l16.87-9.74c2.21-1.28,2.98-4.12,1.7-6.34l-10.79-18.68c-.62-1.08-1.62-1.84-2.82-2.17-1.19-.32-2.45-.15-3.52,.47l-16.87,9.74c-.53,.3-.95,.73-1.32,1.2l-9.18-2.46c-2.47-.66-5.02,.81-5.68,3.28l-5.04,18.81c-.32,1.2-.16,2.45,.46,3.52,.62,1.07,1.62,1.84,2.82,2.16ZM26.38,22.78l16.87-9.74c.61-.35,1.32-.45,2-.27,.68,.18,1.25,.62,1.6,1.23l10.79,18.68c.73,1.26,.29,2.88-.97,3.61l-16.87,9.74c-1.26,.73-2.87,.31-3.6-.97l-.65-1.13,1.2-4.49c.42,.61,1.02,1.09,1.78,1.29,.27,.07,.54,.11,.82,.11,1.43,0,2.69-.96,3.06-2.34h0c.07-.27,.11-.54,.11-.82,0-1.43-.96-2.69-2.35-3.06-.27-.07-.54-.11-.82-.11-.49,0-.95,.15-1.37,.36l1.02-3.82c.66-2.47-.81-5.02-3.28-5.68l-9.41-2.52s.04-.05,.07-.07Zm11.8,14.9c0-.77,.73-1.32,1.47-1.12,.6,.16,.99,.78,.82,1.43-.17,.6-.81,.99-1.43,.82-.51-.14-.86-.6-.86-1.12ZM6.09,42.41l5.04-18.81c.32-1.18,1.39-1.96,2.55-1.96,.23,0,.46,.03,.68,.09l20.83,5.58c1.41,.38,2.24,1.83,1.87,3.23l-5.04,18.82c-.18,.68-.62,1.25-1.23,1.6-.61,.35-1.32,.44-2,.26l-20.84-5.58c-.68-.18-1.25-.62-1.61-1.23-.35-.61-.44-1.32-.26-2Z"/>
+          <path d="M42.89,24.45c.27,.07,.55,.11,.82,.11,1.4,0,2.68-.93,3.06-2.34,.22-.81,.1-1.67-.32-2.4-.42-.73-1.11-1.26-1.92-1.48-.27-.07-.54-.11-.82-.11-1.73,0-3.16,1.41-3.16,3.17,0,1.43,.96,2.69,2.35,3.06Zm.82-4.22c.1,0,.2,.01,.3,.04,.3,.08,.55,.27,.7,.54,.16,.27,.2,.58,.12,.88-.16,.61-.82,.99-1.43,.82-.51-.14-.86-.6-.86-1.12,0-.65,.53-1.17,1.16-1.17Z"/>
+          <path d="M18.84,38.06c.87,1.51,2.81,2.03,4.32,1.16,1.51-.87,2.03-2.82,1.16-4.32-.87-1.5-2.81-2.03-4.32-1.16-1.49,.86-2.04,2.79-1.16,4.32Zm2.16-2.59c.55-.32,1.27-.13,1.59,.43,.32,.55,.13,1.27-.43,1.59-.54,.32-1.28,.12-1.59-.42-.32-.56-.13-1.27,.43-1.59Z"/>
+          <path d="M30.46,35c1.5-.87,2.04-2.81,1.16-4.32-.56-.98-1.61-1.58-2.74-1.58-.55,0-1.1,.15-1.58,.42-1.49,.86-2.04,2.78-1.16,4.32,.87,1.51,2.81,2.03,4.32,1.16Zm-2.17-3.75c.18-.1,.38-.16,.58-.16,.41,0,.8,.22,1.01,.58,.32,.55,.13,1.27-.43,1.59h0c-.55,.32-1.27,.13-1.59-.42-.32-.56-.12-1.27,.42-1.59Z"/>
+          <path d="M15.86,43.43c1.51-.87,2.03-2.81,1.16-4.32-.86-1.49-2.79-2.04-4.32-1.16-1.51,.87-2.03,2.81-1.16,4.32,.87,1.51,2.81,2.03,4.32,1.16Zm-2.16-3.75c.56-.32,1.27-.12,1.59,.43,.32,.55,.13,1.27-.43,1.59h0c-.54,.31-1.27,.14-1.59-.43-.32-.55-.13-1.27,.43-1.59Z"/>
+          <path d="M24.21,41.03c-1.51,.87-2.03,2.81-1.16,4.32,.87,1.51,2.81,2.03,4.32,1.16,1.5-.87,2.04-2.81,1.16-4.32-.86-1.49-2.79-2.04-4.32-1.16Zm2.16,3.75c-.54,.31-1.28,.11-1.59-.43h0c-.32-.55-.12-1.28,.43-1.59,.57-.33,1.27-.12,1.59,.43,.32,.55,.13,1.27-.43,1.59Z"/>
+          <path d="M18.95,31.91c1.49-.86,2.04-2.79,1.16-4.32-.86-1.5-2.8-2.04-4.32-1.16-1.51,.87-2.03,2.82-1.16,4.32,.87,1.51,2.82,2.03,4.32,1.16Zm-2.16-3.75c.56-.33,1.27-.12,1.59,.42,.32,.56,.13,1.27-.43,1.59-.55,.31-1.27,.13-1.59-.43h0c-.32-.55-.13-1.27,.43-1.59Z"/>
+        </g>
+
+        <g id="ak"/>
+        <g id="al"/>
+        <g id="am"/>
+        <g id="an"/>
+        <g id="ao"/>
+        <g id="ap"/>
+        <g id="aq"/>
+        <g id="ar"/>
+        <g id="as"/>
+        <g id="at"/>
+        <g id="au"/>
+        <g id="av"/>
+        <g id="aw"/>
+        <g id="ax"/>
+
+        </svg>
+    );
   };
 
   return (
@@ -287,14 +329,7 @@ export function Content() {
                     onCheckedChange={handlePresetsChange}
                   />
                 </div>
-                <div className="flex items-center gap-2">
-                  <Label htmlFor="show-icons" className="text-sm font-medium">Show Icons</Label>
-                  <Switch
-                    id="show-icons"
-                    checked={showIcons}
-                    onCheckedChange={handleIconsChange}
-                  />
-                </div>
+
                 <div className="flex items-center gap-2">
                   <Label htmlFor="show-color-area" className="text-sm font-medium">2D Color Area</Label>
                   <Switch
@@ -334,22 +369,7 @@ export function Content() {
                       <Separator />
                       <div className="space-y-4">
                         <div className="flex items-center gap-4">
-                          <Label>Small:</Label>
-                          <ColorPicker
-                            variant="button"
-                            size="sm"
-                            value={buttonColor}
-                            onChange={setButtonColor}
-                            isPastel={isPastel}
-                            showAlpha={showAlpha}
-                            showColorArea={showColorArea}
-                            showPresets={showPresets}
-                            showIcon={showIcons}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Label>Medium:</Label>
+                          <Label>No icon:</Label>
                           <ColorPicker
                             variant="button"
                             size="md"
@@ -359,27 +379,12 @@ export function Content() {
                             showAlpha={showAlpha}
                             showColorArea={showColorArea}
                             showPresets={showPresets}
-                            showIcon={showIcons}
                             hideSliders={hideSliders}
                           />
                         </div>
+                        
                         <div className="flex items-center gap-4">
-                          <Label>Large:</Label>
-                          <ColorPicker
-                            variant="button"
-                            size="lg"
-                            value={buttonColor}
-                            onChange={setButtonColor}
-                            isPastel={isPastel}
-                            showAlpha={showAlpha}
-                            showColorArea={showColorArea}
-                            showPresets={showPresets}
-                            showIcon={showIcons}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Label>With Label:</Label>
+                          <Label>With children icon:</Label>
                           <ColorPicker
                             variant="button"
                             size="md"
@@ -389,10 +394,27 @@ export function Content() {
                             showAlpha={showAlpha}
                             showColorArea={showColorArea}
                             showPresets={showPresets}
-                            showIcon={showIcons}
+                            hideSliders={hideSliders}
+                          >
+                            <Palette className="w-4 h-4" />
+                          </ColorPicker>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Label>With Icon and Label:</Label>
+                          <ColorPicker
+                            variant="button"
+                            size="md"
+                            value={buttonColor}
+                            onChange={setButtonColor}
+                            isPastel={isPastel}
+                            showAlpha={showAlpha}
+                            showColorArea={showColorArea}
+                            showPresets={showPresets}
                             label="Choose Color"
                             hideSliders={hideSliders}
-                          />
+                          >
+                            <Palette className="w-4 h-4" />
+                          </ColorPicker>
                         </div>
                       </div>
                       <div className="p-3 bg-muted rounded-md">
@@ -403,6 +425,10 @@ export function Content() {
                           RGB({buttonColor.rgba.r}, {buttonColor.rgba.g}, {buttonColor.rgba.b}, {Math.round(buttonColor.rgba.a * 100)}%)
                         </p>
                       </div>
+                      
+                      <p className="text-xs text-muted-foreground">
+                        Note: When providing a icon or label, the button will not show the color value. You can use the method callback to get the color value and customize the presentation.
+                      </p>
                     </div>
                   </Card>
 
@@ -418,38 +444,9 @@ export function Content() {
                       <Separator />
                       <div className="space-y-4">
                         <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                          <Label>Small:</Label>
                           <ColorPicker
                             variant="circles"
                             size="sm"
-                            value={circlesColor}
-                            onChange={setCirclesColor}
-                            isPastel={isPastel}
-                            showAlpha={showAlpha}
-                            showColorArea={showColorArea}
-                            showPresets={showPresets}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex flex-col md:flex-row gap-2 md:gap-4">
-                          <Label>Medium:</Label>
-                          <ColorPicker
-                            variant="circles"
-                            size="md"
-                            value={circlesColor}
-                            onChange={setCirclesColor}
-                            isPastel={isPastel}
-                            showAlpha={showAlpha}
-                            showColorArea={showColorArea}
-                            showPresets={showPresets}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex flex-col md:flex-row gap-2 md:gap-4 w-full overflow-x-auto min-h-[100px]">
-                          <Label>Large:</Label>
-                          <ColorPicker
-                            variant="circles"
-                            size="lg"
                             value={circlesColor}
                             onChange={setCirclesColor}
                             isPastel={isPastel}
@@ -483,7 +480,7 @@ export function Content() {
                       <Separator />
                       <div className="space-y-4">
                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[4rem]">Small:</Label>
+                          <Label className="font-medium min-w-[4rem]">With default icon:</Label>
                           <div className="flex-shrink-0 w-auto">
                             <ColorPicker
                               variant="random"
@@ -494,32 +491,9 @@ export function Content() {
                             />
                           </div>
                         </div>
+                        
                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[4rem]">Medium:</Label>
-                          <div className="flex-shrink-0 w-auto">
-                            <ColorPicker
-                              variant="random"
-                              size="md"
-                              value={randomColor}
-                              onChange={setRandomColor}
-                              isPastel={isPastel}
-                            />
-                          </div>
-                        </div>
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[4rem]">Large:</Label>
-                          <div className="flex-shrink-0 w-auto">
-                            <ColorPicker
-                              variant="random"
-                              size="lg"
-                              value={randomColor}
-                              onChange={setRandomColor}
-                              isPastel={isPastel}
-                            />
-                          </div>
-                        </div>
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[5rem]">With Label:</Label>
+                          <Label className="font-medium min-w-[5rem]">With custom icon and label:</Label>
                           <div className="flex-shrink-0 w-auto">
                             <ColorPicker
                               variant="random"
@@ -528,7 +502,9 @@ export function Content() {
                               onChange={setRandomColor}
                               isPastel={isPastel}
                               label="Random"
-                            />
+                            >
+                             {renderDiceIcon()}
+                            </ColorPicker>
                           </div>
                         </div>
                       </div>
@@ -555,49 +531,21 @@ export function Content() {
                       <Separator />
                       <div className="space-y-4">
                         <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[4rem]">Small:</Label>
-                          <ColorPicker
-                            variant="simple"
-                            size="sm"
-                            value={simpleColor}
-                            onChange={setSimpleColor}
-                            showIcon={showIcons}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[4rem]">Medium:</Label>
-                          <ColorPicker
-                            variant="simple"
-                            size="md"
-                            value={simpleColor}
-                            onChange={setSimpleColor}
-                            showIcon={showIcons}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
-                          <Label className="font-medium min-w-[4rem]">Large:</Label>
-                          <ColorPicker
-                            variant="simple"
-                            size="lg"
-                            value={simpleColor}
-                            onChange={setSimpleColor}
-                            showIcon={showIcons}
-                            hideSliders={hideSliders}
-                          />
-                        </div>
-                        <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
                           <Label className="font-medium min-w-[5rem]">With Label:</Label>
                           <ColorPicker
                             variant="simple"
                             size="md"
                             value={simpleColor}
                             onChange={setSimpleColor}
-                            showIcon={showIcons}
+                            isPastel={isPastel}
+                            showAlpha={showAlpha}
+                            showColorArea={showColorArea}
+                            showPresets={showPresets}
                             label="Simple"
                             hideSliders={hideSliders}
-                          />
+                          >
+                            <Palette className="w-4 h-4" />
+                          </ColorPicker>
                         </div>
                       </div>
                       <div className="p-3 bg-muted rounded-md">
@@ -634,7 +582,7 @@ export function Content() {
                               showAlpha={showAlpha}
                               showColorArea={false}
                               showPresets={showPresets}
-                              showIcon={showIcons}
+                              
                               label="Sliders Only"
                               hideSliders={hideSliders}
                             />
@@ -653,7 +601,7 @@ export function Content() {
                               showAlpha={showAlpha}
                               showColorArea={true}
                               showPresets={showPresets}
-                              showIcon={showIcons}
+                              
                               label="2D Canvas"
                               hideSliders={hideSliders}
                             />
@@ -751,7 +699,7 @@ export function Content() {
                           variant="random"
                           size="md"
                           isPastel={true}
-                          showIcon={false}
+                          
                           value={enhancedPastelColor}
                           onChange={(color) => setEnhancedPastelColor(color)}
                         />
@@ -826,13 +774,13 @@ export function Content() {
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium">Pastel Mode (Default: {PRESET_PASTEL_COLORS[0]})</Label>
-                      <div className="space-y-2 flex justify-start items-start gap-2">
+                      <Label className="text-sm font-medium">Pastel Mode</Label>
+                      <div className="mt-1 space-y-2 flex justify-start items-start gap-2">
                         <ColorPicker
                           variant="button"
                           size="md"
                           isPastel={true}
-                          showIcon={true}
+                          
                           label="Pastel"
                           onChange={(color) => setCustomDefaultPastelColor(color)}
                         />
@@ -843,18 +791,18 @@ export function Content() {
                         ></div>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                       First pastel preset: <strong style={{ color: PRESET_PASTEL_COLORS[0] }}>RGB(226, 115, 126)</strong>
+                       First pastel preset: <strong style={{ color: PRESET_PASTEL_COLORS[0] }}>{PRESET_PASTEL_COLORS[0]}</strong>
                       </p>
                     </div>
                     <div className="space-y-2">
-                      <Label className="text-sm font-medium">Vibrant Mode (Default: {PRESET_COLORS[0]})</Label>
+                      <Label className="text-sm font-medium">Vibrant Mode</Label>
                       
-                      <div className="space-y-2 flex justify-start items-start gap-2">
+                      <div className="mt-1 space-y-2 flex justify-start items-start gap-2">
                         <ColorPicker
                           variant="button"
                           size="md"
                           isPastel={false}
-                          showIcon={true}
+                          
                           label="Vibrant"
                           onChange={(color) => setCustomDefaultVibrantColor(color)}
                         />
@@ -865,7 +813,7 @@ export function Content() {
                         ></div>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        First vibrant preset: <strong style={{ color: PRESET_COLORS[0] }}>#FF6B6B</strong>
+                        First vibrant preset: <strong style={{ color: PRESET_COLORS[0] }}>{PRESET_COLORS[0]}</strong>
                       </p>
                     </div>
                   </div>
@@ -990,16 +938,7 @@ export function Content() {
                        </p>
                      </div>
 
-                     <div className="p-3 bg-muted rounded-lg">
-                       <h4 className="font-medium text-sm mb-1">Show Icons</h4>
-                       <p className="text-xs text-muted-foreground mb-2">
-                         <code className="bg-background px-1 py-0.5 rounded text-xs">showIcon?: boolean</code>
-                         <span className="ml-2 text-blue-600 font-medium">default: true</span>
-                       </p>
-                       <p className="text-xs text-muted-foreground">
-                         Shows/hides the palette icon in button variants. Useful when using text labels.
-                       </p>
-                     </div>
+
 
                      <div className="p-3 bg-muted rounded-lg">
                        <h4 className="font-medium text-sm mb-1">Label Text</h4>
@@ -1011,6 +950,27 @@ export function Content() {
                          Text label to display with button, random, and simple variants. 
                          Helpful for accessibility and user context.
                        </p>
+                     </div>
+
+                     <div className="p-3 bg-muted rounded-lg">
+                       <h4 className="font-medium text-sm mb-1">Children Elements (Icons)</h4>
+                       <p className="text-xs text-muted-foreground mb-2">
+                         <code className="bg-background px-1 py-0.5 rounded text-xs">children?: ReactNode</code>
+                         <span className="ml-2 text-gray-500 font-medium">default: undefined</span>
+                       </p>
+                       <p className="text-xs text-muted-foreground mb-2">
+                         Custom elements (typically icons) to render inside the component. 
+                         <strong>Rendering order:</strong> children first, then label.
+                       </p>
+                       <div className="text-xs text-muted-foreground">
+                         <p className="mb-1"><strong>Supported variants:</strong></p>
+                         <ul className="ml-3 space-y-0.5">
+                           <li>• <code className="bg-background px-1 rounded">button</code> - Shows children + label in button</li>
+                           <li>• <code className="bg-background px-1 rounded">simple</code> - Shows children + label in button</li>
+                           <li>• <code className="bg-background px-1 rounded">random</code> - Shows children + label, or default shuffle icon</li>
+                           <li>• <code className="bg-background px-1 rounded">circles</code> - <strong>Not supported</strong> (preset circles only)</li>
+                         </ul>
+                       </div>
                      </div>
 
                      <div className="p-3 bg-muted rounded-lg">
@@ -1102,6 +1062,24 @@ export function Content() {
                 </div>
 
                 <div>
+                  <h4 className="font-medium mb-2 example-text">Default Color Callback</h4>
+                  <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+  {`import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker';
+
+  const [color, setColor] = useState<ColorValue | undefined>();
+
+  // onChange will be called immediately with the default preset color
+  <ColorPicker
+    onChange={setColor}  // No value prop = uses default from presets
+    variant="button"
+    isPastel={true}
+  />
+  
+  // color will contain the first preset color automatically`}
+                  </pre>
+                </div>
+
+                <div>
                   <h4 className="font-medium mb-2 example-text">2D Color Area (Interactive Canvas)</h4>
                   <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
   {`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
@@ -1152,6 +1130,35 @@ export function Content() {
     isPastel={false} // For vibrant colors
     onChange={(color) => updateTheme(color)}
   />`}
+                  </pre>
+                </div>
+
+                <div>
+                  <h4 className="font-medium mb-2 example-text">Custom Icons with Children</h4>
+                  <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
+  {`import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
+  import { Palette, Shuffle, Heart } from 'lucide-react';
+
+  // Button variant with icon + label
+  <ColorPicker variant="button" label="Theme Color">
+    <Palette className="w-4 h-4" />
+  </ColorPicker>
+
+  // Simple variant with custom icon
+  <ColorPicker variant="simple" label="Pick Color">
+    <Heart className="w-4 h-4" />
+  </ColorPicker>
+
+  // Random variant with custom icon (replaces default shuffle)
+  <ColorPicker variant="random" label="Generate">
+    <Shuffle className="w-4 h-4" />
+  </ColorPicker>
+
+  // Random variant without children uses default shuffle icon
+  <ColorPicker variant="random" label="Random Color" />
+
+  // Circles variant does NOT support children (icons ignored)
+  <ColorPicker variant="circles" />  // No children prop needed`}
                   </pre>
                 </div>
               </div>

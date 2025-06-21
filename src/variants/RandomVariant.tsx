@@ -1,10 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button } from '../components/ui/button';
-import { Shuffle } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { ColorValue } from '../types';
+import { Shuffle } from 'lucide-react';
 
 interface RandomVariantProps {
   localColor: ColorValue;
@@ -14,6 +14,7 @@ interface RandomVariantProps {
   size: 'sm' | 'md' | 'lg';
   disabled: boolean;
   className?: string;
+  children?: ReactNode;
 }
 
 export function RandomVariant({
@@ -23,7 +24,8 @@ export function RandomVariant({
   label,
   size,
   disabled,
-  className
+  className,
+  children
 }: RandomVariantProps) {
   const borderColor = localColor.hexa || '#000000';
   
@@ -45,7 +47,7 @@ export function RandomVariant({
       }}
       aria-label={`Generate random ${isPastel ? 'pastel' : 'vibrant'} color`}
     >
-      <Shuffle className="w-4 h-4" />
+      {children || <Shuffle className="w-4 h-4" />}
       {label && <span className="ml-2">{label}</span>}
     </Button>
   );

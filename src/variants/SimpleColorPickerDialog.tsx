@@ -5,24 +5,26 @@ import { DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialo
 import { Label } from '../components/ui/label';
 import { Slider } from '../components/ui/slider';
 import { Badge } from '../components/ui/badge';
-import { cn } from '../utils/cn';
 import { ColorValue } from '../types';
 import { hslToRgb, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorBar } from './ColorBar';
-import styles from '../ColorPicker.module.css';
 
 interface SimpleColorPickerDialogProps {
   color: ColorValue;
   onChange: (color: ColorValue) => void;
   isPastel: boolean;
   hideSliders?: boolean;
+  showAlpha: boolean;
+  onAlphaChange: (alpha: number[]) => void;
 }
 
 export function SimpleColorPickerDialog({
   color,
   onChange,
   isPastel: _isPastel,
-  hideSliders = false
+  hideSliders = false,
+  showAlpha,
+  onAlphaChange
 }: SimpleColorPickerDialogProps) {
   return (
     <DialogContent className="sm:max-w-sm">
@@ -45,6 +47,7 @@ export function SimpleColorPickerDialog({
             </Badge>
             <div className="text-sm text-muted-foreground">
               RGB({color.rgba.r}, {color.rgba.g}, {color.rgba.b})
+              {showAlpha && `, A: ${Math.round(color.rgba.a * 100)}%`}
             </div>
           </div>
         </div>
@@ -70,33 +73,64 @@ export function SimpleColorPickerDialog({
           />
         </div>
 
-        {/* Hue Control Only */}
-        {!hideSliders && (
-          <div className="space-y-2">
-            <Label>Hue</Label>
-            <div className="relative">
-              <Slider
-                value={[color.hsva.h]}
-                onValueChange={(value) => {
-                  const hue = value[0];
-                  // Preserve current saturation and lightness, only change hue
-                  const saturation = color.hsva.s;
-                  const lightness = color.hsva.v;
-                  const [r, g, b] = hslToRgb(hue, saturation, lightness);
-                  const hex = rgbToHex(r, g, b);
-                  const newColor: ColorValue = {
-                    hexa: hex,
-                    rgba: { r, g, b, a: color.rgba.a },
-                    hsva: { h: hue, s: saturation, v: lightness, a: color.rgba.a }
-                  };
-                  onChange(newColor);
-                }}
-                max={360}
-                step={1}
-                className="w-full"
-              />
-              <div className={cn("absolute inset-0 -z-10", styles.hueSlider)} />
-            </div>
+        {/* Color Controls */}
+        {(!hideSliders || showAlpha) && (
+          <div className="space-y-4">
+            {/* Hue Control Only */}
+            {!hideSliders && (
+              <div className="space-y-2">
+                <Label>Hue</Label>
+                <div className="relative">
+                  <Slider
+                    value={[color.hsva.h]}
+                    onValueChange={(value) => {
+                      const hue = value[0];
+                      // Preserve current saturation and lightness, only change hue
+                      const saturation = color.hsva.s;
+                      const lightness = color.hsva.v;
+                      const [r, g, b] = hslToRgb(hue, saturation, lightness);
+                      const hex = rgbToHex(r, g, b);
+                      const newColor: ColorValue = {
+                        hexa: hex,
+                        rgba: { r, g, b, a: color.rgba.a },
+                        hsva: { h: hue, s: saturation, v: lightness, a: color.rgba.a }
+                      };
+                      onChange(newColor);
+                    }}
+                    max={360}
+                    step={1}
+                    className="w-full"
+                    spectrum={{
+                      trackClassName: '!bg-transparent'
+                    }}
+                  />
+                  <div className="absolute inset-0 -z-10 pcp-slider--hue" />
+                </div>
+              </div>
+            )}
+
+            {/* Alpha Control */}
+            {showAlpha && (
+              <div className="space-y-2">
+                <Label>Opacity</Label>
+                <div className="relative">
+                  <Slider
+                    value={[Math.round(color.rgba.a * 100)]}
+                    onValueChange={onAlphaChange}
+                    max={100}
+                    step={1}
+                    className="w-full"
+                  />
+                  <div 
+                    className="absolute inset-0 -z-10 pcp-slider--alpha"
+                    style={{
+                      '--current-color': `rgb(${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b})`,
+                      '--current-alpha': color.rgba.a.toString()
+                    } as React.CSSProperties}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

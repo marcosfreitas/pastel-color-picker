@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface ColorValue {
   hexa: string;
   rgba: { r: number; g: number; b: number; a: number };
@@ -29,10 +31,10 @@ export interface ColorPickerProps {
   disabled?: boolean;
   /** Show preset colors in dialog */
   showPresets?: boolean;
-  /** Whether to show icons in button variants */
-  showIcon?: boolean;
   /** Label text to display with the button/random/simple variants */
   label?: string;
   /** Whether to hide all slider controls in dialogs */
   hideSliders?: boolean;
+  /** Children elements to render (typically icons) - rendered before label */
+  children?: ReactNode;
 } 

@@ -8,12 +8,10 @@ import { Slider } from '../components/ui/slider';
 import { Separator } from '../components/ui/separator';
 import { Badge } from '../components/ui/badge';
 import { Shuffle } from 'lucide-react';
-import { cn } from '../utils/cn';
 import { ColorValue } from '../types';
 import { hexToColorValue, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
-import styles from '../ColorPicker.module.css';
 
 interface ColorPickerDialogProps {
   color: ColorValue;
@@ -104,59 +102,63 @@ export function ColorPickerDialog({
         </div>
 
         {/* Color Controls */}
-        {!hideSliders && (
+        {(!hideSliders || showAlpha) && (
           <div className="space-y-4">
-            <div className="space-y-2">
-              <Label>Hue</Label>
-              <div className="relative">
-                <Slider
-                  value={[color.hsva.h]}
-                  onValueChange={onHueChange}
-                  max={360}
-                  step={1}
-                  className="w-full"
-                  spectrum={{
-                    trackClassName: 'bg-transparent',
-                  }}
-                />
-                <div className={cn("absolute inset-0 -z-10", styles.hueSlider)} />
-              </div>
-            </div>
+            {!hideSliders && (
+              <>
+                <div className="space-y-2">
+                  <Label>Hue</Label>
+                  <div className="relative">
+                    <Slider
+                      value={[color.hsva.h]}
+                      onValueChange={onHueChange}
+                      max={360}
+                      step={1}
+                      className="w-full"
+                      spectrum={{
+                        trackClassName: '!bg-transparent'
+                      }}
+                    />
+                    <div className="absolute inset-0 -z-10 pcp-slider--hue" />
+                  </div>
+                </div>
 
-            <div className="space-y-2">
-              <Label>Saturation</Label>
-              <div className="relative">
-                <Slider
-                  value={[color.hsva.s]}
-                  onValueChange={onSaturationChange}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
-                <div 
-                  className={cn("absolute inset-0 -z-10", styles.saturationSlider)}
-                />
-              </div>
-            </div>
+                <div className="space-y-2">
+                  <Label>Saturation</Label>
+                  <div className="relative">
+                    <Slider
+                      value={[color.hsva.s]}
+                      onValueChange={onSaturationChange}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
+                    <div 
+                      className="absolute inset-0 -z-10 pcp-slider--saturation"
+                    />
+                  </div>
+                </div>
 
-            <div className="space-y-2">
-              <Label>Lightness</Label>
-              <div className="relative">
-                <Slider
-                  value={[color.hsva.v]}
-                  onValueChange={onLightnessChange}
-                  max={100}
-                  step={1}
-                  className="w-full"
-                />
-                <div 
-                  className={cn("absolute inset-0 -z-10", styles.lightnessSlider)}
-                  style={{
-                    '--current-hue': `hsl(${color.hsva.h}, 100%, 50%)`
-                  } as React.CSSProperties}
-                />
-              </div>
-            </div>
+                <div className="space-y-2">
+                  <Label>Lightness</Label>
+                  <div className="relative">
+                    <Slider
+                      value={[color.hsva.v]}
+                      onValueChange={onLightnessChange}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
+                    <div 
+                      className="absolute inset-0 -z-10 pcp-slider--lightness"
+                      style={{
+                        '--current-hue': `hsl(${color.hsva.h}, 100%, 50%)`
+                      } as React.CSSProperties}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
 
             {showAlpha && (
               <div className="space-y-2">
@@ -170,7 +172,7 @@ export function ColorPickerDialog({
                     className="w-full"
                   />
                   <div 
-                    className={cn("absolute inset-0 -z-10", styles.alphaSlider)}
+                    className="absolute inset-0 -z-10 pcp-slider--alpha"
                     style={{
                       '--current-color': `rgb(${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b})`,
                       '--current-alpha': color.rgba.a.toString()

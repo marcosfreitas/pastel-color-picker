@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import dts from 'vite-plugin-dts'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -11,6 +12,7 @@ export default defineConfig(({ mode }) => {
     return {
       plugins: [
         react(),
+        tailwindcss(),
         dts({
           insertTypesEntry: true,
           exclude: ['**/*.stories.*', '**/*.test.*', '**/demo/**']
@@ -55,7 +57,7 @@ export default defineConfig(({ mode }) => {
 
   // Demo build configuration for GitHub Pages
   return {
-    plugins: [react()],
+    plugins: [react(), tailwindcss()],
     base: '/pastel-color-picker/',
     build: {
       outDir: 'dist',

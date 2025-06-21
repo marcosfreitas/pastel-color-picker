@@ -22,9 +22,9 @@ export function ColorPicker({
   size = 'md',
   disabled = false,
   showPresets = true,
-  showIcon = true,
   label,
-  hideSliders = false
+  hideSliders = false,
+  children
 }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   
@@ -53,6 +53,13 @@ export function ColorPicker({
       setLocalColor(defaultColor);
     }
   }, [value, defaultColor]);
+
+  // Call onChange with default color on initial render when no value is provided
+  useEffect(() => {
+    if (!value && onChange) {
+      onChange(defaultColor);
+    }
+  }, [value, defaultColor, onChange]);
 
   const handleColorChange = useCallback((newColor: ColorValue) => {
     setLocalColor(newColor);
@@ -133,7 +140,8 @@ export function ColorPicker({
     setIsOpen
   };
 
-  // Render appropriate variant
+  // Render appropriate variant wrapped with pcp-root for CSS custom properties
+  const renderVariant = () => {
   switch (variant) {
     case 'circles':
       return (
@@ -153,6 +161,7 @@ export function ColorPicker({
           size={size}
           disabled={disabled}
           className={className}
+          children={children}
         />
       );
 
@@ -160,8 +169,8 @@ export function ColorPicker({
       return (
         <SimpleVariant
           {...commonDialogProps}
-          showIcon={showIcon}
           label={label}
+          children={children}
         />
       );
 
@@ -170,11 +179,18 @@ export function ColorPicker({
       return (
         <ButtonVariant
           {...commonDialogProps}
-          showIcon={showIcon}
           label={label}
+          children={children}
         />
       );
   }
+  };
+
+  return (
+    <div className={className}>
+      {renderVariant()}
+    </div>
+  );
 }
 
 // Re-export types and utilities for convenience
