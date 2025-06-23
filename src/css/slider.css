@@ -1,0 +1,147 @@
+/* ===== SLIDER COMPONENT STYLES ===== */
+/* Block: pcp-slider - Slider component using BEM methodology */
+
+.pcp-slider {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 0.5rem;
+  border-radius: calc(var(--pcp-radius) * 0.5);
+  border: 1px solid hsl(var(--pcp-color-border));
+  touch-action: none;
+  user-select: none;
+  align-items: center;
+  overflow: visible
+}
+
+/* Element: pcp-slider__track - Slider track */
+.pcp-slider__track {
+  position: relative;
+  height: 0.5rem;
+  width: 100%;
+  flex-grow: 1;
+  overflow: visible;
+  border-radius: 10px;
+  background-color: hsl(var(--pcp-color-secondary));
+}
+
+/* Element: pcp-slider__range - Slider active range */
+.pcp-slider__range {
+  position: absolute;
+  height: 100%;
+  background-color: hsl(var(--pcp-color-primary));
+}
+
+/* Element: pcp-slider__thumb - Slider thumb/handle */
+.pcp-slider__thumb {
+  display: block;
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 50%;
+  border: 1px solid hsl(var(--pcp-color-primary));
+  background-color: hsl(var(--pcp-color-background));
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.pcp-slider__thumb:hover,
+.pcp-slider__thumb:focus-visible {
+  box-shadow: 0 0px 0px 4px rgb(0 0 0 / 0.25);
+  cursor: grab;
+}
+
+.pcp-slider__thumb:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+  cursor: grabbing;
+}
+
+.pcp-slider__thumb:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Color-specific slider styles */
+.pcp-slider--hue .pcp-slider__track {
+  background: linear-gradient(
+    to right,
+    #ff0000 0%,
+    #ffff00 16.66%,
+    #00ff00 33.33%,
+    #00ffff 50%,
+    #0000ff 66.66%,
+    #ff00ff 83.33%,
+    #ff0000 100%
+  );
+}
+
+.pcp-slider--saturation .pcp-slider__track {
+  background: linear-gradient(
+    to right,
+    hsl(var(--pcp-current-hue, 0), 0%, 50%),
+    hsl(var(--pcp-current-hue, 0), 100%, 50%)
+  );
+}
+
+.pcp-slider--lightness .pcp-slider__track {
+  background: linear-gradient(
+    to right,
+    hsl(var(--pcp-current-hue, 0), var(--pcp-current-saturation, 50%), 0%),
+    hsl(var(--pcp-current-hue, 0), var(--pcp-current-saturation, 50%), 50%),
+    hsl(var(--pcp-current-hue, 0), var(--pcp-current-saturation, 50%), 100%)
+  );
+}
+
+.pcp-slider--alpha .pcp-slider__track {
+  background-image: 
+    linear-gradient(
+      to right,
+      transparent,
+      var(--pcp-current-color, #000)
+    ),
+    linear-gradient(45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, #ccc 75%), 
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px;
+  background-position: 0 0, 0 0, 4px 0, 4px -4px, 0px 4px;
+}
+
+/* Modifier: pcp-slider--disabled - Disabled slider */
+.pcp-slider--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pcp-slider--disabled .pcp-slider__thumb {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Modifier: pcp-slider--vertical - Vertical slider orientation */
+.pcp-slider--vertical {
+  flex-direction: column;
+  width: 0.375rem;
+  height: 11rem;
+}
+
+.pcp-slider--vertical .pcp-slider__track {
+  width: 0.375rem;
+  height: 100%;
+}
+
+/* Focus styles for data attributes */
+[data-orientation="horizontal"].pcp-slider .pcp-slider__track {
+  height: 0.375rem;
+  width: 100%;
+}
+
+[data-orientation="vertical"].pcp-slider {
+  flex-direction: column;
+  width: 0.375rem;
+  min-height: 11rem;
+}
+
+[data-orientation="vertical"].pcp-slider .pcp-slider__track {
+  width: 0.375rem;
+  height: 100%;
+} 

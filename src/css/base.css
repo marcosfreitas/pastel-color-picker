@@ -1,0 +1,87 @@
+/* ===== PASTEL COLOR PICKER BASE STYLES ===== */
+/* Using BEM methodology with pcp prefix for scoped component styles */
+
+/* Block: pcp-root - Main container for color picker */
+.pcp-root {
+  /* CSS custom properties - scoped to prevent conflicts */
+  --pcp-color-border: 0 0% 10%;
+  --pcp-color-input: 0 0% 10%
+  --pcp-color-ring: 222.2 84% 4.9%;
+  --pcp-color-background: 0 0% 100%;
+  --pcp-color-foreground: 222.2 84% 4.9%;
+  --pcp-color-primary: 222.2 47.4% 11.2%;
+  --pcp-color-primary-foreground: 210 40% 98%;
+  --pcp-color-secondary: 210 40% 96%;
+  --pcp-color-secondary-foreground: 222.2 84% 4.9%;
+  --pcp-color-destructive: 0 84.2% 60.2%;
+  --pcp-color-destructive-foreground: 210 40% 98%;
+  --pcp-color-muted: 0 0% 80%;
+  --pcp-color-muted-foreground: 215.4 16.3% 46.9%;
+  --pcp-color-accent: 210 40% 96%;
+  --pcp-color-accent-foreground: 222.2 84% 4.9%;
+  --pcp-color-popover: 0 0% 100%;
+  --pcp-color-popover-foreground: 222.2 84% 4.9%;
+  --pcp-color-card: 0 0% 100%;
+  --pcp-color-card-foreground: 222.2 84% 4.9%;
+  --pcp-radius: 0.5rem;
+  
+  /* Font family */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  box-sizing: border-box;
+}
+
+.pcp-root * {
+  box-sizing: border-box;
+}
+
+/* Data attribute selector for external usage */
+[data-pcp-root] {
+  --pcp-color-border: 0 0% 10%;
+  --pcp-color-input: 0 0% 10%;
+  --pcp-color-ring: 222.2 84% 4.9%;
+  --pcp-color-background: 0 0% 100%;
+  --pcp-color-foreground: 222.2 84% 4.9%;
+  --pcp-color-primary: 222.2 47.4% 11.2%;
+  --pcp-color-primary-foreground: 210 40% 98%;
+  --pcp-color-secondary: 210 40% 96%;
+  --pcp-color-secondary-foreground: 222.2 84% 4.9%;
+  --pcp-color-destructive: 0 84.2% 60.2%;
+  --pcp-color-destructive-foreground: 210 40% 98%;
+  --pcp-color-muted: 0 0% 80%;
+  --pcp-color-muted-foreground: 215.4 16.3% 46.9%;
+  --pcp-color-accent: 210 40% 96%;
+  --pcp-color-accent-foreground: 222.2 84% 4.9%;
+  --pcp-color-popover: 0 0% 100%;
+  --pcp-color-popover-foreground: 222.2 84% 4.9%;
+  --pcp-color-card: 0 0% 100%;
+  --pcp-color-card-foreground: 222.2 84% 4.9%;
+  --pcp-radius: 0.5rem;
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  box-sizing: border-box;
+}
+
+[data-pcp-root] * {
+  box-sizing: border-box;
+}
+
+/* Screen reader only utility */
+.pcp-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.pcp-border {
+  border: 1px solid hsl(var(--pcp-color-border));
+}
+
+.pcp-border-radius {
+  border-radius: 10px;
+}

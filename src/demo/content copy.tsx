@@ -1,16 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ColorPicker } from '../ColorPicker';
-import { Button } from '../components/ui/button';
-import { Switch } from '../components/ui/switch';
-import { Badge } from '../components/ui/badge';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
+import { ColorPicker, ColorValue } from '../ColorPicker';
+import { Card } from '../components/ui/card';
 import { Label } from '../components/ui/label';
+import { Switch } from '../components/ui/switch';
 import { Separator } from '../components/ui/separator';
 import { Github, Menu, X, Code, Settings, Download, Wrench, Zap, PaintBucket, Palette } from 'lucide-react';
-import { ColorValue, ColorMode } from '../types';
-import { generateRandomColor } from '../utils/colorUtils';
 import { EXAMPLE_PASTEL_VARIATIONS, PRESET_COLORS, PRESET_PASTEL_COLORS } from '../constants';
 
 export function Content() {
@@ -55,9 +51,6 @@ export function Content() {
   const [enhancedPastelColor, setEnhancedPastelColor] = useState<ColorValue>(defaultRandomColor);
   const [customDefaultPastelColor, setCustomDefaultPastelColor] = useState<ColorValue | undefined>(undefined);
   const [customDefaultVibrantColor, setCustomDefaultVibrantColor] = useState<ColorValue | undefined>(undefined);
-
-  // Get current color mode
-  const colorMode = isPastel ? ColorMode.PASTEL : ColorMode.VIVID;
 
   // Navigation sections
   const navigationSections = [

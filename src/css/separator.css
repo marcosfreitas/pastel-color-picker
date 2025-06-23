@@ -1,0 +1,20 @@
+/* ===== SEPARATOR COMPONENT STYLES ===== */
+/* Block: pcp-separator - Separator component using BEM methodology */
+
+.pcp-separator {
+  /* Base separator styles */
+  flex-shrink: 0;
+  background-color: hsl(var(--pcp-color-border));
+}
+
+/* Modifier: pcp-separator--horizontal - Horizontal separator */
+.pcp-separator--horizontal {
+  height: 1px;
+  width: 100%;
+}
+
+/* Modifier: pcp-separator--vertical - Vertical separator */
+.pcp-separator--vertical {
+  height: 100%;
+  width: 1px;
+} 

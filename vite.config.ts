@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => {
     return {
       plugins: [
         react(),
-        tailwindcss(),
         dts({
           insertTypesEntry: true,
           exclude: ['**/*.stories.*', '**/*.test.*', '**/demo/**']

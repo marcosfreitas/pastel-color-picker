@@ -87,12 +87,9 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
   }, [onChange, positionToSatValue]);
 
   const handleMouseDown = useCallback((event: React.MouseEvent) => {
-    if (!onChange || !handleRef.current) return;
+    if (!onChange) return;
     
-    // Only start dragging if the click is on the handle (circle indicator)
-    const target = event.target as HTMLElement;
-    if (!handleRef.current.contains(target)) return;
-    
+    // Allow clicking anywhere on the bar, not just the thumb
     setIsDragging(true);
     handleInteraction(event);
   }, [handleInteraction, onChange]);
@@ -107,12 +104,9 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
   }, []);
 
   const handleTouchStart = useCallback((event: React.TouchEvent) => {
-    if (!onChange || !handleRef.current) return;
+    if (!onChange) return;
     
-    // Only start dragging if the touch is on the handle (circle indicator)
-    const target = event.target as HTMLElement;
-    if (!handleRef.current.contains(target)) return;
-    
+    // Allow touching anywhere on the bar, not just the thumb
     setIsDragging(true);
     handleInteraction(event);
   }, [handleInteraction, onChange]);
@@ -158,7 +152,7 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
     <div
       ref={barRef}
       className={cn(
-        'relative w-full h-2 rounded border shadow-inner',
+        'pcp-color-bar',
         className
       )}
       style={{
@@ -172,22 +166,20 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
     >
       {/* Current color position indicator */}
       <div
-        className="absolute top-0 w-0.5 h-full bg-white border border-gray-800 shadow-sm"
+        className="pcp-color-bar__indicator"
         style={{
-          left: `${position}%`,
-          transform: 'translateX(-50%)'
+          left: `${position}%`
         }}
       />
-      {/* Small circle indicator for better visibility */}
+      {/* Draggable thumb for better visibility and interaction */}
       <div
         ref={handleRef}
         className={cn(
-          "absolute top-1/2 w-4 h-4 bg-white border border-gray-800 rounded-full shadow-sm",
-          onChange && "cursor-grab active:cursor-grabbing hover:scale-110 transition-transform"
+          "pcp-color-bar__thumb",
+          onChange && "pcp-color-bar__thumb--interactive"
         )}
         style={{
-          left: `${position}%`,
-          transform: 'translate(-50%, -50%)'
+          left: `${position}%`
         }}
       />
     </div>

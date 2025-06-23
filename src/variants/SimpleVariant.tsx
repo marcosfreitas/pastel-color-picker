@@ -3,49 +3,63 @@
 import { ReactNode } from 'react';
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { cn } from '../utils/cn';
-import { ColorValue } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { SimpleColorPickerDialog } from './SimpleColorPickerDialog';
 
-interface SimpleVariantProps {
-  localColor: ColorValue;
-  handleColorChange: (color: ColorValue) => void;
-  isPastel: boolean;
-  hideSliders?: boolean;
-  showAlpha: boolean;
-  onAlphaChange: (alpha: number[]) => void;
-  label?: string;
-  size: 'sm' | 'md' | 'lg';
-  disabled: boolean;
-  className?: string;
+interface SimpleVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
+  // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  children?: ReactNode;
 }
 
 export function SimpleVariant({
-  localColor,
-  handleColorChange,
-  isPastel,
+  // ColorPickerDialogProps
+  title,
+  defaultColor,
+  presets,
+  colorMode,
+  showColorArea,
   hideSliders,
+  showPresets,
+  showHue,
+  showSaturation,
+  showLightness,
   showAlpha,
+  showRandomButton,
+  onColorChange,
+  onPresetClick,
+  onRandomColor,
+  onHueChange,
+  onSaturationChange,
+  onLightnessChange,
   onAlphaChange,
-  label,
+  
+  // ColorPickerVariantProps (excluding variant)
   size,
   disabled,
+  label,
   className,
+  children,
+  
+  // Variant-specific props
   isOpen,
-  setIsOpen,
-  children
+  setIsOpen
 }: SimpleVariantProps) {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12'
-  };
+  // Guard against undefined defaultColor
+  if (!defaultColor) {
+    return null;
+  }
 
   const currentColorStyle = {
-    backgroundColor: `rgba(${localColor.rgba.r}, ${localColor.rgba.g}, ${localColor.rgba.b}, ${localColor.rgba.a})`
+    backgroundColor: `rgba(${defaultColor.rgba.r}, ${defaultColor.rgba.g}, ${defaultColor.rgba.b}, ${defaultColor.rgba.a})`
   };
+
+  const simpleClasses = cn(
+    'pcp-simple',
+    `pcp-simple--size-${size}`,
+    disabled && 'pcp-simple--disabled',
+    className
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -53,29 +67,37 @@ export function SimpleVariant({
         <button
           type="button"
           disabled={disabled}
-          className={cn(
-            'color-picker-simple color-picker-button',
-            'rounded-lg border-2 border-gray-200 hover:border-gray-300',
-            'transition-all duration-200 flex items-center justify-center gap-2',
-            'hover:scale-105 outline-none',
-            `color-picker-simple--${size}`,
-            (label || children) ? 'px-3 py-2 min-w-fit' : sizeClasses[size],
-            disabled && 'opacity-50 cursor-not-allowed hover:scale-100 color-picker-simple--disabled',
-            className
-          )}
+          className={simpleClasses}
           style={(label || children) ? undefined : currentColorStyle}
-          aria-label={`Simple color picker, current color: ${localColor.hexa}`}
+          aria-label={`Simple color picker, current color: ${defaultColor.hexa}`}
         >
-          {children}
-          {label && <span>{label}</span>}
+          {(label || children) ? (
+            <div className="pcp-simple__content">
+              {children}
+              {label && <span>{label}</span>}
+            </div>
+          ) : null}
         </button>
       </DialogTrigger>
       <SimpleColorPickerDialog
-        color={localColor}
-        onChange={handleColorChange}
-        isPastel={isPastel}
+        title={title}
+        defaultColor={defaultColor}
+        presets={presets}
+        colorMode={colorMode}
+        showColorArea={showColorArea}
         hideSliders={hideSliders}
+        showPresets={showPresets}
+        showHue={showHue}
+        showSaturation={showSaturation}
+        showLightness={showLightness}
         showAlpha={showAlpha}
+        showRandomButton={showRandomButton}
+        onColorChange={onColorChange}
+        onPresetClick={onPresetClick}
+        onRandomColor={onRandomColor}
+        onHueChange={onHueChange}
+        onSaturationChange={onSaturationChange}
+        onLightnessChange={onLightnessChange}
         onAlphaChange={onAlphaChange}
       />
     </Dialog>

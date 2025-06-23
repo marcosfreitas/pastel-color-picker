@@ -1,0 +1,20 @@
+/* ===== RANDOM VARIANT STYLES ===== */
+/* Block: pcp-random - Random variant component using BEM methodology */
+
+.pcp-random {
+  /* Base random variant styles */
+  position: relative;
+  flex-shrink: 0;
+  width: auto;
+}
+
+/* Element: pcp-random__label - Random variant label */
+.pcp-random__label {
+  margin-left: 0.5rem;
+}
+
+/* Modifier: pcp-random--disabled - Disabled random variant */
+.pcp-random--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+} 

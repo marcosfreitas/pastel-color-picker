@@ -9,23 +9,19 @@ const Separator = React.forwardRef<
   (
     { className, orientation = "horizontal", decorative = true, ...props },
     ref
-  ) => {
-    const separatorClasses = cn(
-      "pcp-separator",
-      `pcp-separator--${orientation}`,
-      className
-    );
-
-    return (
-      <SeparatorPrimitive.Root
-        ref={ref}
-        decorative={decorative}
-        orientation={orientation}
-        className={separatorClasses}
-        {...props}
-      />
-    );
-  }
+  ) => (
+    <SeparatorPrimitive.Root
+      ref={ref}
+      decorative={decorative}
+      orientation={orientation}
+      className={cn(
+        "pcp-shrink-0 pcp-bg-border",
+        orientation === "horizontal" ? "pcp-h-[1px] pcp-w-full" : "pcp-h-full pcp-w-[1px]",
+        className
+      )}
+      {...props}
+    />
+  )
 )
 Separator.displayName = SeparatorPrimitive.Root.displayName
 

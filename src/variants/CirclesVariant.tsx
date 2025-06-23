@@ -3,83 +3,82 @@
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { ColorValue } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
 
-interface CirclesVariantProps {
-  localColor: ColorValue;
-  handleColorChange: (color: ColorValue) => void;
-  handlePresetSelect: (hex: string) => void;
-  showPresets: boolean;
-  presets: string[];
-  showAlpha: boolean;
-  showColorArea: boolean;
-  isPastel: boolean;
-  hideSliders?: boolean;
-  onRandomColor: () => void;
-  onHueChange: (hue: number[]) => void;
-  onSaturationChange: (saturation: number[]) => void;
-  onLightnessChange: (lightness: number[]) => void;
-  onAlphaChange: (alpha: number[]) => void;
-  size: 'sm' | 'md' | 'lg';
-  disabled: boolean;
-  className?: string;
+interface CirclesVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
+  // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
 }
 
 export function CirclesVariant({
-  localColor,
-  handleColorChange,
-  handlePresetSelect,
-  showPresets,
+  // ColorPickerDialogProps
+  title,
+  defaultColor,
   presets,
-  showAlpha,
+  colorMode,
   showColorArea,
-  isPastel,
   hideSliders,
+  showPresets,
+  showHue,
+  showSaturation,
+  showLightness,
+  showAlpha,
+  showRandomButton,
+  onColorChange,
+  onPresetClick,
   onRandomColor,
   onHueChange,
   onSaturationChange,
   onLightnessChange,
   onAlphaChange,
+  
+  // ColorPickerVariantProps (excluding variant)
   size,
   disabled,
+  label,
   className,
+  children,
+  
+  // Variant-specific props
   isOpen,
   setIsOpen
 }: CirclesVariantProps) {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12'
-  };
+  // Guard against undefined defaultColor
+  if (!defaultColor) {
+    return null;
+  }
+
+  const containerClasses = cn(
+    'pcp-circles',
+    `pcp-circles--size-${size}`,
+    disabled && 'pcp-circles--disabled',
+    className
+  );
 
   return (
-    <div className={cn(
-      'color-picker-circles flex items-center gap-2 flex-shrink-0',
-      `color-picker-circles--${size}`,
-      disabled && 'color-picker-circles--disabled',
-      className
-    )}>
+    <div className={containerClasses}>
       {presets.slice(0, 4).map((color, index) => {
-        const isSelected = localColor.hexa.toLowerCase() === color.toLowerCase();
+        const isSelected = defaultColor.hexa.toLowerCase() === color.toLowerCase();
+        const circleClasses = cn(
+          'pcp-circles__circle',
+          isSelected && 'pcp-circles__circle--selected',
+          disabled && 'pcp-circles__circle--disabled'
+        );
+        
         return (
           <button
             key={index}
             type="button"
             disabled={disabled}
-            className={cn(
-              'color-picker-circle rounded-full border-2 transition-all duration-200',
-              'hover:scale-110 outline-none flex-shrink-0',
-              sizeClasses[size],
-              isSelected 
-                ? 'border-black shadow-md scale-105' 
-                : 'border-transparent hover:border-gray-300',
-              disabled && 'opacity-50 cursor-not-allowed hover:scale-100'
-            )}
+            className={circleClasses}
             style={{ backgroundColor: color }}
-            onClick={() => handlePresetSelect(color)}
+            onClick={() => {
+              if (onPresetClick) {
+                onPresetClick(color);
+              }
+            }}
             aria-label={`Select color ${color}`}
           />
         );
@@ -90,26 +89,29 @@ export function CirclesVariant({
             type="button"
             disabled={disabled}
             className={cn(
-              'color-picker-more-button rounded-full border-2 border-dashed transition-all duration-200',
-              'border-gray-300 hover:border-gray-400 hover:scale-110',
-              'flex items-center justify-center bg-gray-50 hover:bg-gray-100',
-              'outline-none flex-shrink-0',
-              sizeClasses[size],
-              disabled && 'opacity-50 cursor-not-allowed hover:scale-100'
+              'pcp-circles__more-button',
+              disabled && 'pcp-circles__more-button--disabled'
             )}
             aria-label="Open color picker dialog"
           >
-            <MoreHorizontal className="w-4 h-4 text-gray-500" />
+            <MoreHorizontal />
           </button>
         </DialogTrigger>
         <ColorPickerDialog
-          color={localColor}
-          onChange={handleColorChange}
-          presets={showPresets ? presets : []}
-          showAlpha={showAlpha}
+          title={title}
+          defaultColor={defaultColor}
+          presets={presets}
+          colorMode={colorMode}
           showColorArea={showColorArea}
-          isPastel={isPastel}
           hideSliders={hideSliders}
+          showPresets={showPresets}
+          showHue={showHue}
+          showSaturation={showSaturation}
+          showLightness={showLightness}
+          showAlpha={showAlpha}
+          showRandomButton={showRandomButton}
+          onColorChange={onColorChange}
+          onPresetClick={onPresetClick}
           onRandomColor={onRandomColor}
           onHueChange={onHueChange}
           onSaturationChange={onSaturationChange}

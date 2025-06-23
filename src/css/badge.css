@@ -1,0 +1,62 @@
+/* ===== BADGE COMPONENT STYLES ===== */
+/* Block: pcp-badge - Badge component using BEM methodology */
+
+.pcp-badge {
+  /* Base badge styles */
+  display: inline-flex;
+  width: auto;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  padding: 0.125rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  transition: colors 200ms ease;
+  
+  
+  /* Focus styles */
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-ring) / 0.2);
+  }
+}
+
+/* Modifier: pcp-badge--variant-default - Default badge variant */
+.pcp-badge--variant-default {
+  border-color: transparent;
+  background-color: hsl(var(--pcp-color-primary));
+  color: hsl(var(--pcp-color-primary-foreground));
+  
+  &:hover {
+    background-color: hsl(var(--pcp-color-primary) / 0.8);
+  }
+}
+
+/* Modifier: pcp-badge--variant-secondary - Secondary badge variant */
+.pcp-badge--variant-secondary {
+  border-color: transparent;
+  background-color: hsl(var(--pcp-color-secondary));
+  color: hsl(var(--pcp-color-secondary-foreground));
+  
+  &:hover {
+    background-color: hsl(var(--pcp-color-secondary) / 0.8);
+  }
+}
+
+/* Modifier: pcp-badge--variant-destructive - Destructive badge variant */
+.pcp-badge--variant-destructive {
+  border-color: transparent;
+  background-color: hsl(var(--pcp-color-destructive));
+  color: hsl(var(--pcp-color-destructive-foreground));
+  
+  &:hover {
+    background-color: hsl(var(--pcp-color-destructive) / 0.8);
+  }
+}
+
+/* Modifier: pcp-badge--variant-outline - Outline badge variant */
+.pcp-badge--variant-outline {
+  color: hsl(var(--pcp-color-foreground));
+  border-color: hsl(var(--pcp-color-border));
+  background-color: transparent;
+} 

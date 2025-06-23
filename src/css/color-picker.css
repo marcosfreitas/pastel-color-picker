@@ -1,0 +1,137 @@
+/* ===== COLOR PICKER COMPONENT STYLES ===== */
+/* Block: pcp-color-picker - Main color picker component using BEM methodology */
+
+.pcp-color-picker {}
+
+/* Element: pcp-color-picker__preview-container - Color preview container */
+.pcp-color-picker__preview-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Element: pcp-color-picker__preview - Color preview element */
+.pcp-color-picker__preview {
+  border-radius: .5rem;
+  border: 2px solid hsl(var(--pcp-color-border));
+}
+
+/* Element: pcp-color-picker__info - Color information display */
+.pcp-color-picker__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: fit-content;
+}
+
+/* Element: pcp-color-picker__label - Color picker label */
+.pcp-color-picker__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--pcp-color-foreground));
+}
+
+/* Element: pcp-color-picker__value - Color value display */
+.pcp-color-picker__value {
+  font-size: 0.875rem;
+  color: hsl(var(--pcp-color-muted-foreground));
+}
+
+/* Element: pcp-color-picker__controls - Color controls container */
+.pcp-color-picker__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Element: pcp-color-picker__sliders - Sliders container */
+.pcp-color-picker__sliders {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Element: pcp-color-picker__slider-group - Individual slider group */
+.pcp-color-picker__slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Element: pcp-color-picker__presets - Color presets container */
+.pcp-color-picker__presets {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+/* Element: pcp-color-picker__preset - Individual preset color */
+.pcp-color-picker__preset {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  border: 1px solid hsl(var(--pcp-color-border));
+  cursor: pointer;
+  transition: all 200ms ease;
+  outline: none;
+}
+
+.pcp-color-picker__preset:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.pcp-color-picker__preset:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}
+
+/* Modifier: pcp-color-picker__preset--selected - Selected preset */
+.pcp-color-picker__preset--selected {
+  border-color: hsl(var(--pcp-color-primary));
+  box-shadow: 0 0 0 2px hsl(var(--pcp-color-primary) / 0.2);
+  transform: scale(1.05);
+}
+
+/* Modifier: pcp-color-picker__preset--disabled - Disabled preset */
+.pcp-color-picker__preset--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pcp-color-picker__preset--disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Element: pcp-color-picker__actions - Action buttons container */
+.pcp-color-picker__actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Element: pcp-color-picker__separator - Visual separator */
+.pcp-color-picker__separator {
+  height: 1px;
+  background-color: hsl(var(--pcp-color-muted));
+  margin: 0.5rem 0;
+}
+
+/* Element: pcp-color-picker__badge - Color value badge */
+
+.pcp-color-picker__badge {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: 1rem;
+  border: 1px solid transparent;
+  background-color: hsl(var(--pcp-color-secondary));
+  color: hsl(var(--pcp-color-secondary-foreground));
+  padding: 0.25rem 0.5rem;
+  font-weight: 700;
+  transition: colors 200ms ease;
+} 

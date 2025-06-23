@@ -1,0 +1,53 @@
+/* ===== PASTEL COLOR PICKER STYLES ===== */
+/* Main styles entry point - imports all component styles */
+
+/* Base styles and CSS custom properties */
+@import './base.css';
+
+/* Component styles using BEM methodology */
+@import './button.css';
+@import './dialog.css';
+@import './color-picker.css';
+@import './circles.css';
+@import './slider.css';
+@import './badge.css';
+@import './label.css';
+@import './separator.css';
+@import './color-bar.css';
+
+/* Variant styles */
+@import './random.css';
+@import './simple.css';
+
+/* Additional utilities if needed */
+.pcp-hidden {
+  display: none;
+}
+
+.pcp-opacity-0 {
+  opacity: 0;
+}
+
+.pcp-opacity-100 {
+  opacity: 1;
+}
+
+.pcp-pointer-events-none {
+  pointer-events: none;
+}
+
+.pcp-cursor-pointer {
+  cursor: pointer;
+}
+
+.pcp-cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.pcp-select-none {
+  user-select: none;
+}
+
+.pcp-touch-none {
+  touch-action: none;
+} 

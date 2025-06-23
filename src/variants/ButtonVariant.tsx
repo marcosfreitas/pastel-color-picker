@@ -3,63 +3,64 @@
 import { ReactNode } from 'react';
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { cn } from '../utils/cn';
-import { ColorValue } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
 
-interface ButtonVariantProps {
-  localColor: ColorValue;
-  handleColorChange: (color: ColorValue) => void;
-  showPresets: boolean;
-  presets: string[];
-  showAlpha: boolean;
-  showColorArea: boolean;
-  isPastel: boolean;
-  hideSliders?: boolean;
-  onRandomColor: () => void;
-  onHueChange: (hue: number[]) => void;
-  onSaturationChange: (saturation: number[]) => void;
-  onLightnessChange: (lightness: number[]) => void;
-  onAlphaChange: (alpha: number[]) => void;
-  label?: string;
-  size: 'sm' | 'md' | 'lg';
-  disabled: boolean;
-  className?: string;
+interface ButtonVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
+  // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  children?: ReactNode;
 }
 
 export function ButtonVariant({
-  localColor,
-  handleColorChange,
-  showPresets,
+  // ColorPickerDialogProps
+  title,
+  defaultColor,
   presets,
-  showAlpha,
+  colorMode,
   showColorArea,
-  isPastel,
   hideSliders,
+  showPresets,
+  showHue,
+  showSaturation,
+  showLightness,
+  showAlpha,
+  showRandomButton,
+  onColorChange,
+  onPresetClick,
   onRandomColor,
   onHueChange,
   onSaturationChange,
   onLightnessChange,
   onAlphaChange,
-  label,
+  
+  // ColorPickerVariantProps (excluding variant)
   size,
   disabled,
+  label,
   className,
+  children,
+  
+  // Variant-specific props
   isOpen,
-  setIsOpen,
-  children
+  setIsOpen
 }: ButtonVariantProps) {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12'
-  };
+  // Guard against undefined defaultColor
+  if (!defaultColor) {
+    return null;
+  }
 
   const currentColorStyle = {
-    backgroundColor: `rgba(${localColor.rgba.r}, ${localColor.rgba.g}, ${localColor.rgba.b}, ${localColor.rgba.a})`
+    backgroundColor: `rgba(${defaultColor.rgba.r}, ${defaultColor.rgba.g}, ${defaultColor.rgba.b}, ${defaultColor.rgba.a})`
   };
+
+  const buttonClasses = cn(
+    'pcp-button pcp-button--color-picker',
+    `pcp-button--size-${size}`,
+    (label || children) && 'pcp-button__content',
+    disabled && 'pcp-button--disabled',
+    className
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -67,32 +68,29 @@ export function ButtonVariant({
         <button
           type="button"
           disabled={disabled}
-          className={cn(
-            'color-picker-button color-picker-default',
-            'bg-background text-foreground',
-            'rounded-lg border-2 border-gray-200 hover:border-gray-300',
-            'transition-all duration-200 flex items-center justify-center gap-2',
-            'hover:scale-105 outline-none',
-            `color-picker-button--${size}`,
-            (label || children) ? 'px-3 py-2 min-w-fit' : sizeClasses[size],
-            disabled && 'opacity-50 cursor-not-allowed hover:scale-100 color-picker-button--disabled',
-            className
-          )}
+          className={buttonClasses}
           style={(label || children) ? undefined : currentColorStyle}
-          aria-label={`Color picker, current color: ${localColor.hexa}`}
+          aria-label={`Color picker, current color: ${defaultColor.hexa}`}
         >
-          {children}
-          {label && <span>{label}</span>}
+          {children && <span className="pcp-button__content">{children}</span>}
+          {label && <span className="pcp-button__content">{label}</span>}
         </button>
       </DialogTrigger>
       <ColorPickerDialog
-        color={localColor}
-        onChange={handleColorChange}
-        presets={showPresets ? presets : []}
-        showAlpha={showAlpha}
+        title={title}
+        defaultColor={defaultColor}
+        presets={presets}
+        colorMode={colorMode}
         showColorArea={showColorArea}
-        isPastel={isPastel}
         hideSliders={hideSliders}
+        showPresets={showPresets}
+        showHue={showHue}
+        showSaturation={showSaturation}
+        showLightness={showLightness}
+        showAlpha={showAlpha}
+        showRandomButton={showRandomButton}
+        onColorChange={onColorChange}
+        onPresetClick={onPresetClick}
         onRandomColor={onRandomColor}
         onHueChange={onHueChange}
         onSaturationChange={onSaturationChange}

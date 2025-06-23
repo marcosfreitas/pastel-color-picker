@@ -105,7 +105,7 @@ export function ColorArea({
     <div
       ref={canvasRef}
       className={cn(
-        'relative w-full h-48 rounded-lg border cursor-crosshair overflow-hidden',
+        'pcp-relative pcp-w-full pcp-h-48 pcp-rounded-lg pcp-border pcp-cursor-crosshair pcp-overflow-hidden',
         className
       )}
       style={{
@@ -119,7 +119,7 @@ export function ColorArea({
     >
       {/* Cursor */}
       <div
-        className="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
+        className="pcp-absolute pcp-w-4 pcp-h-4 pcp-border-2 pcp-border-white pcp-rounded-full pcp-shadow-lg pcp-pointer-events-none pcp-transform pcp--translate-x-1/2 pcp--translate-y-1/2"
         style={{
           left: `${cursorX}%`,
           top: `${cursorY}%`,

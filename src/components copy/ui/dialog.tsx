@@ -13,7 +13,10 @@ const DialogOverlay = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
-    className={cn("pcp-dialog__overlay", className)}
+    className={cn(
+      "pcp-fixed pcp-inset-0 pcp-z-50 pcp-bg-background/50 pcp-backdrop-blur-sm data-[state=open]:pcp-animate-in data-[state=closed]:pcp-animate-out data-[state=closed]:pcp-fade-out-0 data-[state=open]:pcp-fade-in-0",
+      className
+    )}
     {...props}
   />
 ))
@@ -28,12 +31,15 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       data-pcp-root=""
-      className={cn("pcp-dialog__content", className)}
+      className={cn(
+        "pcp-fixed pcp-left-[50%] pcp-top-[50%] pcp-z-50 pcp-grid pcp-w-full pcp-max-w-lg pcp-dialog-center pcp-gap-4 pcp-border pcp-border-border pcp-bg-background pcp-p-6 pcp-shadow-lg pcp-duration-200 data-[state=open]:pcp-animate-in data-[state=closed]:pcp-animate-out data-[state=closed]:pcp-fade-out-0 data-[state=open]:pcp-fade-in-0 data-[state=closed]:pcp-dialog-center-scale-95 data-[state=open]:pcp-dialog-center-scale-100 pcp-sm:rounded-lg",
+        className
+      )}
       {...props}
     >
       {children}
-      <DialogPrimitive.Close className="pcp-dialog__close">
-        <X />
+      <DialogPrimitive.Close className="pcp-absolute pcp-right-4 pcp-top-4 pcp-rounded-sm pcp-opacity-70 pcp-ring-offset-background pcp-transition-opacity hover:pcp-opacity-100 focus:pcp-outline-none focus:pcp-ring-2 focus:pcp-ring-ring focus:pcp-ring-offset-2 disabled:pcp-pointer-events-none data-[state=open]:pcp-bg-accent data-[state=open]:pcp-text-muted-foreground">
+        <X className="pcp-h-4 pcp-w-4" />
         <span className="pcp-sr-only">Close</span>
       </DialogPrimitive.Close>
     </DialogPrimitive.Content>
@@ -46,7 +52,10 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("pcp-dialog__header", className)}
+    className={cn(
+      "pcp-flex pcp-flex-col pcp-space-y-1.5 pcp-text-center pcp-sm:text-left",
+      className
+    )}
     {...props}
   />
 )
@@ -57,7 +66,10 @@ const DialogFooter = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("pcp-dialog__footer", className)}
+    className={cn(
+      "pcp-flex pcp-flex-col-reverse pcp-sm:flex-row pcp-sm:justify-end pcp-sm:space-x-2",
+      className
+    )}
     {...props}
   />
 )
@@ -69,7 +81,10 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn("pcp-dialog__title", className)}
+    className={cn(
+      "pcp-text-lg pcp-font-semibold pcp-leading-none pcp-tracking-tight",
+      className
+    )}
     {...props}
   />
 ))
@@ -81,7 +96,7 @@ const DialogDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("pcp-dialog__description", className)}
+    className={cn("pcp-text-sm pcp-text-muted-foreground", className)}
     {...props}
   />
 ))
