@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { Button } from '../components/ui/button';
 import { Slider } from '../components/ui/slider';
@@ -22,14 +22,14 @@ export function ColorPickerDialog({
   defaultColor = defaultColorValue,
   onColorChange,
   presets,
-  showAlpha,
   colorMode = ColorMode.PASTEL,
   showColorArea = false,
   showPresets = true,
+  hideSliders = false,
   showHue = true,
   showSaturation = true,
   showLightness = true,
-  hideSliders = false,
+  showAlpha = true,
   showRandomButton = true,
   onPresetClick,
   onRandomColor,
@@ -38,15 +38,92 @@ export function ColorPickerDialog({
   onLightnessChange,
   onAlphaChange
 }: ColorPickerDialogProps) {
+  // Track which control is currently being dragged
+  const [dragStates, setDragStates] = useState({
+    colorBar: false,
+    colorArea: false,
+    hue: false,
+    saturation: false,
+    lightness: false,
+    alpha: false
+  });
+
+  console.log('ColorPickerDialog presets:', presets);
+
   const handleColorAreaChange = (saturation: number, value: number) => {
-    const [r, g, b] = hsvToRgb(defaultColor.hsva.h, saturation, value);
-    const hex = rgbToHex(r, g, b);
-    const newColor: ColorValue = {
-      hexa: hex,
-      rgba: { r, g, b, a: defaultColor.rgba.a },
-      hsva: { ...defaultColor.hsva, s: saturation, v: value }
+    // Only update if individual sliders are not being dragged
+    if (!dragStates.hue && !dragStates.saturation && !dragStates.lightness && !dragStates.alpha) {
+      const [r, g, b] = hsvToRgb(defaultColor.hsva.h, saturation, value);
+      const hex = rgbToHex(r, g, b);
+      const newColor: ColorValue = {
+        hexa: hex,
+        rgba: { r, g, b, a: defaultColor.rgba.a },
+        hsva: { ...defaultColor.hsva, s: saturation, v: value }
+      };
+      onColorChange(newColor);
+    }
+  };
+
+  // Enhanced slider handlers with drag state tracking
+  const createSliderHandler = (sliderType: keyof typeof dragStates, originalHandler?: (values: number[]) => void) => {
+    return {
+      onValueChange: (values: number[]) => {
+        // Always call the original handler for immediate updates
+        originalHandler?.(values);
+      },
+      onValueCommit: (values: number[]) => {
+        // Mark slider as not dragging when commit happens
+        setDragStates(prev => ({ ...prev, [sliderType]: false }));
+      },
+      // We'll handle drag start via onPointerDown since Slider doesn't have onDragStart
+      onPointerDown: () => {
+        setDragStates(prev => ({ ...prev, [sliderType]: true }));
+      }
     };
-    onColorChange(newColor);
+  };
+
+  const hueSliderHandlers = createSliderHandler('hue', onHueChange);
+  const saturationSliderHandlers = createSliderHandler('saturation', onSaturationChange);
+  const lightnessSliderHandlers = createSliderHandler('lightness', onLightnessChange);
+  const alphaSliderHandlers = createSliderHandler('alpha', onAlphaChange);
+
+  // Comprehensive preset handler that triggers all necessary callbacks
+  const handlePresetClick = (preset: string) => {
+    console.log('Preset clicked:', preset, typeof preset);
+    
+    // Safeguard: ensure preset is a string
+    if (typeof preset !== 'string') {
+      console.error('Invalid preset type:', typeof preset, preset);
+      return;
+    }
+    
+    const colorValue = hexToColorValue(preset, defaultColor.rgba.a);
+    console.log('Color value from hexToColorValue:', colorValue);
+    
+    console.log('Triggering callbacks...');
+    
+    // Trigger all individual slider callbacks to ensure parent component updates
+    console.log('Calling onHueChange with:', [colorValue.hsva.h]);
+    onHueChange?.([colorValue.hsva.h]);
+    
+    console.log('Calling onSaturationChange with:', [colorValue.hsva.s]);
+    onSaturationChange?.([colorValue.hsva.s]);
+    
+    console.log('Calling onLightnessChange with:', [colorValue.hsva.v]);
+    onLightnessChange?.([colorValue.hsva.v]);
+    
+    console.log('Calling onAlphaChange with:', [Math.round(colorValue.rgba.a * 100)]);
+    onAlphaChange?.([Math.round(colorValue.rgba.a * 100)]);
+    
+    // Trigger the main color change callback
+    console.log('Calling onColorChange with:', colorValue);
+    onColorChange(colorValue);
+    
+    // Trigger the preset click callback
+    console.log('Calling onPresetClick with:', colorValue);
+    onPresetClick?.(colorValue);
+    
+    console.log('All callbacks triggered');
   };
 
   // Create the gradient with alpha
@@ -98,6 +175,8 @@ export function ColorPickerDialog({
               lightness={defaultColor.hsva.v}
               alpha={defaultColor.rgba.a}
               onChange={handleColorAreaChange}
+              onDragStart={() => setDragStates(prev => ({ ...prev, colorArea: true }))}
+              onDragEnd={() => setDragStates(prev => ({ ...prev, colorArea: false }))}
             />
           ) : (
             <ColorBar 
@@ -106,6 +185,8 @@ export function ColorPickerDialog({
               lightness={defaultColor.hsva.v}
               alpha={defaultColor.rgba.a}
               onChange={handleColorAreaChange}
+              onDragStart={() => setDragStates(prev => ({ ...prev, colorBar: true }))}
+              onDragEnd={() => setDragStates(prev => ({ ...prev, colorBar: false }))}
             />
           )}
         </div>
@@ -113,56 +194,63 @@ export function ColorPickerDialog({
         {/* Color Controls */}
         {(!hideSliders) && (
           <div className="pcp-color-picker__sliders">
-            {!hideSliders && (
-              <>
-                <div className="pcp-color-picker__slider-group">
-                  <span className="pcp-color-picker__label">Hue</span>
-                  <div className="pcp-slider pcp-slider--hue">
-                    <Slider
-                      value={[defaultColor.hsva.h]}
-                      onValueChange={onHueChange}
-                      max={360}
-                      step={1}
-                      className="pcp-slider__track"
-                    />
-                  </div>
+            {showHue && (
+              <div className="pcp-color-picker__slider-group">
+                <span className="pcp-color-picker__label">Hue</span>
+                <div className="pcp-slider pcp-slider--hue">
+                  <Slider
+                    value={[defaultColor.hsva.h]}
+                    onValueChange={hueSliderHandlers.onValueChange}
+                    onValueCommit={hueSliderHandlers.onValueCommit}
+                    onPointerDown={hueSliderHandlers.onPointerDown}
+                    max={360}
+                    step={1}
+                    className="pcp-slider__track"
+                  />
                 </div>
-
-                <div className="pcp-color-picker__slider-group">
-                  <span className="pcp-color-picker__label">Saturation</span>
-                  <div className="pcp-slider pcp-slider--saturation">
-                    <Slider
-                      value={[defaultColor.hsva.s]}
-                      onValueChange={onSaturationChange}
-                      max={100}
-                      step={1}
-                      className="pcp-slider__track"
-                      style={{
-                        '--pcp-current-hue': defaultColor.hsva.h.toString()
-                      } as React.CSSProperties}
-                    />
-                  </div>
-                </div>
-
-                <div className="pcp-color-picker__slider-group">
-                  <span className="pcp-color-picker__label">Lightness</span>
-                  <div className="pcp-slider pcp-slider--lightness">
-                    <Slider
-                      value={[defaultColor.hsva.v]}
-                      onValueChange={onLightnessChange}
-                      max={100}
-                      step={1}
-                      className="pcp-slider__track"
-                      style={{
-                        '--pcp-current-hue': defaultColor.hsva.h.toString(),
-                        '--pcp-current-saturation': `${defaultColor.hsva.s}%`
-                      } as React.CSSProperties}
-                    />
-                  </div>
-                </div>
-              </>
+              </div>
             )}
 
+            {showSaturation && (
+              <div className="pcp-color-picker__slider-group">
+                <span className="pcp-color-picker__label">Saturation</span>
+                <div className="pcp-slider pcp-slider--saturation">
+                  <Slider
+                    value={[defaultColor.hsva.s]}
+                    onValueChange={saturationSliderHandlers.onValueChange}
+                    onValueCommit={saturationSliderHandlers.onValueCommit}
+                    onPointerDown={saturationSliderHandlers.onPointerDown}
+                    max={100}
+                    step={1}
+                    className="pcp-slider__track"
+                    style={{
+                      '--pcp-current-hue': defaultColor.hsva.h.toString()
+                    } as React.CSSProperties}
+                  />
+                </div>
+              </div>
+            )}
+
+            {showLightness && (
+              <div className="pcp-color-picker__slider-group">
+                <span className="pcp-color-picker__label">Lightness</span>
+                <div className="pcp-slider pcp-slider--lightness">
+                  <Slider
+                    value={[defaultColor.hsva.v]}
+                    onValueChange={lightnessSliderHandlers.onValueChange}
+                    onValueCommit={lightnessSliderHandlers.onValueCommit}
+                    onPointerDown={lightnessSliderHandlers.onPointerDown}
+                    max={100}
+                    step={1}
+                    className="pcp-slider__track"
+                    style={{
+                      '--pcp-current-hue': defaultColor.hsva.h.toString(),
+                      '--pcp-current-saturation': `${defaultColor.hsva.s}%`
+                    } as React.CSSProperties}
+                  />
+                </div>
+              </div>
+            )}
             {showAlpha && (
               <div className="pcp-color-picker__slider-group">
                 <span className="pcp-color-picker__label">Opacity</span>
@@ -173,7 +261,9 @@ export function ColorPickerDialog({
                 >
                   <Slider
                     value={[Math.round(defaultColor.rgba.a * 100)]}
-                    onValueChange={onAlphaChange}
+                    onValueChange={alphaSliderHandlers.onValueChange}
+                    onValueCommit={alphaSliderHandlers.onValueCommit}
+                    onPointerDown={alphaSliderHandlers.onPointerDown}
                     max={100}
                     step={1}
                     className="pcp-slider__track"
@@ -188,22 +278,24 @@ export function ColorPickerDialog({
           </div>
         )}
 
-        <div className="pcp-color-picker__separator"></div>
-
-        {/* Actions */}
-        <div className="pcp-color-picker__actions">
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onRandomColor}
-          >
-            <Shuffle />
-            Random {colorMode === 'pastel' ? 'Pastel' : 'Color'}
-          </Button>
-        </div>
+        {showRandomButton && (
+          <>
+            <div className="pcp-color-picker__separator"></div>
+            <div className="pcp-color-picker__actions">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onRandomColor?.(defaultColor)}
+              >
+                <Shuffle />
+                Random {colorMode === 'pastel' ? 'Pastel' : 'Color'}
+              </Button>
+            </div>
+          </>
+        )}
 
         {/* Preset Colors */}
-        {presets.length > 0 && (
+        {showPresets && presets.length > 0 && (
           <>
             <div className="pcp-color-picker__separator"></div>
             <div className="pcp-color-picker__slider-group">
@@ -215,10 +307,7 @@ export function ColorPickerDialog({
                     type="button"
                     className="pcp-color-picker__preset"
                     style={{ backgroundColor: preset }}
-                    onClick={() => {
-                      const colorValue = hexToColorValue(preset, defaultColor.rgba.a);
-                      onColorChange(colorValue);
-                    }}
+                    onClick={() => handlePresetClick(preset)}
                     aria-label={`Select preset color ${preset}`}
                   />
                 ))}

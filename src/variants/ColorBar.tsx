@@ -9,10 +9,12 @@ interface ColorBarProps {
   lightness: number; // This is actually HSV Value/brightness, keeping same prop name for compatibility
   alpha?: number;
   onChange?: (saturation: number, lightness: number) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
   className?: string;
 }
 
-export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, className }: ColorBarProps) {
+export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDragStart, onDragEnd, className }: ColorBarProps) {
   const barRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -91,8 +93,9 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
     
     // Allow clicking anywhere on the bar, not just the thumb
     setIsDragging(true);
+    onDragStart?.();
     handleInteraction(event);
-  }, [handleInteraction, onChange]);
+  }, [handleInteraction, onChange, onDragStart]);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
     if (!isDragging || !onChange) return;
@@ -101,15 +104,17 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-  }, []);
+    onDragEnd?.();
+  }, [onDragEnd]);
 
   const handleTouchStart = useCallback((event: React.TouchEvent) => {
     if (!onChange) return;
     
     // Allow touching anywhere on the bar, not just the thumb
     setIsDragging(true);
+    onDragStart?.();
     handleInteraction(event);
-  }, [handleInteraction, onChange]);
+  }, [handleInteraction, onChange, onDragStart]);
 
   const handleTouchMove = useCallback((event: TouchEvent) => {
     if (!isDragging || !onChange) return;
@@ -119,7 +124,8 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, clas
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
-  }, []);
+    onDragEnd?.();
+  }, [onDragEnd]);
 
   useEffect(() => {
     if (isDragging && onChange) {

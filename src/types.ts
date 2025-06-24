@@ -48,8 +48,8 @@ export interface ColorPickerDialogProps {
   showRandomButton?: boolean;
   
   onColorChange: (color: ColorValue) => void;
-  onPresetClick?: (preset: string) => void;
-  onRandomColor?: () => void;
+  onPresetClick?: (preset: ColorValue) => void;
+  onRandomColor?: (color: ColorValue) => void;
   onHueChange?: (hue: number[]) => void;
   onSaturationChange?: (saturation: number[]) => void;
   onLightnessChange?: (lightness: number[]) => void;

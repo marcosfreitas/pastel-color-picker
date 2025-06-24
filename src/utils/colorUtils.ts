@@ -37,7 +37,9 @@ export function rgbToHex(r: number, g: number, b: number): string {
 
 // Hex to RGB conversion
 export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
+  console.log('hexToRgb input:', hex);
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  console.log('hexToRgb regex result:', result);
   return result ? {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
@@ -189,9 +191,23 @@ export function generatePastelFromRgb(baseR: number, baseG: number, baseB: numbe
 }
 
 // Convert hex to ColorValue
-export function hexToColorValue(hex: string, alpha: number = 1): ColorValue {
-  const rgb = hexToRgb(hex);
-  if (!rgb) {
+export function hexToColorValue(hex: string | ColorValue, alpha: number = 1): ColorValue {
+  console.log('hexToColorValue called with:', hex, alpha);
+  
+  // Safeguard: if hex is already a ColorValue object, just return it with updated alpha
+  if (typeof hex === 'object' && hex !== null && 'hexa' in hex) {
+    console.log('Input is already a ColorValue object, returning with updated alpha');
+    const colorValue = hex as ColorValue;
+    return {
+      ...colorValue,
+      rgba: { ...colorValue.rgba, a: alpha },
+      hsva: { ...colorValue.hsva, a: alpha }
+    };
+  }
+  
+  // Ensure hex is a string
+  if (typeof hex !== 'string') {
+    console.error('Invalid hex input type:', typeof hex, hex);
     return {
       hexa: '#000000',
       rgba: { r: 0, g: 0, b: 0, a: alpha },
@@ -199,11 +215,27 @@ export function hexToColorValue(hex: string, alpha: number = 1): ColorValue {
     };
   }
   
-  const [h, s, v] = rgbToHsv(rgb.r, rgb.g, rgb.b);
+  const rgb = hexToRgb(hex);
+  console.log('RGB result:', rgb);
+  if (!rgb) {
+    console.log('RGB parsing failed, returning black');
+    return {
+      hexa: '#000000',
+      rgba: { r: 0, g: 0, b: 0, a: alpha },
+      hsva: { h: 0, s: 0, v: 0, a: alpha }
+    };
+  }
   
-  return {
+  console.log('Converting RGB to HSV:', rgb.r, rgb.g, rgb.b);
+  const [h, s, v] = rgbToHsv(rgb.r, rgb.g, rgb.b);
+  console.log('HSV result:', h, s, v);
+  
+  const result = {
     hexa: hex,
     rgba: { ...rgb, a: alpha },
     hsva: { h, s, v, a: alpha }
   };
+  console.log('Final ColorValue:', result);
+  
+  return result;
 } 

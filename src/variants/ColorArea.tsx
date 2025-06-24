@@ -9,6 +9,8 @@ interface ColorAreaProps {
   lightness: number;
   alpha?: number;
   onChange: (saturation: number, lightness: number) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
   className?: string;
 }
 
@@ -18,6 +20,8 @@ export function ColorArea({
   lightness,
   alpha = 1,
   onChange,
+  onDragStart,
+  onDragEnd,
   className
 }: ColorAreaProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -43,8 +47,9 @@ export function ColorArea({
 
   const handleMouseDown = useCallback((event: React.MouseEvent) => {
     setIsDragging(true);
+    onDragStart?.();
     handleInteraction(event);
-  }, [handleInteraction]);
+  }, [handleInteraction, onDragStart]);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
     if (!isDragging) return;
@@ -54,12 +59,14 @@ export function ColorArea({
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-  }, []);
+    onDragEnd?.();
+  }, [onDragEnd]);
 
   const handleTouchStart = useCallback((event: React.TouchEvent) => {
     setIsDragging(true);
+    onDragStart?.();
     handleInteraction(event);
-  }, [handleInteraction]);
+  }, [handleInteraction, onDragStart]);
 
   const handleTouchMove = useCallback((event: TouchEvent) => {
     if (!isDragging) return;
@@ -70,7 +77,8 @@ export function ColorArea({
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
-  }, []);
+    onDragEnd?.();
+  }, [onDragEnd]);
 
   useEffect(() => {
     if (isDragging) {
