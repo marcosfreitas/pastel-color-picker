@@ -17,7 +17,6 @@ export { Button } from './components/ui/button';
 export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './components/ui/dialog';
 export { Label } from './components/ui/label';
 export { Slider } from './components/ui/slider';
-export { Badge } from './components/ui/badge';
 
 // Constants
 export { 
