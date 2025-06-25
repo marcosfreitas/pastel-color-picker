@@ -1,0 +1,79 @@
+/* ===== SIMPLE VARIANT STYLES ===== */
+/* Block: pcp-simple - Simple variant component using BEM methodology */
+
+.pcp-simple {
+  /* Base simple variant styles - uses button styles */
+  border-radius: 0.5rem;
+  border: 2px solid rgb(229 231 235);
+  transition: all 200ms ease;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: none;
+  padding: 0;
+  
+  &:hover:not(:disabled) {
+    border-color: rgb(209 213 219);
+    transform: scale(1.05);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid hsl(var(--pcp-color-ring));
+    outline-offset: 2px;
+  }
+}
+
+/* Element: pcp-simple__content - Simple variant content */
+.pcp-simple__content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  min-width: fit-content;
+}
+
+/* Size modifiers */
+.pcp-simple--size-sm {
+  width: 2rem;
+  height: 2rem;
+}
+
+.pcp-simple--size-md {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.pcp-simple--size-lg {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* When simple has content, use flexible sizing */
+.pcp-simple:has(.pcp-simple__content) {
+  width: auto;
+  height: auto;
+  min-width: fit-content;
+  min-height: 2.5rem;
+}
+
+.pcp-simple--size-sm:has(.pcp-simple__content) {
+  min-height: 2rem;
+}
+
+.pcp-simple--size-lg:has(.pcp-simple__content) {
+  min-height: 3rem;
+}
+
+/* Modifier: pcp-simple--disabled - Disabled simple variant */
+.pcp-simple--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  
+  &:hover {
+    transform: none;
+    border-color: rgb(229 231 235);
+  }
+} 

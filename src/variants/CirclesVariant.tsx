@@ -3,114 +3,150 @@
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { ColorValue } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
+import { Button } from '../components/ui/button';
+import { hexToColorValue } from '../utils/colorUtils';
 
-interface CirclesVariantProps {
-  localColor: ColorValue;
-  handleColorChange: (color: ColorValue) => void;
-  handlePresetSelect: (hex: string) => void;
-  showPresets: boolean;
-  presets: string[];
-  showAlpha: boolean;
-  showColorArea: boolean;
-  isPastel: boolean;
-  hideSliders?: boolean;
-  onRandomColor: () => void;
-  onHueChange: (hue: number[]) => void;
-  onSaturationChange: (saturation: number[]) => void;
-  onLightnessChange: (lightness: number[]) => void;
-  onAlphaChange: (alpha: number[]) => void;
-  size: 'sm' | 'md' | 'lg';
-  disabled: boolean;
-  className?: string;
+interface CirclesVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
+  // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
 }
 
 export function CirclesVariant({
-  localColor,
-  handleColorChange,
-  handlePresetSelect,
-  showPresets,
+  // ColorPickerDialogProps
+  title,
+  defaultColor,
   presets,
-  showAlpha,
+  colorMode,
   showColorArea,
-  isPastel,
   hideSliders,
-  onRandomColor,
+  showPresets,
+  showHue,
+  showSaturation,
+  showLightness,
+  showAlpha,
+  showRandomButton,
+  onColorChange,
+  onPresetClick,
   onHueChange,
   onSaturationChange,
   onLightnessChange,
   onAlphaChange,
+  
+  // ColorPickerVariantProps (excluding variant)
   size,
   disabled,
+  label,
   className,
+  children,
+  
+  // Variant-specific props
   isOpen,
   setIsOpen
 }: CirclesVariantProps) {
-  const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-10 h-10',
-    lg: 'w-12 h-12'
+  if (!defaultColor || !presets) {
+    console.error('defaultColor and presets properties are required.');
+    return null;
+  }
+
+  const containerClasses = cn(
+    'pcp-circles',
+    `pcp-circles--size-${size}`,
+    disabled && 'pcp-circles--disabled',
+    className
+  );
+
+  // Create display presets and determine selection logic
+  const getDisplayPresetsAndSelection = () => {
+    const firstThreePresets = presets.slice(0, 3);
+    const normalizeColor = (colorStr: string | undefined) => {
+      if (!colorStr) return '';
+      return colorStr.replace('#', '').toLowerCase();
+    };
+    const selectedColorNormalized = normalizeColor(defaultColor.hexa);
+    
+    // Check if selected color matches any of the first 3 presets
+    const matchingPresetIndex = firstThreePresets.findIndex(preset => 
+      normalizeColor(preset) === selectedColorNormalized
+    );
+    
+    let displayPresets;
+    let selectedIndex;
+    
+    if (matchingPresetIndex !== -1) {
+      // Selected color is one of the first 3 presets
+      displayPresets = [...firstThreePresets, presets[3] || firstThreePresets[0]];
+      selectedIndex = matchingPresetIndex;
+    } else {
+      // Selected color is not in first 3, put it in 4th position
+      displayPresets = [...firstThreePresets, defaultColor.hexa || '#000000'];
+      selectedIndex = 3;
+    }
+    
+    return { displayPresets, selectedIndex };
   };
 
+  const { displayPresets, selectedIndex } = getDisplayPresetsAndSelection();
+
   return (
-    <div className={cn(
-      'color-picker-circles flex items-center gap-2 flex-shrink-0',
-      `color-picker-circles--${size}`,
-      disabled && 'color-picker-circles--disabled',
-      className
-    )}>
-      {presets.slice(0, 4).map((color, index) => {
-        const isSelected = localColor.hexa.toLowerCase() === color.toLowerCase();
+    <div className={containerClasses}>
+      {displayPresets.map((color, index) => {
+        const isSelected = index === selectedIndex;
+
+        const circleClasses = cn(
+          'pcp-circles__circle',
+          isSelected && 'pcp-circles__circle--selected',
+          disabled && 'pcp-circles__circle--disabled'
+        );
+        
         return (
-          <button
+          <Button
             key={index}
             type="button"
             disabled={disabled}
-            className={cn(
-              'color-picker-circle rounded-full border-2 transition-all duration-200',
-              'hover:scale-110 outline-none flex-shrink-0',
-              sizeClasses[size],
-              isSelected 
-                ? 'border-black shadow-md scale-105' 
-                : 'border-transparent hover:border-gray-300',
-              disabled && 'opacity-50 cursor-not-allowed hover:scale-100'
-            )}
+            className={circleClasses}
             style={{ backgroundColor: color }}
-            onClick={() => handlePresetSelect(color)}
+            onClick={() => {
+              if (onPresetClick) {
+                const colorValue = hexToColorValue(color, defaultColor.rgba.a);
+                onPresetClick(colorValue);
+              }
+            }}
             aria-label={`Select color ${color}`}
           />
         );
       })}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <button
+          <Button
             type="button"
             disabled={disabled}
             className={cn(
-              'color-picker-more-button rounded-full border-2 border-dashed transition-all duration-200',
-              'border-gray-300 hover:border-gray-400 hover:scale-110',
-              'flex items-center justify-center bg-gray-50 hover:bg-gray-100',
-              'outline-none flex-shrink-0',
-              sizeClasses[size],
-              disabled && 'opacity-50 cursor-not-allowed hover:scale-100'
+              'pcp-circles__more-button',
+              disabled && 'pcp-circles__more-button--disabled'
             )}
             aria-label="Open color picker dialog"
           >
-            <MoreHorizontal className="w-4 h-4 text-gray-500" />
-          </button>
+            <MoreHorizontal />
+          </Button>
         </DialogTrigger>
         <ColorPickerDialog
-          color={localColor}
-          onChange={handleColorChange}
-          presets={showPresets ? presets : []}
-          showAlpha={showAlpha}
+          title={title}
+          defaultColor={defaultColor}
+          presets={presets}
+          colorMode={colorMode}
           showColorArea={showColorArea}
-          isPastel={isPastel}
           hideSliders={hideSliders}
-          onRandomColor={onRandomColor}
+          showPresets={showPresets}
+          showHue={showHue}
+          showSaturation={showSaturation}
+          showLightness={showLightness}
+          showAlpha={showAlpha}
+          showRandomButton={showRandomButton}
+          onColorChange={onColorChange}
+          onPresetClick={onPresetClick}
           onHueChange={onHueChange}
           onSaturationChange={onSaturationChange}
           onLightnessChange={onLightnessChange}

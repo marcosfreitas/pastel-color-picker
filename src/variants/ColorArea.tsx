@@ -9,6 +9,8 @@ interface ColorAreaProps {
   lightness: number;
   alpha?: number;
   onChange: (saturation: number, lightness: number) => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
   className?: string;
 }
 
@@ -18,6 +20,8 @@ export function ColorArea({
   lightness,
   alpha = 1,
   onChange,
+  onDragStart,
+  onDragEnd,
   className
 }: ColorAreaProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -43,8 +47,9 @@ export function ColorArea({
 
   const handleMouseDown = useCallback((event: React.MouseEvent) => {
     setIsDragging(true);
+    onDragStart?.();
     handleInteraction(event);
-  }, [handleInteraction]);
+  }, [handleInteraction, onDragStart]);
 
   const handleMouseMove = useCallback((event: MouseEvent) => {
     if (!isDragging) return;
@@ -54,12 +59,14 @@ export function ColorArea({
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-  }, []);
+    onDragEnd?.();
+  }, [onDragEnd]);
 
   const handleTouchStart = useCallback((event: React.TouchEvent) => {
     setIsDragging(true);
+    onDragStart?.();
     handleInteraction(event);
-  }, [handleInteraction]);
+  }, [handleInteraction, onDragStart]);
 
   const handleTouchMove = useCallback((event: TouchEvent) => {
     if (!isDragging) return;
@@ -70,7 +77,8 @@ export function ColorArea({
 
   const handleTouchEnd = useCallback(() => {
     setIsDragging(false);
-  }, []);
+    onDragEnd?.();
+  }, [onDragEnd]);
 
   useEffect(() => {
     if (isDragging) {
@@ -105,7 +113,8 @@ export function ColorArea({
     <div
       ref={canvasRef}
       className={cn(
-        'relative w-full h-48 rounded-lg border cursor-crosshair overflow-hidden',
+        'pcp-color-area',
+        isDragging && 'pcp-color-area--dragging',
         className
       )}
       style={{
@@ -119,11 +128,10 @@ export function ColorArea({
     >
       {/* Cursor */}
       <div
-        className="absolute w-4 h-4 border-2 border-white rounded-full shadow-lg pointer-events-none transform -translate-x-1/2 -translate-y-1/2"
+        className="pcp-color-area__cursor"
         style={{
           left: `${cursorX}%`,
-          top: `${cursorY}%`,
-          boxShadow: '0 0 0 1px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2)'
+          top: `${cursorY}%`
         }}
       />
     </div>

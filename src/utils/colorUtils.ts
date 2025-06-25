@@ -189,7 +189,26 @@ export function generatePastelFromRgb(baseR: number, baseG: number, baseB: numbe
 }
 
 // Convert hex to ColorValue
-export function hexToColorValue(hex: string, alpha: number = 1): ColorValue {
+export function hexToColorValue(hex: string | ColorValue, alpha: number = 1): ColorValue {
+  // Safeguard: if hex is already a ColorValue object, just return it with updated alpha
+  if (typeof hex === 'object' && hex !== null && 'hexa' in hex) {
+    const colorValue = hex as ColorValue;
+    return {
+      ...colorValue,
+      rgba: { ...colorValue.rgba, a: alpha },
+      hsva: { ...colorValue.hsva, a: alpha }
+    };
+  }
+  
+  // Ensure hex is a string
+  if (typeof hex !== 'string') {
+    return {
+      hexa: '#000000',
+      rgba: { r: 0, g: 0, b: 0, a: alpha },
+      hsva: { h: 0, s: 0, v: 0, a: alpha }
+    };
+  }
+  
   const rgb = hexToRgb(hex);
   if (!rgb) {
     return {

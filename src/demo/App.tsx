@@ -1,6 +1,5 @@
+import '../css/index.css'
 import './App.css'
-import './example.css'
-import '../ColorPicker.css'
 import { Content } from './content'
 
 function App() {

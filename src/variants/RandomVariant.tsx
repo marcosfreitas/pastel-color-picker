@@ -3,52 +3,55 @@
 import React, { ReactNode } from 'react';
 import { Button } from '../components/ui/button';
 import { cn } from '../utils/cn';
-import { ColorValue } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { Shuffle } from 'lucide-react';
 
-interface RandomVariantProps {
-  localColor: ColorValue;
-  handleRandomColor: () => void;
-  isPastel: boolean;
-  label?: string;
-  size: 'sm' | 'md' | 'lg';
-  disabled: boolean;
-  className?: string;
-  children?: ReactNode;
+interface RandomVariantProps extends Pick<ColorPickerDialogProps, 'presets' | 'defaultColor' | 'colorMode' | 'onColorChange'>, Omit<ColorPickerVariantProps, 'variant'> {
+  // No additional variant-specific properties needed
 }
 
 export function RandomVariant({
-  localColor,
-  handleRandomColor,
-  isPastel,
-  label,
+  // ColorPickerDialogProps
+  defaultColor,
+  presets,
+  colorMode,
+  onColorChange,
+  
+  // ColorPickerVariantProps (excluding variant)
   size,
   disabled,
+  label,
   className,
   children
 }: RandomVariantProps) {
-  const borderColor = localColor.hexa || '#000000';
+  // Guard against undefined defaultColor
+  if (!defaultColor) {
+    return null;
+  }
+
+  const borderColor = defaultColor.hexa || '#000000';
+  
+  const randomClasses = cn(
+    'pcp-random',
+    disabled && 'pcp-random--disabled',
+    className
+  );
   
   return (
     <Button
       type="button"
-      className={cn(
-        'color-picker-random relative flex-shrink-0 w-auto',
-        `color-picker-random--${size}`,
-        disabled && 'color-picker-random--disabled',
-        className
-      )}
+      className={randomClasses}
       variant="outline"
       size={size === 'md' ? 'default' : size}
       disabled={disabled}
-      onClick={handleRandomColor}
+      onClick={() => onColorChange(defaultColor, true)}
       style={{
         borderBottom: `4px solid ${borderColor}`
       }}
-      aria-label={`Generate random ${isPastel ? 'pastel' : 'vibrant'} color`}
+      aria-label={`Generate random ${colorMode === 'pastel' ? 'pastel' : 'vibrant'} color`}
     >
-      {children || <Shuffle className="w-4 h-4" />}
-      {label && <span className="ml-2">{label}</span>}
+      {children || <Shuffle className="pcp-random__icon" />}
+      {label && <span className="pcp-random__label">{label}</span>}
     </Button>
   );
 } 

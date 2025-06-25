@@ -1,13 +1,10 @@
-@import "tailwindcss";
+/* Example page custom styles - for demo presentation only */
+/* The component library itself is completely independent of Tailwind */
 
-/* Color scheme classes for example page */
+/* Color scheme classes for example page - LIGHT MODE ONLY */
 .example-bg {
   background-color: #FDF9EF;
   transition: background-color 0.3s ease;
-}
-
-.dark .example-bg {
-  background-color: #0A0A0A;
 }
 
 .example-title-main {
@@ -15,24 +12,12 @@
   transition: color 0.3s ease;
 }
 
-.dark .example-title-main {
-  color: #E8F4FD; /* light blue for dark theme */
-}
-
 .example-title-secondary {
   color: #388BE9;
   transition: color 0.3s ease;
-}
-
-.dark .example-title-secondary {
-  color: #66A3FF; /* lighter blue for dark theme */
 }
 
 .example-text {
   color: #0B3462;
   transition: color 0.3s ease;
 }
-
-.dark .example-text {
-  color: #B8D4F0; /* soft blue-gray for dark theme */
-} 

@@ -1,0 +1,128 @@
+/* ===== CIRCLES VARIANT STYLES ===== */
+/* Block: pcp-circles - Circles variant component using BEM methodology */
+
+.pcp-circles {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Element: pcp-circles__circle - Individual color circle */
+.pcp-circles__circle {
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 200ms ease;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  background: none;
+  padding: 0;
+}
+
+.pcp-circles__circle:hover:not(:disabled) {
+  transform: scale(1.1);
+  border-color: rgb(209 213 219);
+}
+
+.pcp-circles__circle:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}
+
+/* Element: pcp-circles__more-button - More colors button */
+.pcp-circles__more-button {
+  border-radius: 50%;
+  border: 2px dashed rgb(209 213 219);
+  transition: all 200ms ease;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(249 250 251);
+  color: rgb(107 114 128);
+}
+
+.pcp-circles__more-button:hover:not(:disabled) {
+  transform: scale(1.1);
+  border-color: rgb(156 163 175);
+  background-color: rgb(243 244 246);
+}
+
+.pcp-circles__more-button:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}
+
+/* Modifier: pcp-circles__circle--selected - Selected circle */
+.pcp-circles__circle--selected {
+  border-color: rgb(0 0 0);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  transform: scale(1.05);
+}
+
+/* Modifier: pcp-circles__circle--disabled - Disabled circle */
+.pcp-circles__circle--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pcp-circles__circle--disabled:hover {
+  transform: none;
+  border-color: transparent;
+}
+
+/* Modifier: pcp-circles__more-button--disabled - Disabled more button */
+.pcp-circles__more-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pcp-circles__more-button--disabled:hover {
+  transform: none;
+  border-color: rgb(209 213 219);
+  background-color: rgb(249 250 251);
+}
+
+/* Modifier: pcp-circles--disabled - Disabled circles container */
+.pcp-circles--disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Size modifiers */
+.pcp-circles--size-sm .pcp-circles__circle,
+.pcp-circles--size-sm .pcp-circles__more-button {
+  width: 2rem;
+  height: 2rem;
+}
+
+.pcp-circles--size-md .pcp-circles__circle,
+.pcp-circles--size-md .pcp-circles__more-button {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.pcp-circles--size-lg .pcp-circles__circle,
+.pcp-circles--size-lg .pcp-circles__more-button {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Icon size adjustments */
+.pcp-circles--size-sm .pcp-circles__more-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pcp-circles--size-md .pcp-circles__more-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.pcp-circles--size-lg .pcp-circles__more-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+} 

@@ -1,0 +1,61 @@
+/* ===== COLOR BAR COMPONENT STYLES ===== */
+/* Block: pcp-color-bar - Color spectrum bar with draggable thumb */
+
+.pcp-color-bar {
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  border-radius: calc(var(--pcp-radius) * 0.5);
+  border: 1px solid hsl(var(--pcp-color-border));
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  overflow: visible;
+}
+
+/* Element: pcp-color-bar__indicator - Position line indicator */
+.pcp-color-bar__indicator {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 100%;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* Element: pcp-color-bar__thumb - Draggable circle thumb (same as slider) */
+.pcp-color-bar__thumb {
+  position: absolute;
+  top: 50%;
+  display: block;
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 50%;
+  border: 1px solid hsl(var(--pcp-color-primary));
+  background-color: hsl(var(--pcp-color-background));
+  transform: translate(-50%, -50%);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+  cursor: move;
+}
+
+/* Modifier: pcp-color-bar__thumb--interactive - Interactive thumb styles */
+.pcp-color-bar__thumb--interactive {
+}
+
+.pcp-color-bar__thumb--interactive:hover,
+.pcp-color-bar__thumb--interactive:focus-visible {
+  box-shadow: 0 0px 0px 4px rgb(0 0 0 / 0.25);
+  transform: translate(-50%, -50%) scale(1.05);
+  cursor: grab;
+}
+
+.pcp-color-bar__thumb--interactive:active {
+  box-shadow: 0 0px 0px 4px rgb(0 0 0 / 0.25);
+  cursor: grabbing;
+}
+
+.pcp-color-bar__thumb--interactive:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}
