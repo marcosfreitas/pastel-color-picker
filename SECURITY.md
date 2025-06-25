@@ -6,8 +6,8 @@ The following table outlines which versions currently receive security updates:
 
 | Version  | Status                |
 | -------- | --------------------- |
-| `^3.0.0` | ✅ Supported           |
-| `<3.0.0` | ❌ No longer supported |
+| `^4.0.0` | ✅ Supported           |
+| `<=3.0.0` | ❌ No longer supported |
 
 > ⚠️ **Note:** Version 4.x will become the active branch after its release. Version 3.x will then be **deprecated** and no longer receive security updates.
 
