@@ -1,31 +1,33 @@
 # 🎨 Pastel Color Picker
 
+[![npm version](https://img.shields.io/npm/v/%40marcosfreitas%2Fpastel-color-picker)](https://www.npmjs.com/package/@marcosfreitas/pastel-color-picker)
+[![Node.js](https://img.shields.io/badge/Node.js-22+-brightgreen.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-22+-green.svg)](https://reactjs.org/)
+[![React](https://img.shields.io/badge/React-19+-green.svg)](https://reactjs.org/)
 
-A comprehensive React color picker component with multiple variants, pastel color support, and alpha channel control. Built with Radix UI primitives and styled with Tailwind CSS.
+A comprehensive React color picker component with multiple variants, pastel color support, and alpha channel control. Built with Radix UI primitives and modern CSS architecture.
 
 ## ✨ Features
 
-- **🎯 Multiple Variants**: Button, Circles, Simple, and Random color selection modes
-- **🌈 Pastel & Vibrant Colors**: Toggle between soft pastel and vibrant color palettes
+- **🎯 Multiple Variants**: Button, Circles, and Random color selection modes
+- **🌈 Pastel & Vivid Colors**: Toggle between soft pastel and vibrant color palettes
 - **💧 Alpha Channel Support**: Control transparency with optional alpha slider
 - **📱 Responsive Design**: Works perfectly on both small and large screens
 - **🎨 Custom Presets**: Define your own color palettes
 - **♿ Accessibility**: Full keyboard navigation and screen reader support
 - **🔧 TypeScript**: Complete type safety with detailed interfaces
-- **⚡ Modern Stack**: Built with Radix UI primitives and Tailwind CSS
+- **⚡ Modern Stack**: Built with Radix UI primitives and BEM CSS methodology
 
 ## 🎯 How It Works
 
-The color picker uses the **HSL (Hue, Saturation, Lightness)** color model, which provides an intuitive way to select colors by separating color properties:
+The color picker uses the **HSV (Hue, Saturation, Value)** color model, which provides an intuitive way to select colors by separating color properties:
 
 ### 🌈 Color Theory
 
-**HSL Color Model Components:**
+**HSV Color Model Components:**
 - **Hue (H)**: The color type (0-360°) - Red, Orange, Yellow, Green, Blue, Purple, etc.
 - **Saturation (S)**: Color intensity (0-100%) - Gray to Vivid
-- **Lightness (L)**: Brightness (0-100%) - Black to White
+- **Value (V)**: Brightness (0-100%) - Black to Bright
 
 ### 🔄 User Selection Process
 
@@ -40,8 +42,8 @@ The color picker uses the **HSL (Hue, Saturation, Lightness)** color model, whic
 
 3. **🎛️ Fine-tune Color Properties**
    - **Saturation Slider**: Adjust color intensity (0% = Gray ↔ 100% = Vivid)
-   - **Lightness Slider**: Adjust brightness (0% = Black ↔ 100% = White)
-   - **Opacity Slider**: Control transparency (optional)
+   - **Value Slider**: Adjust brightness (0% = Black ↔ 100% = Bright)
+   - **Alpha Slider**: Control transparency (optional)
 
 4. **📍 Real-time Feedback**
    - Position indicator moves on the color bar as you adjust sliders
@@ -54,17 +56,16 @@ The color picker uses the **HSL (Hue, Saturation, Lightness)** color model, whic
 Step 1: "I want a blue color" → Move hue slider to ~240°
 Step 2: Color bar shows [White ████ Blue ████ Black]
 Step 3: "Make it more vivid" → Increase saturation to 80%
-Step 4: "Make it lighter" → Increase lightness to 70%
+Step 4: "Make it brighter" → Increase value to 70%
 Step 5: Position indicator shows exactly where your color is: [White ██●█ Blue ████ Black]
-Result: Beautiful light blue color! 🎉
+Result: Beautiful bright blue color! 🎉
 ```
 
 ### 🎨 Color Variants
 
-- **2D Color Area** (optional): Interactive canvas for selecting saturation and lightness simultaneously
+- **2D Color Area** (optional): Interactive canvas for selecting saturation and value simultaneously
 - **Individual Sliders** (default): Separate controls for precise adjustment
-- **Simple Mode**: Hue-only selection for quick color changes
-- **Random Mode**: Generate colors within pastel or vibrant ranges
+- **Random Mode**: Generate colors within pastel or vivid ranges
 
 ## 🚀 Demo
 
@@ -81,23 +82,27 @@ npm install @marcosfreitas/pastel-color-picker
 ### Peer Dependencies
 
 ```bash
-npm install react react-dom @radix-ui/react-dialog @radix-ui/react-slider lucide-react clsx
+npm install react react-dom
 ```
+
+*Note: All other dependencies (Radix UI, Lucide React, etc.) are bundled with the package.*
 
 ## 🎯 Quick Start
 
 ```tsx
-import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker';
+import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+import '@marcosfreitas/pastel-color-picker/style.css';
+import { useState } from 'react';
 
 function App() {
   const [color, setColor] = useState<ColorValue>();
 
   return (
     <ColorPicker
-      value={color}
-      onChange={setColor}
+      defaultColor={color}
+      onColorChange={setColor}
       variant="button"
-      isPastel={true}
+      colorMode={ColorMode.PASTEL}
       showAlpha={true}
     />
   );
@@ -110,20 +115,36 @@ function App() {
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `value` | `ColorValue` | `black (#000000)` | Current color value |
-| `onChange` | `(color: ColorValue) => void` | - | Callback when color changes |
-| `variant` | `'circles' \| 'button' \| 'random' \| 'simple'` | `'button'` | Presentation variant |
-| `isPastel` | `boolean` | `true` | Whether to use pastel colors |
+| `defaultColor` | `ColorValue` | first preset color | Current color value |
+| `onColorChange` | `(color: ColorValue, random?: boolean) => void` | - | Callback when color changes |
+| `variant` | `'button' \| 'circles' \| 'random'` | `'button'` | Presentation variant |
+| `colorMode` | `'pastel' \| 'vivid'` | `'pastel'` | Color generation mode |
+| `presets` | `string[]` | pastel/vivid colors | Custom preset colors (hex values) |
+| `title` | `string` | `'Color Picker'` | Dialog title |
 | `showAlpha` | `boolean` | `true` | Whether to show alpha channel controls |
-| `showColorArea` | `boolean` | `false` | Whether to show 2D color area instead of individual sliders |
+| `showColorArea` | `boolean` | `false` | Whether to show 2D color area instead of color bar |
 | `hideSliders` | `boolean` | `false` | Whether to hide all slider controls in dialogs |
-| `presetColors` | `string[]` | - | Custom preset colors (hex values) |
+| `showPresets` | `boolean` | `true` | Show preset colors in dialog |
+| `showHue` | `boolean` | `true` | Show hue slider |
+| `showSaturation` | `boolean` | `true` | Show saturation slider |
+| `showLightness` | `boolean` | `true` | Show lightness/value slider |
+| `showRandomButton` | `boolean` | `true` | Show random color button |
 | `className` | `string` | - | Custom CSS class |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `disabled` | `boolean` | `false` | Disabled state |
-| `showPresets` | `boolean` | `true` | Show preset colors in dialog |
-| `showIcon` | `boolean` | `true` | Whether to show icons in button variants |
-| `label` | `string` | - | Label text to display with the button/random/simple variants |
+| `label` | `string` | - | Label text to display with the button/random variants |
+| `children` | `ReactNode` | - | Custom content for trigger button |
+
+### Event Callbacks
+
+| Callback | Type | Description |
+|----------|------|-------------|
+| `onColorChange` | `(color: ColorValue, random?: boolean) => void` | Called when color changes |
+| `onPresetClick` | `(color: ColorValue) => void` | Called when preset color is clicked |
+| `onHueChange` | `(hue: number[]) => void` | Called when hue slider changes |
+| `onSaturationChange` | `(saturation: number[]) => void` | Called when saturation slider changes |
+| `onLightnessChange` | `(lightness: number[]) => void` | Called when lightness slider changes |
+| `onAlphaChange` | `(alpha: number[]) => void` | Called when alpha slider changes |
 
 ### ColorValue Interface
 
@@ -135,13 +156,27 @@ interface ColorValue {
 }
 ```
 
+### ColorMode Enum
+
+```tsx
+enum ColorMode {
+  PASTEL = 'pastel',
+  VIVID = 'vivid'
+}
+```
+
 ## 🎨 Variants
 
 ### Button Variant (Default)
 Displays a colored button that opens a full-featured color picker dialog.
 
 ```tsx
-<ColorPicker variant="button" size="md" />
+<ColorPicker 
+  variant="button" 
+  size="md"
+  colorMode={ColorMode.PASTEL}
+  onColorChange={(color) => console.log(color)}
+/>
 ```
 
 ### Circles Variant
@@ -150,36 +185,35 @@ Shows preset color circles with an option to open the full picker.
 ```tsx
 <ColorPicker 
   variant="circles" 
-  presetColors={['#FF6B6B', '#4ECDC4', '#45B7D1']} 
+  presets={['#FF6B6B', '#4ECDC4', '#45B7D1']}
+  colorMode={ColorMode.VIVID}
+  onColorChange={(color) => console.log(color)}
 />
-```
-
-### Simple Variant
-A simplified version with only hue selection.
-
-```tsx
-<ColorPicker variant="simple" />
 ```
 
 ### Random Variant
 Generates random colors with a colored bottom border indicator.
 
 ```tsx
-<ColorPicker variant="random" isPastel={true} />
+<ColorPicker 
+  variant="random" 
+  colorMode={ColorMode.PASTEL}
+  onColorChange={(color) => console.log(color)}
+/>
 ```
 
 ## 🌈 Color Modes
 
 ### Pastel Colors
-When `isPastel={true}`:
+When `colorMode="pastel"`:
 - Saturation: 70-100%
-- Lightness: 75-90%
+- Value: 75-90%
 - Perfect for soft, elegant designs
 
-### Vibrant Colors
-When `isPastel={false}`:
+### Vivid Colors
+When `colorMode="vivid"`:
 - Saturation: 50-100%
-- Lightness: 40-80%
+- Value: 40-80%
 - Great for bold, energetic designs
 
 ## 🎯 Advanced Usage
@@ -187,6 +221,9 @@ When `isPastel={false}`:
 ### Custom Theme Integration
 
 ```tsx
+import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+import '@marcosfreitas/pastel-color-picker/style.css';
+
 function ThemeColorPicker() {
   const [themeColor, setThemeColor] = useState<ColorValue>();
 
@@ -203,9 +240,10 @@ function ThemeColorPicker() {
   return (
     <ColorPicker
       variant="button"
-      value={themeColor}
-      onChange={handleColorChange}
+      defaultColor={themeColor}
+      onColorChange={handleColorChange}
       showAlpha={false}
+      colorMode={ColorMode.VIVID}
     />
   );
 }
@@ -221,9 +259,10 @@ const brandColors = [
 
 <ColorPicker
   variant="circles"
-  presetColors={brandColors}
-  showPresets={false}
-  isPastel={false}
+  presets={brandColors}
+  showPresets={true}
+  colorMode={ColorMode.VIVID}
+  onColorChange={(color) => console.log('Brand color:', color)}
 />
 ```
 
@@ -236,8 +275,8 @@ function MinimalistPicker() {
   return (
     <ColorPicker
       variant="button"
-      value={color}
-      onChange={setColor}
+      defaultColor={color}
+      onColorChange={setColor}
       hideSliders={true}
       showColorArea={true}
       showPresets={false}
@@ -256,8 +295,8 @@ function TransparencyPicker() {
   return (
     <ColorPicker
       variant="button"
-      value={bgColor}
-      onChange={setBgColor}
+      defaultColor={bgColor}
+      onColorChange={setBgColor}
       showAlpha={true}
       showColorArea={true}
       hideSliders={false}
@@ -280,8 +319,8 @@ function ColorForm() {
       <div>
         <label>Background Color</label>
         <ColorPicker
-          value={formData.backgroundColor}
-          onChange={(color) => setFormData(prev => ({
+          defaultColor={formData.backgroundColor}
+          onColorChange={(color) => setFormData(prev => ({
             ...prev,
             backgroundColor: color
           }))}
@@ -291,8 +330,8 @@ function ColorForm() {
       <div>
         <label>Text Color</label>
         <ColorPicker
-          value={formData.textColor}
-          onChange={(color) => setFormData(prev => ({
+          defaultColor={formData.textColor}
+          onColorChange={(color) => setFormData(prev => ({
             ...prev,
             textColor: color
           }))}
@@ -306,22 +345,16 @@ function ColorForm() {
 
 ## 🎨 Styling
 
-The component uses Tailwind CSS for styling. Make sure to include the required CSS variables:
+The component uses a modern CSS architecture with BEM methodology and scoped variables. You can customize the appearance by overriding CSS custom properties:
 
 ```css
 :root {
-  --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
-  --primary: 222.2 47.4% 11.2%;
-  --primary-foreground: 210 40% 98%;
-  --secondary: 210 40% 96%;
-  --secondary-foreground: 222.2 84% 4.9%;
-  --muted: 210 40% 96%;
-  --muted-foreground: 215.4 16.3% 46.9%;
-  --border: 214.3 31.8% 91.4%;
-  --input: 214.3 31.8% 91.4%;
-  --ring: 222.2 84% 4.9%;
-  --radius: 0.5rem;
+  --pcp-color-border: 0 0% 10%;
+  --pcp-color-background: 0 0% 100%;
+  --pcp-color-foreground: 222.2 84% 4.9%;
+  --pcp-color-primary: 222.2 47.4% 11.2%;
+  --pcp-color-primary-foreground: 210 40% 98%;
+  --pcp-radius: 0.5rem;
 }
 ```
 
@@ -356,31 +389,30 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 ## 🙏 Acknowledgments
 
 - Built with [Radix UI](https://radix-ui.com/) primitives
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
 - Icons from [Lucide React](https://lucide.dev/)
 - Inspired by modern design systems
 
 ---
 
-Made with ❤️ by [Ordinary Link]([https://github.com/marcosfreitas](https://marcosfreitas.co/))
+Made with ❤️ by [Marcos Freitas](https://marcosfreitas.co/)
 
-## Usage Options
+## 📖 Usage Options
 
 This library provides **three different usage patterns** to fit different needs:
 
 ### Option 1: Self-Contained (Recommended for Quick Setup)
 
 ```typescript
-import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
+import { ColorPicker, ColorMode } from '@marcosfreitas/pastel-color-picker';
 import '@marcosfreitas/pastel-color-picker/style.css';
 
-// Works out of the box - no Tailwind config needed
+// Works out of the box - no additional setup needed
 ```
 
 ### Option 2: Headless (Best for Tailwind v4 Projects)
 
 ```typescript
-import { ColorPicker } from '@marcosfreitas/pastel-color-picker/headless';
+import { ColorPicker, ColorMode } from '@marcosfreitas/pastel-color-picker/headless';
 
 // No CSS import needed - uses your Tailwind config
 // Ensure your tailwind.config includes the package in content:
@@ -403,7 +435,7 @@ import { ColorPicker } from '@marcosfreitas/pastel-color-picker/headless';
 ### Option 3: Source Import (Maximum Customization)
 
 ```typescript
-import { ColorPicker } from '@marcosfreitas/pastel-color-picker/src';
+import { ColorPicker, ColorMode } from '@marcosfreitas/pastel-color-picker/src';
 
 // Direct source import - full control over styling
 ```
@@ -418,21 +450,51 @@ import { ColorPicker } from '@marcosfreitas/pastel-color-picker/src';
 | 🔧 **Need to modify components** | Source | Direct access to component code |
 | 📦 **Bundle size matters** | **Headless** | ~35KB CSS savings |
 
-## Usage
+## 🚀 Complete Example
 
 ```tsx
-import { ColorPicker } from '@marcosfreitas/pastel-color-picker';
-import '@marcosfreitas/pastel-color-picker/style.css'; // Don't forget this!
+import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+import '@marcosfreitas/pastel-color-picker/style.css';
+import { useState } from 'react';
 
 function App() {
-  const [color, setColor] = useState('#ff6b6b');
+  const [color, setColor] = useState<ColorValue>();
+
+  const handleColorChange = (newColor: ColorValue, isRandom?: boolean) => {
+    console.log('Color changed:', newColor);
+    if (isRandom) {
+      console.log('This was a random color generation!');
+    }
+    setColor(newColor);
+  };
 
   return (
-    <ColorPicker
-      value={color}
-      onChange={setColor}
-      variant="circles"
-    />
+    <div>
+      <h1>My Color Picker App</h1>
+      
+      <ColorPicker
+        variant="circles"
+        defaultColor={color}
+        onColorChange={handleColorChange}
+        colorMode={ColorMode.PASTEL}
+        showAlpha={true}
+        title="Choose Your Color"
+        onPresetClick={(presetColor) => console.log('Preset clicked:', presetColor)}
+      />
+      
+      {color && (
+        <div 
+          style={{ 
+            width: 100, 
+            height: 100, 
+            backgroundColor: color.hexa,
+            marginTop: 20
+          }}
+        >
+          Selected: {color.hexa}
+        </div>
+      )}
+    </div>
   );
 }
 ```
@@ -448,22 +510,5 @@ module.exports = {
     './node_modules/@marcosfreitas/pastel-color-picker/**/*.js', // Add this!
   ],
   // ... rest of your config
-}
-```
-
-### Troubleshooting Missing Classes
-
-If you see unstyled components with the headless version:
-
-1. **Check content path**: Ensure the package is included in your Tailwind content
-2. **Verify utilities**: Make sure your project has these utilities:
-   - `size-4`, `ring-ring/50`, `outline-hidden`, `focus-visible:ring-4`
-3. **Add missing utilities**: Add them to your CSS if needed:
-
-```css
-@layer utilities {
-  .size-4 { width: 1rem; height: 1rem; }
-  .ring-ring\/50 { --tw-ring-color: oklch(var(--ring) / 0.5); }
-  .outline-hidden { outline: 2px solid transparent; }
-}
+};
 ```
