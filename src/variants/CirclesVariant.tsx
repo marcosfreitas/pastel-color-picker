@@ -3,8 +3,9 @@
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
+import { hexToRgb } from '../utils/colorUtils';
 
 interface CirclesVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
   // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
@@ -57,10 +58,40 @@ export function CirclesVariant({
     className
   );
 
+  // Create display presets and determine selection logic
+  const getDisplayPresetsAndSelection = () => {
+    const firstThreePresets = presets.slice(0, 3);
+    const normalizeColor = (colorStr: string) => colorStr.replace('#', '').toLowerCase();
+    const selectedColorNormalized = normalizeColor(defaultColor.hexa);
+    
+    // Check if selected color matches any of the first 3 presets
+    const matchingPresetIndex = firstThreePresets.findIndex(preset => 
+      normalizeColor(preset) === selectedColorNormalized
+    );
+    
+    let displayPresets;
+    let selectedIndex;
+    
+    if (matchingPresetIndex !== -1) {
+      // Selected color is one of the first 3 presets
+      displayPresets = [...firstThreePresets, presets[3] || firstThreePresets[0]];
+      selectedIndex = matchingPresetIndex;
+    } else {
+      // Selected color is not in first 3, put it in 4th position
+      displayPresets = [...firstThreePresets, defaultColor.hexa];
+      selectedIndex = 3;
+    }
+    
+    return { displayPresets, selectedIndex };
+  };
+
+  const { displayPresets, selectedIndex } = getDisplayPresetsAndSelection();
+
   return (
     <div className={containerClasses}>
-      {presets.slice(0, 4).map((color, index) => {
-        const isSelected = defaultColor.hexa.toLowerCase() === color.toLowerCase();
+      {displayPresets.map((color, index) => {
+        const isSelected = index === selectedIndex;
+
         const circleClasses = cn(
           'pcp-circles__circle',
           isSelected && 'pcp-circles__circle--selected',
@@ -76,7 +107,7 @@ export function CirclesVariant({
             style={{ backgroundColor: color }}
             onClick={() => {
               if (onPresetClick) {
-                onPresetClick(color);
+                onPresetClick(color as unknown as ColorValue);
               }
             }}
             aria-label={`Select color ${color}`}

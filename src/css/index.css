@@ -10,10 +10,10 @@
 @import './color-picker.css';
 @import './circles.css';
 @import './slider.css';
-@import './badge.css';
 @import './label.css';
 @import './separator.css';
 @import './color-bar.css';
+@import './color-area.css';
 
 /* Variant styles */
 @import './random.css';

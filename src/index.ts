@@ -1,6 +1,6 @@
 // Main exports
 export { ColorPicker } from './ColorPicker';
-export type { ColorValue, ColorPickerProps, ColorPickerVariant } from './types';
+export type { ColorValue, ColorPickerDialogProps, ColorPickerVariant } from './types';
 export { generateRandomColor, hexToColorValue } from './utils/colorUtils';
 
 // Component exports
@@ -31,10 +31,7 @@ export {
 } from './constants';
 
 // Utility functions
-export { generatePastelFromRgb } from './utils/colorUtils';
+export { generatePastelFromRgb,hexToRgb,hslToRgb,hsvToRgb,rgbToHex,rgbToHsl,rgbToHsv } from './utils/colorUtils';
 
 // Types
 export type { ButtonProps } from './components/ui/button';
-
-// CSS
-import './ColorPicker.css'; 

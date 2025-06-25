@@ -158,7 +158,20 @@
 }
 
 /* When button has content (label or children), use flexible sizing */
-.pcp-button--color-picker .pcp-button__content {
+.pcp-button--color-picker.pcp-button__content {
+  width: auto;
+  height: auto;
   min-width: fit-content;
+  min-height: 2.5rem;
   padding: 0.5rem 0.75rem;
+}
+
+.pcp-button--color-picker.pcp-button__content.pcp-button--size-sm {
+  min-height: 2rem;
+  padding: 0.375rem 0.5rem;
+}
+
+.pcp-button--color-picker.pcp-button__content.pcp-button--size-lg {
+  min-height: 3rem;
+  padding: 0.75rem 1rem;
 } 

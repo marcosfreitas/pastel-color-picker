@@ -51,6 +51,22 @@
   height: 3rem;
 }
 
+/* When simple has content, use flexible sizing */
+.pcp-simple:has(.pcp-simple__content) {
+  width: auto;
+  height: auto;
+  min-width: fit-content;
+  min-height: 2.5rem;
+}
+
+.pcp-simple--size-sm:has(.pcp-simple__content) {
+  min-height: 2rem;
+}
+
+.pcp-simple--size-lg:has(.pcp-simple__content) {
+  min-height: 3rem;
+}
+
 /* Modifier: pcp-simple--disabled - Disabled simple variant */
 .pcp-simple--disabled {
   opacity: 0.5;

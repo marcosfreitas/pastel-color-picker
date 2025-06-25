@@ -17,4 +17,9 @@
 .pcp-random--disabled {
   opacity: 0.5;
   cursor: not-allowed;
-} 
+}
+
+.pcp-random__icon {
+  width: 1rem;
+  height: 1rem;
+}

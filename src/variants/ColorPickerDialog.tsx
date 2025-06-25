@@ -48,8 +48,6 @@ export function ColorPickerDialog({
     alpha: false
   });
 
-  console.log('ColorPickerDialog presets:', presets);
-
   const handleColorAreaChange = (saturation: number, value: number) => {
     // Only update if individual sliders are not being dragged
     if (!dragStates.hue && !dragStates.saturation && !dragStates.lightness && !dragStates.alpha) {
@@ -89,41 +87,19 @@ export function ColorPickerDialog({
 
   // Comprehensive preset handler that triggers all necessary callbacks
   const handlePresetClick = (preset: string) => {
-    console.log('Preset clicked:', preset, typeof preset);
-    
-    // Safeguard: ensure preset is a string
-    if (typeof preset !== 'string') {
-      console.error('Invalid preset type:', typeof preset, preset);
-      return;
-    }
-    
     const colorValue = hexToColorValue(preset, defaultColor.rgba.a);
-    console.log('Color value from hexToColorValue:', colorValue);
-    
-    console.log('Triggering callbacks...');
     
     // Trigger all individual slider callbacks to ensure parent component updates
-    console.log('Calling onHueChange with:', [colorValue.hsva.h]);
     onHueChange?.([colorValue.hsva.h]);
-    
-    console.log('Calling onSaturationChange with:', [colorValue.hsva.s]);
     onSaturationChange?.([colorValue.hsva.s]);
-    
-    console.log('Calling onLightnessChange with:', [colorValue.hsva.v]);
     onLightnessChange?.([colorValue.hsva.v]);
-    
-    console.log('Calling onAlphaChange with:', [Math.round(colorValue.rgba.a * 100)]);
     onAlphaChange?.([Math.round(colorValue.rgba.a * 100)]);
     
     // Trigger the main color change callback
-    console.log('Calling onColorChange with:', colorValue);
     onColorChange(colorValue);
     
     // Trigger the preset click callback
-    console.log('Calling onPresetClick with:', colorValue);
     onPresetClick?.(colorValue);
-    
-    console.log('All callbacks triggered');
   };
 
   // Create the gradient with alpha
@@ -281,13 +257,13 @@ export function ColorPickerDialog({
         {showRandomButton && (
           <>
             <div className="pcp-color-picker__separator"></div>
-            <div className="pcp-color-picker__actions">
+            <div className="pcp-color-picker__actions pcp-random">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => onRandomColor?.(defaultColor)}
               >
-                <Shuffle />
+                <Shuffle className="pcp-random__icon" />
                 Random {colorMode === 'pastel' ? 'Pastel' : 'Color'}
               </Button>
             </div>

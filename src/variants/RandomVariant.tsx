@@ -65,7 +65,7 @@ export function RandomVariant({
       }}
       aria-label={`Generate random ${colorMode === 'pastel' ? 'pastel' : 'vibrant'} color`}
     >
-      {children || <Shuffle />}
+      {children || <Shuffle className="pcp-random__icon" />}
       {label && <span className="pcp-random__label">{label}</span>}
     </Button>
   );

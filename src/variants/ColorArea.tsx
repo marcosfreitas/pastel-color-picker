@@ -113,7 +113,8 @@ export function ColorArea({
     <div
       ref={canvasRef}
       className={cn(
-        'pcp-relative pcp-w-full pcp-h-48 pcp-rounded-lg pcp-border pcp-cursor-crosshair pcp-overflow-hidden',
+        'pcp-color-area',
+        isDragging && 'pcp-color-area--dragging',
         className
       )}
       style={{
@@ -127,11 +128,10 @@ export function ColorArea({
     >
       {/* Cursor */}
       <div
-        className="pcp-absolute pcp-w-4 pcp-h-4 pcp-border-2 pcp-border-white pcp-rounded-full pcp-shadow-lg pcp-pointer-events-none pcp-transform pcp--translate-x-1/2 pcp--translate-y-1/2"
+        className="pcp-color-area__cursor"
         style={{
           left: `${cursorX}%`,
-          top: `${cursorY}%`,
-          boxShadow: '0 0 0 1px rgba(0,0,0,0.3), 0 2px 4px rgba(0,0,0,0.2)'
+          top: `${cursorY}%`
         }}
       />
     </div>

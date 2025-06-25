@@ -1,0 +1,42 @@
+/* ===== COLOR AREA COMPONENT STYLES ===== */
+/* Block: pcp-color-area - 2D color selection area with saturation/lightness control */
+
+.pcp-color-area {
+  position: relative;
+  width: 100%;
+  height: 12rem; /* 192px equivalent to h-48 */
+  border-radius: calc(var(--pcp-radius) * 1);
+  border: 1px solid hsl(var(--pcp-color-border));
+  cursor: crosshair;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+.pcp-color-area:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}
+
+/* Element: pcp-color-area__cursor - Circular cursor indicator */
+.pcp-color-area__cursor {
+  position: absolute;
+  width: 1rem; /* 16px equivalent to w-4 */
+  height: 1rem; /* 16px equivalent to h-4 */
+  border: 2px solid white;
+  border-radius: 50%;
+  box-shadow: 
+    0 0 0 1px rgba(0, 0, 0, 0.3), 
+    0 2px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: transform 100ms ease;
+}
+
+/* Modifier: pcp-color-area--dragging - Styles during drag interaction */
+.pcp-color-area--dragging {
+  cursor: grabbing;
+}
+
+.pcp-color-area--dragging .pcp-color-area__cursor {
+  transform: translate(-50%, -50%) scale(1.1);
+} 
