@@ -1,38 +1,45 @@
 'use client';
 
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { ColorMode, ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from './types';
 import { PRESET_COLORS, PRESET_PASTEL_COLORS } from './constants';
 import { generateRandomColor, hexToColorValue, hsvToRgb, rgbToHex } from './utils/colorUtils';
 import { ButtonVariant } from './variants/ButtonVariant';
 import { CirclesVariant } from './variants/CirclesVariant';
 import { RandomVariant } from './variants/RandomVariant';
-import { SimpleVariant } from './variants/SimpleVariant';
 import './css/index.css';
+
+const defaultColorValue: ColorValue = {
+  hexa: '#000000',
+  rgba: { r: 0, g: 0, b: 0, a: 1 },
+  hsva: { h: 0, s: 0, v: 0, a: 1 }
+};
 
 export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogProps) {
   const {
+    // ColorPickerVariantProps
     variant = 'button',
     size = 'md',
     disabled = false,
     label,
     children,
     className,
-    title,
+
+    // ColorPickerDialogProps
+    title = 'Color Picker',
     defaultColor,
     presets,
-    colorMode,
+    colorMode = ColorMode.PASTEL,
     showColorArea = false,
+    showPresets = true,
     hideSliders = false,
-    showPresets,
-    showHue,
-    showSaturation,
-    showLightness,
-    showAlpha,
-    showRandomButton,
-    onColorChange,
+    showHue = true,
+    showSaturation = true,
+    showLightness = true,
+    showAlpha = true,
+    showRandomButton = true,
     onPresetClick,
-    onRandomColor,
+    onColorChange,
     onHueChange,
     onSaturationChange,
     onLightnessChange,
@@ -49,7 +56,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
 
   // Get default color from first preset color
   const localDefaultColor = useMemo(() => {
-    const firstPresetColor = presetColors[0] || '#45B7D1'; // Fallback to original default
+    const firstPresetColor = presetColors[0];
     return hexToColorValue(firstPresetColor, 1);
   }, [presetColors]);
 
@@ -68,30 +75,34 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   }, [defaultColor, localDefaultColor]);
 
   // Call onChange with default color on initial render when no value is provided
+  const hasCalledInitialChange = useRef(false);
   useEffect(() => {
-    if (!defaultColor && onColorChange) {
+    if (!defaultColor && onColorChange && !hasCalledInitialChange.current) {
+      hasCalledInitialChange.current = true;
       onColorChange(localDefaultColor);
     }
-  }, [defaultColor, localDefaultColor, onColorChange]);
+  }, [defaultColor, localDefaultColor]);
 
-  const handleColorChange = useCallback((newColor: ColorValue) => {
-    setLocalColor(newColor);
-    onColorChange?.(newColor);
-  }, [onColorChange]);
+  const handleColorChange = useCallback((color: ColorValue, random?: boolean) => {
+    console.log('pcp color changed:', color, random);
+    if (random) {
+      const randomColor = generateRandomColor(colorMode === ColorMode.PASTEL);
+      setLocalColor(randomColor);
+      onColorChange?.(randomColor);
+    } else {
+      setLocalColor(color);
+      onColorChange?.(color);
+    }
+  }, [colorMode]);
 
-  const handleRandomColor = useCallback(() => {
-    const randomColor = generateRandomColor(colorMode === ColorMode.PASTEL);
-    handleColorChange(randomColor);
-    onRandomColor?.();
-  }, [colorMode, handleColorChange, onRandomColor]);
-
-  const handlePresetSelect = useCallback((hex: string) => {
-    const colorValue = hexToColorValue(hex, localColor.rgba.a);
-    handleColorChange(colorValue);
-    onPresetClick?.(hex);
-  }, [localColor.rgba.a, handleColorChange, onPresetClick]);
+  const handlePresetSelect = useCallback((color: ColorValue) => {
+    console.log('called handlePresetSelect');
+    handleColorChange(color);
+    onPresetClick?.(color);
+  }, [handleColorChange]);
 
   const handleHueChange = useCallback((hue: number[]) => {
+    console.log('called handleHueChange');
     const [r, g, b] = hsvToRgb(hue[0], localColor.hsva.s, localColor.hsva.v);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
@@ -101,9 +112,10 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     };
     handleColorChange(newColor);
     onHueChange?.(hue);
-  }, [localColor, handleColorChange, onHueChange]);
+  }, [localColor, handleColorChange]);
 
   const handleSaturationChange = useCallback((saturation: number[]) => {
+    console.log('called handleSaturationChange');
     const [r, g, b] = hsvToRgb(localColor.hsva.h, saturation[0], localColor.hsva.v);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
@@ -113,9 +125,10 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     };
     handleColorChange(newColor);
     onSaturationChange?.(saturation);
-  }, [localColor, handleColorChange, onSaturationChange]);
+  }, [localColor, handleColorChange]);
 
   const handleLightnessChange = useCallback((lightness: number[]) => {
+    console.log('called handleLightnessChange');
     const [r, g, b] = hsvToRgb(localColor.hsva.h, localColor.hsva.s, lightness[0]);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
@@ -125,9 +138,10 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     };
     handleColorChange(newColor);
     onLightnessChange?.(lightness);
-  }, [localColor, handleColorChange, onLightnessChange]);
+  }, [localColor, handleColorChange]);
 
   const handleAlphaChange = useCallback((alpha: number[]) => {
+    console.log('called handleAlphaChange');
     const newColor: ColorValue = {
       ...localColor,
       rgba: { ...localColor.rgba, a: alpha[0] / 100 },
@@ -135,10 +149,10 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     };
     handleColorChange(newColor);
     onAlphaChange?.(alpha);
-  }, [localColor, handleColorChange, onAlphaChange]);
+  }, [localColor, handleColorChange]);
 
   // Common props for all variants
-  const commonProps = {
+  const commonProps: ColorPickerDialogProps & Omit<ColorPickerVariantProps, 'variant'> = {
     // ColorPickerDialogProps
     title,
     defaultColor: localColor,
@@ -154,7 +168,6 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     showRandomButton,
     onColorChange: handleColorChange,
     onPresetClick: handlePresetSelect,
-    onRandomColor: handleRandomColor,
     onHueChange: handleHueChange,
     onSaturationChange: handleSaturationChange,
     onLightnessChange: handleLightnessChange,
@@ -184,15 +197,6 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
         return (
           <RandomVariant
             {...commonProps}
-          />
-        );
-
-      case 'simple':
-        return (
-          <SimpleVariant
-            {...commonProps}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
           />
         );
 

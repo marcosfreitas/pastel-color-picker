@@ -61,8 +61,8 @@ export function CustomPresetColorsSection() {
 
           <div className="text-xs text-muted-foreground">
             <strong>Note:</strong> When <code className="bg-muted px-1 py-0.5 rounded">presets</code> is provided, 
-            it overrides both pastel and vibrant default palettes. The <code className="bg-muted px-1 py-0.5 rounded">colorMode</code> prop 
-            does not make any difference in this case.
+            it overrides both pastel and vibrant default palettes. However, the <code className="bg-muted px-1 py-0.5 rounded">colorMode</code> prop 
+            still affects random color generation (when using the random button or random variant).
           </div>
         </div>
 

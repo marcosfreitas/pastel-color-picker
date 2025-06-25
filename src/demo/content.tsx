@@ -2,54 +2,24 @@
 
 import React, { useState } from 'react';
 import { ColorValue, ColorMode } from '../types';
-import { X, Menu, Settings, Zap, PaintBucket, Wrench, Download, Github } from 'lucide-react';
+import { X, Menu, Settings, PaintBucket, Wrench, Download, Github } from 'lucide-react';
 
 // Import section components
 import { HeroSection } from './sections/HeroSection';
 import { VariantExamplesSection } from './sections/VariantExamplesSection';
-import { PastelColorAnalysisSection } from './sections/PastelColorAnalysisSection';
+
 import { CustomPresetColorsSection } from './sections/CustomPresetColorsSection';
 import { ConfigurationApiSection } from './sections/ConfigurationApiSection';
 import { InstallationSection } from './sections/InstallationSection';
 
 export function Content() {
-  // Default colors for variants
-  const defaultColors = {
-    button: {
-      hexa: '#98FB98',
-      rgba: { r: 152, g: 251, b: 152, a: 1 },
-      hsva: { h: 120, s: 39.44, v: 98.43, a: 1 }
-    },
-    circles: {
-      hexa: '#FF6B6B',
-      rgba: { r: 255, g: 107, b: 107, a: 1 },
-      hsva: { h: 0, s: 58, v: 100, a: 1 }
-    },
-    random: {
-      hexa: '#45B7D1',
-      rgba: { r: 69, g: 183, b: 209, a: 1 },
-      hsva: { h: 191, s: 67, v: 82, a: 1 }
-    }
-  };
-
-  // Default presets
-  const defaultPresets = [
-    '#FFB6C1', '#FFA07A', '#FFE4B5', '#E6E6FA', '#F0E68C',
-    '#DDA0DD', '#98FB98', '#87CEEB', '#F5DEB3', '#FFB07A'
-  ];
 
   // State for global configuration
-  const [isPastel, setIsPastel] = useState(true);
-  const [showAlpha, setShowAlpha] = useState(true);
-  const [showPresets, setShowPresets] = useState(true);
-  const [showColorArea, setShowColorArea] = useState(false);
-  const [hideSliders, setHideSliders] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // State for each variant with individual configurations
   const [variantStates, setVariantStates] = useState({
     button: {
-      color: defaultColors.button,
       config: {
         size: 'md' as 'sm' | 'md' | 'lg',
         disabled: false,
@@ -66,7 +36,6 @@ export function Content() {
       }
     },
     circles: {
-      color: defaultColors.circles,
       config: {
         size: 'md' as 'sm' | 'md' | 'lg',
         disabled: false,
@@ -83,7 +52,7 @@ export function Content() {
       }
     },
     random: {
-      color: defaultColors.random,
+      color: undefined,
       config: {
         size: 'lg' as 'sm' | 'md' | 'lg',
         disabled: false,
@@ -103,8 +72,7 @@ export function Content() {
 
   // Navigation sections following backup layout
   const navigationSections = [
-    { title: 'Examples', href: 'live-config', icon: Settings },
-    { title: 'Color Analysis', href: 'pastel-color-analysis', icon: Zap },
+    { title: 'Examples', href: 'variant-examples', icon: Settings },
     { title: 'Custom Presets', href: 'custom-preset-colors', icon: PaintBucket },
     { title: 'Configuration', href: 'configuration-api', icon: Wrench },
     { title: 'Installation', href: 'installation', icon: Download },
@@ -139,7 +107,8 @@ export function Content() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const elementPosition = element.offsetTop - 20;
+      window.scrollTo({ top: elementPosition, behavior: 'smooth' });
       setSidebarOpen(false);
     }
   };
@@ -152,6 +121,7 @@ export function Content() {
           <div className="flex flex-col p-4 border-b border-gray-200 flex-shrink-0 space-y-3">
             <div className="flex items-center justify-between">
               <button
+                type="button"
                 onClick={() => setSidebarOpen(false)}
                 className="lg:hidden p-1 rounded-md hover:bg-gray-100"
               >
@@ -225,8 +195,7 @@ export function Content() {
             updateVariantColor={updateVariantColor}
           />
 
-          {/* Pastel Color Analysis */}
-          <PastelColorAnalysisSection />
+
 
           {/* Custom Preset Colors */}
           <CustomPresetColorsSection />
@@ -242,9 +211,11 @@ export function Content() {
       {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-40 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
-        />
+        >
+          <div className="fixed w-full h-full inset-0 z-40 bg-white opacity-50 lg:hidden" />
+        </div>
       )}
     </section>
   );

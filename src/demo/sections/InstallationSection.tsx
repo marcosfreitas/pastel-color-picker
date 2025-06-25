@@ -26,11 +26,14 @@ export function InstallationSection() {
           <div>
             <h3 className="font-medium mb-3 flex items-center gap-2">
               <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">Step 2</span>
-              Install Peer Dependencies
+              Ensure Peer Dependencies (if not already installed)
             </h3>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`npm install react react-dom @radix-ui/react-dialog @radix-ui/react-slider @radix-ui/react-separator @radix-ui/react-switch @radix-ui/react-label @radix-ui/react-slot lucide-react clsx class-variance-authority`}
+{`npm install react react-dom`}
             </pre>
+            <p className="text-xs text-muted-foreground mt-2">
+              All other dependencies (Radix UI, Lucide React, etc.) are bundled with the package.
+            </p>
           </div>
 
           {/* Usage Option 1: Self-Contained */}
@@ -43,7 +46,7 @@ export function InstallationSection() {
               Works immediately with bundled CSS utilities. Perfect for quick prototyping and new projects.
             </p>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker';
+{`import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
 import '@marcosfreitas/pastel-color-picker/style.css';
 import { useState } from 'react';
 
@@ -73,7 +76,7 @@ function App() {
               Uses your project's css utilities. Smaller bundle size (~35KB CSS savings).
             </p>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker/headless';
+{`import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker/headless';
 import { useState } from 'react';
 
 function App() {
@@ -102,7 +105,7 @@ function App() {
               Direct access to source code for maximum customization and modification.
             </p>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`import { ColorPicker, ColorValue } from '@marcosfreitas/pastel-color-picker/src';
+{`import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker/src';
 import { useState } from 'react';
 
 function App() {

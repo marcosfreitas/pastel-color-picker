@@ -1,16 +1,14 @@
 // Headless exports - no CSS imports
 // Main exports
 export { ColorPicker } from './ColorPicker';
-export type { ColorValue, ColorPickerProps, ColorPickerVariant } from './types';
+export type { ColorValue, ColorPickerDialogProps, ColorPickerVariant } from './types';
 export { generateRandomColor, hexToColorValue } from './utils/colorUtils';
 
 // Component exports
 export { ButtonVariant } from './variants/ButtonVariant';
 export { CirclesVariant } from './variants/CirclesVariant';
 export { RandomVariant } from './variants/RandomVariant';
-export { SimpleVariant } from './variants/SimpleVariant';
 export { ColorPickerDialog } from './variants/ColorPickerDialog';
-export { SimpleColorPickerDialog } from './variants/SimpleColorPickerDialog';
 export { ColorArea } from './variants/ColorArea';
 export { ColorBar } from './variants/ColorBar';
 
@@ -29,7 +27,7 @@ export {
 } from './constants';
 
 // Utility functions
-export { generatePastelFromRgb } from './utils/colorUtils';
+export { generatePastelFromRgb,hexToRgb,hslToRgb,hsvToRgb,rgbToHex,rgbToHsl,rgbToHsv } from './utils/colorUtils';
 
 // Types
 export type { ButtonProps } from './components/ui/button';

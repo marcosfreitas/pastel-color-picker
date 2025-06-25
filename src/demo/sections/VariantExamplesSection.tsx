@@ -9,7 +9,7 @@ import { PRESET_COLORS, PRESET_PASTEL_COLORS } from '../../constants';
 import { cn } from '../../utils/cn';
 
 interface VariantState {
-  color: ColorValue;
+  color?: ColorValue;
   config: {
     size: 'sm' | 'md' | 'lg';
     disabled: boolean;
@@ -180,7 +180,7 @@ export function VariantExamplesSection({
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-xs text-blue-700">
                 <strong>Note:</strong> The Random variant is a simple button that generates random colors directly. 
-                It doesn't open a dialog, so only Color Mode affects its behavior.
+                It doesn't open a dialog, so only <a href="#custom-preset-colors" className="text-black" style={{textDecoration:'underline'}}>Presets</a> and <a href="#color-mode" className="text-blue-700 decoration-underline">Color Mode</a> affects its behavior.
               </p>
             </div>
           )}
@@ -190,7 +190,7 @@ export function VariantExamplesSection({
   };
 
   return (
-    <section id="variant-examples" className="space-y-8 flex flex-col md:flex-row gap-4 items-start ">
+    <section id="variant-examples" className="flex flex-col md:flex-row gap-4 items-stretch">
 
       {/* Button Variant */}
       <Card className="border border-border md:w-2/6">
@@ -217,7 +217,6 @@ export function VariantExamplesSection({
                     size={variantStates.button.config.size}
                     disabled={variantStates.button.config.disabled}
                     title={variantStates.button.config.title}
-                    defaultColor={variantStates.button.color}
                     presets={variantStates.button.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.button.config.colorMode}
                     showColorArea={variantStates.button.config.showColorArea}
@@ -236,8 +235,6 @@ export function VariantExamplesSection({
                     size={variantStates.button.config.size}
                     disabled={variantStates.button.config.disabled}
                     title={variantStates.button.config.title}
-                    defaultColor={variantStates.button.color}
-                    presets={variantStates.button.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.button.config.colorMode}
                     showColorArea={variantStates.button.config.showColorArea}
                     showPresets={variantStates.button.config.showPresets}
@@ -256,8 +253,6 @@ export function VariantExamplesSection({
                     size={variantStates.button.config.size}
                     disabled={variantStates.button.config.disabled}
                     title={variantStates.button.config.title}
-                    defaultColor={variantStates.button.color}
-                    presets={variantStates.button.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.button.config.colorMode}
                     showColorArea={variantStates.button.config.showColorArea}
                     showPresets={variantStates.button.config.showPresets}
@@ -303,8 +298,6 @@ export function VariantExamplesSection({
                     size={variantStates.circles.config.size}
                     disabled={variantStates.circles.config.disabled}
                     title={variantStates.circles.config.title}
-                    defaultColor={variantStates.circles.color}
-                    presets={variantStates.circles.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.circles.config.colorMode}
                     showColorArea={variantStates.circles.config.showColorArea}
                     showPresets={variantStates.circles.config.showPresets}
@@ -347,18 +340,7 @@ export function VariantExamplesSection({
                     variant="random"
                     size={variantStates.random.config.size}
                     disabled={variantStates.random.config.disabled}
-                    title={variantStates.random.config.title}
-                    defaultColor={variantStates.random.color}
-                    presets={variantStates.random.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.random.config.colorMode}
-                    showColorArea={variantStates.random.config.showColorArea}
-                    showPresets={variantStates.random.config.showPresets}
-                    showHue={variantStates.random.config.showHue}
-                    showSaturation={variantStates.random.config.showSaturation}
-                    showLightness={variantStates.random.config.showLightness}
-                    showAlpha={variantStates.random.config.showAlpha}
-                    showRandomButton={variantStates.random.config.showRandomButton}
-                    hideSliders={variantStates.random.config.hideSliders}
                     onColorChange={(color) => updateVariantColor('random', color)}
                     label="Random Color"
                   />
@@ -366,22 +348,23 @@ export function VariantExamplesSection({
                     variant="random"
                     size={variantStates.random.config.size}
                     disabled={variantStates.random.config.disabled}
-                    title={variantStates.random.config.title}
-                    defaultColor={variantStates.random.color}
-                    presets={variantStates.random.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.random.config.colorMode}
-                    showColorArea={variantStates.random.config.showColorArea}
-                    showPresets={variantStates.random.config.showPresets}
-                    showHue={variantStates.random.config.showHue}
-                    showSaturation={variantStates.random.config.showSaturation}
-                    showLightness={variantStates.random.config.showLightness}
-                    showAlpha={variantStates.random.config.showAlpha}
-                    showRandomButton={variantStates.random.config.showRandomButton}
-                    hideSliders={variantStates.random.config.hideSliders}
                     onColorChange={(color) => updateVariantColor('random', color)}
                   >
                     <Shuffle className="w-4 h-4" />
                   </ColorPicker>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label className="text-sm font-medium">Current Color</Label>
+                <div className="flex items-center gap-2 text-sm">
+                  <div 
+                    className="w-6 h-6 rounded border border-gray-300"
+                    style={{ backgroundColor: variantStates.random.color ? variantStates.random.color.hexa : 'undefined' }}
+                  ></div>
+                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
+                    {variantStates.random.color ? variantStates.random.color.hexa : 'undefined'}
+                  </code>
                 </div>
               </div>
               <ConfigurationPanel variant="random" title="Random" />

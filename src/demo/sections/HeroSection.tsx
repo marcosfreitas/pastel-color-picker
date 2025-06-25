@@ -26,7 +26,7 @@ export function HeroSection() {
       {/* Hero Section */}
       <section className="text-center space-y-6 py-12">
         <div className="space-y-4">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent" style={{ fontFamily: 'Prociono, serif' }}>
             Pastel Color Picker
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">

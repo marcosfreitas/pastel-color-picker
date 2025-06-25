@@ -6,31 +6,16 @@ import { cn } from '../utils/cn';
 import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { Shuffle } from 'lucide-react';
 
-interface RandomVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
+interface RandomVariantProps extends Pick<ColorPickerDialogProps, 'presets' | 'defaultColor' | 'colorMode' | 'onColorChange'>, Omit<ColorPickerVariantProps, 'variant'> {
   // No additional variant-specific properties needed
 }
 
 export function RandomVariant({
   // ColorPickerDialogProps
-  title,
   defaultColor,
   presets,
   colorMode,
-  showColorArea,
-  hideSliders,
-  showPresets,
-  showHue,
-  showSaturation,
-  showLightness,
-  showAlpha,
-  showRandomButton,
   onColorChange,
-  onPresetClick,
-  onRandomColor,
-  onHueChange,
-  onSaturationChange,
-  onLightnessChange,
-  onAlphaChange,
   
   // ColorPickerVariantProps (excluding variant)
   size,
@@ -59,7 +44,7 @@ export function RandomVariant({
       variant="outline"
       size={size === 'md' ? 'default' : size}
       disabled={disabled}
-      onClick={onRandomColor}
+      onClick={() => onColorChange(defaultColor, true)}
       style={{
         borderBottom: `4px solid ${borderColor}`
       }}

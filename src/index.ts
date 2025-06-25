@@ -7,9 +7,7 @@ export { generateRandomColor, hexToColorValue } from './utils/colorUtils';
 export { ButtonVariant } from './variants/ButtonVariant';
 export { CirclesVariant } from './variants/CirclesVariant';
 export { RandomVariant } from './variants/RandomVariant';
-export { SimpleVariant } from './variants/SimpleVariant';
 export { ColorPickerDialog } from './variants/ColorPickerDialog';
-export { SimpleColorPickerDialog } from './variants/SimpleColorPickerDialog';
 export { ColorArea } from './variants/ColorArea';
 export { ColorBar } from './variants/ColorBar';
 
@@ -19,9 +17,6 @@ export { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 export { Label } from './components/ui/label';
 export { Slider } from './components/ui/slider';
 export { Badge } from './components/ui/badge';
-
-// Utilities
-export { cn } from './utils/cn';
 
 // Constants
 export { 

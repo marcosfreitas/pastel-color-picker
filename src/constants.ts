@@ -59,5 +59,4 @@ export function generatePastelVariation(baseRgb: { r: number; g: number; b: numb
   return variations;
 }
 
-// Example usage with RGB(226, 115, 126)
-export const EXAMPLE_PASTEL_VARIATIONS = generatePastelVariation({ r: 226, g: 115, b: 126 }); 
+ 

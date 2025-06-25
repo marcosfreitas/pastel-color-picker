@@ -5,7 +5,8 @@ import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
-import { hexToRgb } from '../utils/colorUtils';
+import { Button } from '../components/ui/button';
+import { hexToColorValue } from '../utils/colorUtils';
 
 interface CirclesVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
   // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
@@ -29,7 +30,6 @@ export function CirclesVariant({
   showRandomButton,
   onColorChange,
   onPresetClick,
-  onRandomColor,
   onHueChange,
   onSaturationChange,
   onLightnessChange,
@@ -46,8 +46,8 @@ export function CirclesVariant({
   isOpen,
   setIsOpen
 }: CirclesVariantProps) {
-  // Guard against undefined defaultColor
-  if (!defaultColor) {
+  if (!defaultColor || !presets) {
+    console.error('defaultColor and presets properties are required.');
     return null;
   }
 
@@ -61,7 +61,10 @@ export function CirclesVariant({
   // Create display presets and determine selection logic
   const getDisplayPresetsAndSelection = () => {
     const firstThreePresets = presets.slice(0, 3);
-    const normalizeColor = (colorStr: string) => colorStr.replace('#', '').toLowerCase();
+    const normalizeColor = (colorStr: string | undefined) => {
+      if (!colorStr) return '';
+      return colorStr.replace('#', '').toLowerCase();
+    };
     const selectedColorNormalized = normalizeColor(defaultColor.hexa);
     
     // Check if selected color matches any of the first 3 presets
@@ -78,7 +81,7 @@ export function CirclesVariant({
       selectedIndex = matchingPresetIndex;
     } else {
       // Selected color is not in first 3, put it in 4th position
-      displayPresets = [...firstThreePresets, defaultColor.hexa];
+      displayPresets = [...firstThreePresets, defaultColor.hexa || '#000000'];
       selectedIndex = 3;
     }
     
@@ -99,7 +102,7 @@ export function CirclesVariant({
         );
         
         return (
-          <button
+          <Button
             key={index}
             type="button"
             disabled={disabled}
@@ -107,7 +110,8 @@ export function CirclesVariant({
             style={{ backgroundColor: color }}
             onClick={() => {
               if (onPresetClick) {
-                onPresetClick(color as unknown as ColorValue);
+                const colorValue = hexToColorValue(color, defaultColor.rgba.a);
+                onPresetClick(colorValue);
               }
             }}
             aria-label={`Select color ${color}`}
@@ -116,7 +120,7 @@ export function CirclesVariant({
       })}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogTrigger asChild>
-          <button
+          <Button
             type="button"
             disabled={disabled}
             className={cn(
@@ -126,7 +130,7 @@ export function CirclesVariant({
             aria-label="Open color picker dialog"
           >
             <MoreHorizontal />
-          </button>
+          </Button>
         </DialogTrigger>
         <ColorPickerDialog
           title={title}
@@ -143,7 +147,6 @@ export function CirclesVariant({
           showRandomButton={showRandomButton}
           onColorChange={onColorChange}
           onPresetClick={onPresetClick}
-          onRandomColor={onRandomColor}
           onHueChange={onHueChange}
           onSaturationChange={onSaturationChange}
           onLightnessChange={onLightnessChange}

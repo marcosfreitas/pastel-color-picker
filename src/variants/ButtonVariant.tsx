@@ -5,6 +5,7 @@ import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { cn } from '../utils/cn';
 import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
+import { Button } from '../components/ui/button';
 
 interface ButtonVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
   // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps
@@ -28,7 +29,6 @@ export function ButtonVariant({
   showRandomButton,
   onColorChange,
   onPresetClick,
-  onRandomColor,
   onHueChange,
   onSaturationChange,
   onLightnessChange,
@@ -45,8 +45,8 @@ export function ButtonVariant({
   isOpen,
   setIsOpen
 }: ButtonVariantProps) {
-  // Guard against undefined defaultColor
-  if (!defaultColor) {
+  if (!defaultColor || !presets) {
+    console.error('defaultColor and presets properties are required.');
     return null;
   }
 
@@ -65,8 +65,9 @@ export function ButtonVariant({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <button
+        <Button
           type="button"
+          variant="outline"
           disabled={disabled}
           className={buttonClasses}
           style={(label || children) ? undefined : currentColorStyle}
@@ -74,7 +75,7 @@ export function ButtonVariant({
         >
           {children && <span className="pcp-button__content">{children}</span>}
           {label && <span className="pcp-button__content">{label}</span>}
-        </button>
+        </Button>
       </DialogTrigger>
       <ColorPickerDialog
         title={title}
@@ -91,7 +92,6 @@ export function ButtonVariant({
         showRandomButton={showRandomButton}
         onColorChange={onColorChange}
         onPresetClick={onPresetClick}
-        onRandomColor={onRandomColor}
         onHueChange={onHueChange}
         onSaturationChange={onSaturationChange}
         onLightnessChange={onLightnessChange}

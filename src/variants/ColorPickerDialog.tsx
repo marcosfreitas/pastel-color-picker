@@ -11,33 +11,32 @@ import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
 import { ColorPickerDialogProps } from '../types';
 
-const defaultColorValue: ColorValue = {
-  hexa: '#000000',
-  rgba: { r: 0, g: 0, b: 0, a: 1 },
-  hsva: { h: 0, s: 0, v: 0, a: 1 }
-};
 
 export function ColorPickerDialog({
-  title = 'Color Picker',
-  defaultColor = defaultColorValue,
-  onColorChange,
+  title,
+  defaultColor,
   presets,
-  colorMode = ColorMode.PASTEL,
-  showColorArea = false,
-  showPresets = true,
-  hideSliders = false,
-  showHue = true,
-  showSaturation = true,
-  showLightness = true,
-  showAlpha = true,
-  showRandomButton = true,
+  colorMode,
+  showColorArea,
+  showPresets,
+  hideSliders,
+  showHue,
+  showSaturation,
+  showLightness,
+  showAlpha,
+  showRandomButton,
   onPresetClick,
-  onRandomColor,
+  onColorChange,
   onHueChange,
   onSaturationChange,
   onLightnessChange,
   onAlphaChange
 }: ColorPickerDialogProps) {
+  if (!defaultColor || !presets) {
+    console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
+    return null;
+  }
+
   // Track which control is currently being dragged
   const [dragStates, setDragStates] = useState({
     colorBar: false,
@@ -48,7 +47,7 @@ export function ColorPickerDialog({
     alpha: false
   });
 
-  const handleColorAreaChange = (saturation: number, value: number) => {
+  const handleColorAreaChange = (saturation: number, value: number, random: boolean = false) => {
     // Only update if individual sliders are not being dragged
     if (!dragStates.hue && !dragStates.saturation && !dragStates.lightness && !dragStates.alpha) {
       const [r, g, b] = hsvToRgb(defaultColor.hsva.h, saturation, value);
@@ -58,7 +57,7 @@ export function ColorPickerDialog({
         rgba: { r, g, b, a: defaultColor.rgba.a },
         hsva: { ...defaultColor.hsva, s: saturation, v: value }
       };
-      onColorChange(newColor);
+      onColorChange(newColor, random);
     }
   };
 
@@ -114,7 +113,7 @@ export function ColorPickerDialog({
   const checkerPattern = `url("data:image/svg+xml,%3csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='checkerboard' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3e%3crect x='0' y='0' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='10' y='10' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='0' y='10' width='10' height='10' fill='%23e0e0e0'/%3e%3crect x='10' y='0' width='10' height='10' fill='%23e0e0e0'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23checkerboard)'/%3e%3c/svg%3e")`;
 
   return (
-    <DialogContent className="pcp-dialog__content">
+    <DialogContent className="pcp-dialog__content" aria-describedby="color-picker-dialog-description">
       <DialogHeader className="pcp-dialog__header">
         <DialogTitle className="pcp-dialog__title">{title}</DialogTitle>
       </DialogHeader>
@@ -261,7 +260,7 @@ export function ColorPickerDialog({
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => onRandomColor?.(defaultColor)}
+                onClick={() => onColorChange(defaultColor, true)}
               >
                 <Shuffle className="pcp-random__icon" />
                 Random {colorMode === 'pastel' ? 'Pastel' : 'Color'}

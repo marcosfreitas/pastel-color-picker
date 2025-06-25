@@ -29,7 +29,7 @@ export interface ColorPickerDialogProps {
   title?: string;
   /** Current color value */
   defaultColor?: ColorValue;
-  presets: string[];
+  presets?: string[];
   /** Whether to use pastel colors */
   colorMode: ColorMode;
   /** Whether to show the 2D color area (disabled by default) */
@@ -47,9 +47,8 @@ export interface ColorPickerDialogProps {
   
   showRandomButton?: boolean;
   
-  onColorChange: (color: ColorValue) => void;
+  onColorChange: (color: ColorValue, random?: boolean) => void;
   onPresetClick?: (preset: ColorValue) => void;
-  onRandomColor?: (color: ColorValue) => void;
   onHueChange?: (hue: number[]) => void;
   onSaturationChange?: (saturation: number[]) => void;
   onLightnessChange?: (lightness: number[]) => void;
