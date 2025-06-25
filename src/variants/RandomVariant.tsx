@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Button } from '../components/ui/button';
 import { cn } from '../utils/cn';
 import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
@@ -13,7 +13,7 @@ interface RandomVariantProps extends Pick<ColorPickerDialogProps, 'presets' | 'd
 export function RandomVariant({
   // ColorPickerDialogProps
   defaultColor,
-  presets,
+  presets: _presets,
   colorMode,
   onColorChange,
   

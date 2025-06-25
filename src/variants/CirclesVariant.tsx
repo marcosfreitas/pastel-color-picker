@@ -3,7 +3,7 @@
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
-import { ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from '../types';
+import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
 import { Button } from '../components/ui/button';
 import { hexToColorValue } from '../utils/colorUtils';
@@ -38,9 +38,9 @@ export function CirclesVariant({
   // ColorPickerVariantProps (excluding variant)
   size,
   disabled,
-  label,
+  label: _label,
   className,
-  children,
+  children: _children,
   
   // Variant-specific props
   isOpen,

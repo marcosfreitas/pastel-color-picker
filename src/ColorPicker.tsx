@@ -9,11 +9,6 @@ import { CirclesVariant } from './variants/CirclesVariant';
 import { RandomVariant } from './variants/RandomVariant';
 import './css/index.css';
 
-const defaultColorValue: ColorValue = {
-  hexa: '#000000',
-  rgba: { r: 0, g: 0, b: 0, a: 1 },
-  hsva: { h: 0, s: 0, v: 0, a: 1 }
-};
 
 export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogProps) {
   const {
@@ -219,6 +214,3 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   );
 }
 
-// Re-export types and utilities for convenience
-export type { ColorValue, ColorPickerVariant } from './types';
-export { generateRandomColor, hexToColorValue } from './utils/colorUtils';

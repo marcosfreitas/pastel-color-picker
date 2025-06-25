@@ -247,13 +247,13 @@ export function ConfigurationApiSection() {
                   <tr className="border-b">
                     <td className="p-3 font-mono">label</td>
                     <td className="text-center p-3">✅</td>
-                    <td className="text-center p-3">✅</td>
+                    <td className="text-center p-3">❌</td>
                     <td className="text-center p-3">✅</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">children</td>
                     <td className="text-center p-3">✅</td>
-                    <td className="text-center p-3">✅</td>
+                    <td className="text-center p-3">❌</td>
                     <td className="text-center p-3">✅</td>
                   </tr>
                   <tr className="border-b">
@@ -276,7 +276,7 @@ export function ConfigurationApiSection() {
                     <td className="p-3 font-mono">presets</td>
                     <td className="text-center p-3">✅</td>
                     <td className="text-center p-3">✅</td>
-                    <td className="text-center p-3">✅</td>
+                    <td className="text-center p-3">❌</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">colorMode</td>
@@ -395,15 +395,22 @@ export function ConfigurationApiSection() {
                 <div>
                   <h4 className="font-medium text-gray-900 mb-2">Circles Variant</h4>
                   <p>Quick preset selection with dialog fallback. Ideal for palette-based color picking with advanced options.</p>
+                  <p className="text-xs text-amber-700 mt-1"><strong>Note:</strong> Does not render label or children - uses preset circles instead.</p>
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-900 mb-2">Random Variant</h4>
                   <p>Simple random color generation. Perfect for creative workflows and inspiration-based color selection.</p>
+                  <p className="text-xs text-amber-700 mt-1"><strong>Note:</strong> Does not use presets array - generates colors based on colorMode only.</p>
                 </div>
               </div>
-                             <div className="pt-3 border-t">
-                 <p><strong>Note:</strong> Circles variant triggers onPresetClick from both the preset circles and the dialog presets for consistent behavior.</p>
-               </div>
+              <div className="pt-3 border-t space-y-2">
+                <p><strong>Variant Behavior Notes:</strong></p>
+                <ul className="text-xs space-y-1 ml-4">
+                  <li>• <strong>Circles variant:</strong> Triggers onPresetClick from both preset circles and dialog presets for consistent behavior</li>
+                  <li>• <strong>Random variant:</strong> Uses colorMode to determine pastel vs vivid random color generation algorithm</li>
+                  <li>• <strong>All variants:</strong> Support size, disabled, className, defaultColor, colorMode, and onColorChange</li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>

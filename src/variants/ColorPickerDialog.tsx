@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { Button } from '../components/ui/button';
 import { Slider } from '../components/ui/slider';
 import { Shuffle } from 'lucide-react';
-import { ColorMode, ColorValue } from '../types';
+import { ColorValue, ColorPickerDialogProps } from '../types';
 import { hexToColorValue, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
-import { ColorPickerDialogProps } from '../types';
 
 
 export function ColorPickerDialog({
@@ -32,11 +31,6 @@ export function ColorPickerDialog({
   onLightnessChange,
   onAlphaChange
 }: ColorPickerDialogProps) {
-  if (!defaultColor || !presets) {
-    console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
-    return null;
-  }
-
   // Track which control is currently being dragged
   const [dragStates, setDragStates] = useState({
     colorBar: false,
@@ -46,6 +40,11 @@ export function ColorPickerDialog({
     lightness: false,
     alpha: false
   });
+
+  if (!defaultColor || !presets) {
+    console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
+    return null;
+  }
 
   const handleColorAreaChange = (saturation: number, value: number, random: boolean = false) => {
     // Only update if individual sliders are not being dragged
@@ -68,7 +67,7 @@ export function ColorPickerDialog({
         // Always call the original handler for immediate updates
         originalHandler?.(values);
       },
-      onValueCommit: (values: number[]) => {
+      onValueCommit: (_values: number[]) => {
         // Mark slider as not dragging when commit happens
         setDragStates(prev => ({ ...prev, [sliderType]: false }));
       },

@@ -85,7 +85,7 @@ npm install @marcosfreitas/pastel-color-picker
 npm install react react-dom
 ```
 
-*Note: All other dependencies (Radix UI, Lucide React, etc.) are bundled with the package.*
+*Note: All other dependencies (Radix UI, Lucide React, etc.) are bundled with the package for optimal compatibility.*
 
 ## 🎯 Quick Start
 
@@ -191,6 +191,8 @@ Shows preset color circles with an option to open the full picker.
 />
 ```
 
+**Note:** The `label` and `children` props are not rendered in circles variant - it uses preset circles instead.
+
 ### Random Variant
 Generates random colors with a colored bottom border indicator.
 
@@ -199,8 +201,27 @@ Generates random colors with a colored bottom border indicator.
   variant="random" 
   colorMode={ColorMode.PASTEL}
   onColorChange={(color) => console.log(color)}
+  label="Generate Random Color"
 />
 ```
+
+**Note:** The `presets` prop is not used in random variant - it generates colors based on `colorMode` only.
+
+## 🎯 Variant Comparison
+
+| Feature | Button | Circles | Random |
+|---------|--------|---------|--------|
+| **Dialog** | ✅ Full dialog | ✅ Full dialog | ❌ No dialog |
+| **Presets** | ✅ Uses presets | ✅ Uses presets | ❌ Ignores presets |
+| **Label/Children** | ✅ Renders content | ❌ Uses circles only | ✅ Renders content |
+| **All Sliders** | ✅ All controls | ✅ All controls | ❌ No sliders |
+| **Random Generation** | ✅ Via dialog | ✅ Via dialog | ✅ Primary function |
+| **Best For** | Complex selection | Quick presets | Inspiration |
+
+**Choose your variant:**
+- **Button**: When you need full control and all color picker features
+- **Circles**: When you want quick preset selection with dialog fallback
+- **Random**: When you want simple random color generation for creative workflows
 
 ## 🌈 Color Modes
 

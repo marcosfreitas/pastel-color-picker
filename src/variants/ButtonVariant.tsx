@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+
 import { Dialog, DialogTrigger } from '../components/ui/dialog';
 import { cn } from '../utils/cn';
 import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
