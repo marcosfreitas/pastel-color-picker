@@ -17,7 +17,6 @@
 
 /* Variant styles */
 @import './random.css';
-@import './simple.css';
 
 /* Additional utilities if needed */
 .pcp-hidden {

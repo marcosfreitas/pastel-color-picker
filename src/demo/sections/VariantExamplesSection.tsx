@@ -13,7 +13,7 @@ interface VariantState {
   config: {
     size: 'sm' | 'md' | 'lg';
     disabled: boolean;
-    title: string;
+    title?: string;
     colorMode: ColorMode;
     showColorArea: boolean;
     showPresets: boolean;
@@ -57,12 +57,15 @@ export function VariantExamplesSection({
             
             {/* Size */}
             <div className="mt-4 space-y-2 flex items-center gap-2">
-              <div className="flex gap-1">
+              <div className="flex gap-1" role="group" aria-label="Size selection">
                 {(['sm', 'md', 'lg'] as const).map(size => (
                   <button
                     key={size}
-                    className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary", state.config.size === size ? 'border-2' : '')}
+                    type="button"
+                    className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.size === size ? 'border-2' : '')}
                     onClick={() => updateVariantConfig(variant, { size })}
+                    aria-pressed={state.config.size === size}
+                    aria-label={`Set size to ${size}`}
                   >
                     {size.toUpperCase()}
                   </button>
@@ -84,18 +87,22 @@ export function VariantExamplesSection({
           {/* Color Mode */}
           <div className="space-y-2">
             <Label className="text-xs font-medium">Color Mode</Label>
-            <div className="mt-4 flex gap-1">
+            <div className="mt-4 flex gap-1" role="group" aria-label="Color mode selection">
               <button
                 type="button"
-                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary", state.config.colorMode === ColorMode.PASTEL ? 'border-2' : '')}
+                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.colorMode === ColorMode.PASTEL ? 'border-2' : '')}
                 onClick={() => updateVariantConfig(variant, { colorMode: ColorMode.PASTEL })}
+                aria-pressed={state.config.colorMode === ColorMode.PASTEL}
+                aria-label="Set color mode to pastel"
               >
                 Pastel
               </button>
               <button
                 type="button"
-                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary", state.config.colorMode === ColorMode.VIVID ? 'border-2' : '')}
+                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.colorMode === ColorMode.VIVID ? 'border-2' : '')}
                 onClick={() => updateVariantConfig(variant, { colorMode: ColorMode.VIVID })}
+                aria-pressed={state.config.colorMode === ColorMode.VIVID}
+                aria-label="Set color mode to vivid"
               >
                 Vivid
               </button>
@@ -180,7 +187,7 @@ export function VariantExamplesSection({
             <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <p className="text-xs text-blue-700">
                 <strong>Note:</strong> The Random variant is a simple button that generates random colors directly. 
-                It doesn't open a dialog, so only <a href="#custom-preset-colors" className="text-black" style={{textDecoration:'underline'}}>Presets</a> and <a href="#color-mode" className="text-blue-700 decoration-underline">Color Mode</a> affects its behavior.
+                It doesn't open a dialog, so only <a href="#configuration-api" className="text-black decoration-underline">Color Mode</a> affects its behavior.
               </p>
             </div>
           )}

@@ -21,7 +21,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     className,
 
     // ColorPickerDialogProps
-    title = 'Color Picker',
+    title = 'Pick a color',
     defaultColor,
     presets,
     colorMode = ColorMode.PASTEL,
@@ -79,7 +79,6 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   }, [defaultColor, localDefaultColor]);
 
   const handleColorChange = useCallback((color: ColorValue, random?: boolean) => {
-    console.log('pcp color changed:', color, random);
     if (random) {
       const randomColor = generateRandomColor(colorMode === ColorMode.PASTEL);
       setLocalColor(randomColor);
@@ -91,13 +90,11 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   }, [colorMode]);
 
   const handlePresetSelect = useCallback((color: ColorValue) => {
-    console.log('called handlePresetSelect');
     handleColorChange(color);
     onPresetClick?.(color);
   }, [handleColorChange]);
 
   const handleHueChange = useCallback((hue: number[]) => {
-    console.log('called handleHueChange');
     const [r, g, b] = hsvToRgb(hue[0], localColor.hsva.s, localColor.hsva.v);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
@@ -110,7 +107,6 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   }, [localColor, handleColorChange]);
 
   const handleSaturationChange = useCallback((saturation: number[]) => {
-    console.log('called handleSaturationChange');
     const [r, g, b] = hsvToRgb(localColor.hsva.h, saturation[0], localColor.hsva.v);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
@@ -123,7 +119,6 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   }, [localColor, handleColorChange]);
 
   const handleLightnessChange = useCallback((lightness: number[]) => {
-    console.log('called handleLightnessChange');
     const [r, g, b] = hsvToRgb(localColor.hsva.h, localColor.hsva.s, lightness[0]);
     const hex = rgbToHex(r, g, b);
     const newColor: ColorValue = {
@@ -136,7 +131,6 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   }, [localColor, handleColorChange]);
 
   const handleAlphaChange = useCallback((alpha: number[]) => {
-    console.log('called handleAlphaChange');
     const newColor: ColorValue = {
       ...localColor,
       rgba: { ...localColor.rgba, a: alpha[0] / 100 },

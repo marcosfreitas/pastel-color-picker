@@ -62,7 +62,59 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
   }
+}
+
+/* Ensure color picker focus styles override Tailwind */
+@layer components {
+  /* Button focus styles with higher specificity */
+  .pcp-button:focus-visible,
+  button.pcp-button:focus-visible {
+    outline: 2px solid hsl(var(--pcp-color-ring)) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background)) !important;
+  }
   
+  /* Circles focus styles with higher specificity */
+  .pcp-circles__circle:focus-visible,
+  button.pcp-circles__circle:focus-visible {
+    outline: 2px solid hsl(var(--pcp-color-ring)) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background)) !important;
+  }
+  
+  .pcp-circles__more-button:focus-visible,
+  button.pcp-circles__more-button:focus-visible {
+    outline: 2px solid hsl(var(--pcp-color-ring)) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background)) !important;
+  }
+  
+  /* Demo navigation buttons focus styles */
+  .demo-nav-button:focus-visible {
+outline: 2px solid #000 !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Demo sidebar buttons focus styles */
+  .demo-sidebar-nav:focus-visible {
+    outline: 2px solid #000 !important;
+    outline-offset: 2px !important;
+  }
+  
+  /* Ensure switch focus styles are visible */
+  [data-radix-switch-root]:focus-visible {
+    outline: 2px solid #000 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 2px #000 !important;
+  }
+  
+  /* Ensure all interactive elements have consistent focus */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid #000 !important;
+    outline-offset: 2px !important;
+  }
 }
 /* Demo-specific color overrides */
 .example-bg {

@@ -5,8 +5,8 @@ import { MoreHorizontal } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { ColorPickerDialogProps, ColorPickerVariantProps } from '../types';
 import { ColorPickerDialog } from './ColorPickerDialog';
-import { Button } from '../components/ui/button';
 import { hexToColorValue } from '../utils/colorUtils';
+import { Button } from '../components/ui/button';
 
 interface CirclesVariantProps extends ColorPickerDialogProps, Omit<ColorPickerVariantProps, 'variant'> {
   // Variant-specific properties not from ColorPickerDialogProps or ColorPickerVariantProps

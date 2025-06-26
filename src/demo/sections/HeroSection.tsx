@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from '../../components/ui/badge';
-import { Palette, Settings, Heart, Github } from 'lucide-react';
+import { Palette, Settings, Heart, Github, Wrench, HandHeart } from 'lucide-react';
 
 export function HeroSection() {
   return (
@@ -35,19 +35,23 @@ export function HeroSection() {
         </div>
         <div className="flex items-center justify-center gap-4 flex-wrap">
           <Badge variant="secondary" className="flex items-center gap-1">
-            <Palette className="w-3 h-3" />
+            <HandHeart className="w-4 h-4" />
+            Accessible
+          </Badge>
+          <Badge variant="secondary" className="flex items-center gap-1">
+            <Palette className="w-4 h-4" />
             Multiple Variants
           </Badge>
           <Badge variant="secondary" className="flex items-center gap-1">
-            <Settings className="w-3 h-3" />
+            <Settings className="w-4 h-4" />
             Highly Configurable
           </Badge>
           <Badge variant="secondary" className="flex items-center gap-1">
-            <Heart className="w-3 h-3" />
+            <Heart className="w-4 h-4" />
             TypeScript Ready
           </Badge>
           <Badge variant="secondary" className="flex items-center gap-1">
-            <Github className="w-3 h-3" />
+            <Github className="w-4 h-4" />
             Open Source
           </Badge>
         </div>

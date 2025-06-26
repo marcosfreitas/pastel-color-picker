@@ -18,6 +18,9 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDr
   const barRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  
+  // Cache bounding rect to avoid expensive recalculations during drag
+  const rectRef = useRef<DOMRect | null>(null);
 
   // Helper function to convert saturation/value to position (0-100%)
   // The bar represents: white (0%) → pure hue (50%) → black (100%)
@@ -76,7 +79,12 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDr
   const handleInteraction = useCallback((event: React.MouseEvent | React.TouchEvent | MouseEvent | TouchEvent) => {
     if (!barRef.current || !onChange) return;
 
-    const rect = barRef.current.getBoundingClientRect();
+    // Use cached rect during drag, recalculate only when needed
+    const rect = rectRef.current || barRef.current.getBoundingClientRect();
+    if (!rectRef.current) {
+      rectRef.current = rect;
+    }
+
     const clientX = 'touches' in event ? event.touches[0]?.clientX : event.clientX;
 
     if (!clientX) return;
@@ -85,11 +93,18 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDr
     const percentage = (x / rect.width) * 100; // 0 to 100
 
     const [newSaturation, newValue] = positionToSatValue(percentage);
+    
+    // Always call onChange immediately for smooth dragging
     onChange(newSaturation, newValue);
   }, [onChange, positionToSatValue]);
 
   const handleMouseDown = useCallback((event: React.MouseEvent) => {
     if (!onChange) return;
+    
+    // Cache the bounding rect at drag start
+    if (barRef.current) {
+      rectRef.current = barRef.current.getBoundingClientRect();
+    }
     
     // Allow clicking anywhere on the bar, not just the thumb
     setIsDragging(true);
@@ -104,6 +119,8 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDr
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
+    // Clear cached rect when drag ends
+    rectRef.current = null;
     onDragEnd?.();
   }, [onDragEnd]);
 
@@ -126,6 +143,48 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDr
     setIsDragging(false);
     onDragEnd?.();
   }, [onDragEnd]);
+
+  // Keyboard navigation support
+  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+    if (!onChange) return;
+
+    const step = event.shiftKey ? 10 : 1; // larger steps with Shift
+    let newPosition = position;
+
+    switch (event.key) {
+      case 'ArrowLeft':
+      case 'ArrowDown':
+        event.preventDefault();
+        newPosition = Math.max(0, position - step);
+        break;
+      case 'ArrowRight':
+      case 'ArrowUp':
+        event.preventDefault();
+        newPosition = Math.min(100, position + step);
+        break;
+      case 'Home':
+        event.preventDefault();
+        newPosition = 0;
+        break;
+      case 'End':
+        event.preventDefault();
+        newPosition = 100;
+        break;
+      case 'PageDown':
+        event.preventDefault();
+        newPosition = Math.max(0, position - 10);
+        break;
+      case 'PageUp':
+        event.preventDefault();
+        newPosition = Math.min(100, position + 10);
+        break;
+      default:
+        return; // Don't handle other keys
+    }
+
+    const [newSaturation, newValue] = positionToSatValue(newPosition);
+    onChange(newSaturation, newValue);
+  }, [onChange, position, positionToSatValue]);
 
   useEffect(() => {
     if (isDragging && onChange) {
@@ -166,8 +225,14 @@ export function ColorBar({ hue, saturation, lightness, alpha = 1, onChange, onDr
       }}
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
+      onKeyDown={handleKeyDown}
       role={onChange ? "slider" : undefined}
-      aria-label={onChange ? `Color spectrum for hue ${Math.round(hue)}°, current position at ${Math.round(position)}%` : `Color spectrum for hue ${Math.round(hue)}°, current position at ${Math.round(position)}%`}
+      aria-label={onChange ? `Color spectrum for hue ${Math.round(hue)}°, current position at ${Math.round(position)}%. Use arrow keys to adjust, Shift for larger steps.` : `Color spectrum for hue ${Math.round(hue)}°, current position at ${Math.round(position)}%`}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={Math.round(position)}
+      aria-valuetext={`Position ${Math.round(position)}%, saturation ${Math.round(saturation)}%, lightness ${Math.round(lightness)}%`}
+      aria-orientation="horizontal"
       tabIndex={onChange ? 0 : undefined}
     >
       {/* Current color position indicator */}

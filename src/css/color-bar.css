@@ -9,6 +9,17 @@
   border: 1px solid hsl(var(--pcp-color-border));
   box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   overflow: visible;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Focus styles applied to thumb when container is focused */
+.pcp-color-bar:focus-visible .pcp-color-bar__thumb {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+  box-shadow: 
+    0 0px 0px 4px rgba(0, 0, 0, 0.15),
+    0 0 0 2px white;
 }
 
 /* Element: pcp-color-bar__indicator - Position line indicator */

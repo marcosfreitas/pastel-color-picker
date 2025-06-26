@@ -16,20 +16,20 @@
   outline: none;
   border: none;
   text-decoration: none;
-  
-  /* Focus styles */
-  &:focus-visible {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring));
-  }
-  
-  /* Disabled state */
-  &:disabled {
-    pointer-events: none;
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+}
+
+/* Focus styles */
+.pcp-button:focus-visible {
+  border: 0;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background));
+}
+
+/* Disabled state */
+.pcp-button:disabled {
+  pointer-events: none;
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 /* Element: pcp-button__content - Button content wrapper */
@@ -44,11 +44,11 @@
   background-color: hsl(var(--pcp-color-primary));
   color: hsl(var(--pcp-color-primary-foreground));
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  
-  &:hover:not(:disabled) {
-    background-color: hsl(var(--pcp-color-primary) / 0.9);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  }
+}
+
+.pcp-button--variant-default:hover:not(:disabled) {
+  background-color: hsl(var(--pcp-color-primary) / 0.9);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 /* Modifier: pcp-button--variant-outline - Outline button variant */
@@ -57,12 +57,12 @@
   background-color: hsl(var(--pcp-color-background));
   color: hsl(var(--pcp-color-foreground));
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  
-  &:hover:not(:disabled) {
-    background-color: hsl(var(--pcp-color-accent));
-    color: hsl(var(--pcp-color-accent-foreground));
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  }
+}
+
+.pcp-button--variant-outline:hover:not(:disabled) {
+  background-color: hsl(var(--pcp-color-accent));
+  color: hsl(var(--pcp-color-accent-foreground));
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 /* Modifier: pcp-button--variant-secondary - Secondary button variant */
@@ -70,22 +70,22 @@
   background-color: hsl(var(--pcp-color-secondary));
   color: hsl(var(--pcp-color-secondary-foreground));
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  
-  &:hover:not(:disabled) {
-    background-color: hsl(var(--pcp-color-secondary) / 0.8);
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  }
+}
+
+.pcp-button--variant-secondary:hover:not(:disabled) {
+  background-color: hsl(var(--pcp-color-secondary) / 0.8);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
 /* Modifier: pcp-button--variant-ghost - Ghost button variant */
 .pcp-button--variant-ghost {
   background-color: transparent;
   color: hsl(var(--pcp-color-foreground));
-  
-  &:hover:not(:disabled) {
-    background-color: hsl(var(--pcp-color-accent));
-    color: hsl(var(--pcp-color-accent-foreground));
-  }
+}
+
+.pcp-button--variant-ghost:hover:not(:disabled) {
+  background-color: hsl(var(--pcp-color-accent));
+  color: hsl(var(--pcp-color-accent-foreground));
 }
 
 /* Modifier: pcp-button--size-sm - Small button size */
@@ -123,20 +123,25 @@
   color: hsl(var(--pcp-color-foreground));
   border-radius: 0.5rem;
   transition: all 200ms ease;
-  
-  &:hover:not(:disabled) {
-    border-color: rgb(209 213 219);
-    transform: scale(1.05);
-  }
-  
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    
-    &:hover {
-      transform: none;
-    }
-  }
+}
+
+.pcp-button--color-picker:hover:not(:disabled) {
+  border-color: rgb(209 213 219);
+  transform: scale(1.05);
+}
+
+.pcp-button--color-picker:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}
+
+.pcp-button--color-picker:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pcp-button--color-picker:disabled:hover {
+  transform: none;
 }
 
 /* Color picker button size modifiers */
