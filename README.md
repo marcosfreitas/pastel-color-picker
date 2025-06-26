@@ -320,8 +320,7 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 
 - Built with [Radix UI](https://radix-ui.com/) primitives
 - Icons from [Lucide React](https://lucide.dev/)
-- Inspired by modern design systems
 
 ---
 
-Made with ❤️ by [Marcos Freitas](https://marcosfreitas.co/)
+Made with ❤️ by [Marcos Freitas](https://github.com/marcosfreitas)
