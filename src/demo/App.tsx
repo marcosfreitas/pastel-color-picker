@@ -4,7 +4,7 @@ import { Content } from './content'
 
 function App() {
   return (
-    <div className="min-h-screen text-foreground example-bg">
+    <div className="max-w-screen text-foreground example-bg">
       <Content />
     </div>
   )

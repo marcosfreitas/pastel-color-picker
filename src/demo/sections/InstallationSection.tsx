@@ -14,7 +14,7 @@ export function InstallationSection() {
         <div className="space-y-6">
           {/* Base Installation */}
           <div>
-            <h3 className="font-medium mb-3 flex items-center gap-2">
+            <h3 className="font-medium mb-3 flex flex-col lg:flex-row items-start gap-2">
               <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">Step 1</span>
               Install the Package
             </h3>
@@ -24,7 +24,7 @@ export function InstallationSection() {
           </div>
           
           <div>
-            <h3 className="font-medium mb-3 flex items-center gap-2">
+            <h3 className="font-medium mb-3 flex flex-col lg:flex-row items-start gap-2">
               <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded text-sm">Step 2</span>
               Ensure Peer Dependencies (if not already installed)
             </h3>
@@ -38,7 +38,7 @@ export function InstallationSection() {
 
           {/* Usage Option 1: Self-Contained */}
           <div className="border rounded-lg p-4">
-            <h3 className="font-medium mb-3 flex items-center gap-2">
+            <h3 className="font-medium mb-3 flex flex-col lg:flex-row items-start gap-2">
               <Badge variant="default" className="text-xs">Option 1</Badge>
               Self-Contained Setup (Recommended)
             </h3>
@@ -68,7 +68,7 @@ function App() {
 
           {/* Usage Option 2: Headless */}
           <div className="border rounded-lg p-4">
-            <h3 className="font-medium mb-3 flex items-center gap-2">
+            <h3 className="font-medium mb-3 flex flex-col lg:flex-row items-start gap-2">
               <Badge variant="default" className="text-xs">Option 2</Badge>
               Headless Setup (No Styles, No Animations)
             </h3>
@@ -97,7 +97,7 @@ function App() {
 
           {/* Usage Option 3: Source */}
           <div className="border rounded-lg p-4">
-            <h3 className="font-medium mb-3 flex items-center gap-2">
+            <h3 className="font-medium mb-3 flex flex-col lg:flex-row items-start gap-2">
               <Badge variant="default" className="text-xs">Option 3</Badge>
               Source Setup (Maximum Customization)
             </h3>

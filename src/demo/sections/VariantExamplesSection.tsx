@@ -190,10 +190,10 @@ export function VariantExamplesSection({
   };
 
   return (
-    <section id="variant-examples" className="flex flex-col md:flex-row gap-4 items-stretch">
+    <section id="variant-examples" className="flex flex-col lg:flex-row gap-4 items-stretch">
 
       {/* Button Variant */}
-      <Card className="border border-border md:w-2/6">
+      <Card className="border border-border lg:w-2/6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-r from-teal-400 to-teal-600 rounded-lg flex items-center justify-center">
@@ -275,7 +275,7 @@ export function VariantExamplesSection({
       </Card>
 
       {/* Circles Variant */}
-      <Card className="border border-border md:w-2/6">
+      <Card className="border border-border lg:w-2/6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-r from-red-400 to-red-600 rounded-lg flex items-center justify-center">
@@ -318,7 +318,7 @@ export function VariantExamplesSection({
       </Card>
 
       {/* Random Variant */}
-      <Card className="border border-border md:w-2/6">
+      <Card className="border border-border lg:w-2/6">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-r from-blue-400 to-blue-600 rounded-lg flex items-center justify-center">

@@ -114,9 +114,9 @@ export function Content() {
   };
 
   return (
-    <section className="flex min-h-screen">
+    <section className="flex min-h-screen w-full overflow-x-hidden">
       {/* Sidebar - Following backup layout */}
-      <section className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:inset-0`}>
+      <section className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:inset-0 lg:flex-shrink-0`}>
         <div className="sticky top-0 h-screen flex flex-col bg-white">
           <div className="flex flex-col p-4 border-b border-gray-200 flex-shrink-0 space-y-3">
             <div className="flex items-center justify-between">
@@ -176,8 +176,8 @@ export function Content() {
       </section>
 
       {/* Main Content */}
-      <section className="flex-1 lg:ml-0">
-        <section className="space-y-8 p-6 max-w-[90%] mx-auto">
+      <section className="flex-1 lg:ml-0 min-w-0">
+        <section className="space-y-8 p-4 sm:p-6 w-full max-w-none sm:max-w-[90%] mx-auto">
           {/* Mobile menu button */}
           <button
             onClick={() => setSidebarOpen(true)}
@@ -194,8 +194,6 @@ export function Content() {
             updateVariantConfig={updateVariantConfig}
             updateVariantColor={updateVariantColor}
           />
-
-
 
           {/* Custom Preset Colors */}
           <CustomPresetColorsSection />
