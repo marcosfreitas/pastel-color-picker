@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from '../../components/ui/badge';
-import { Palette, Settings, Heart, Github, Wrench, HandHeart } from 'lucide-react';
+import { Palette, Settings, Heart, Github, HandHeart } from 'lucide-react';
 
 export function HeroSection() {
   return (

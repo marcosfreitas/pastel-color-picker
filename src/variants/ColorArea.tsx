@@ -166,7 +166,7 @@ export function ColorArea({
       document.removeEventListener('touchmove', handleTouchMove);
       document.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [isDragging]); // Removed handler dependencies to prevent re-registration
+  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
   // Calculate cursor position based on current saturation and lightness (memoized)
   const cursorPosition = React.useMemo(() => ({

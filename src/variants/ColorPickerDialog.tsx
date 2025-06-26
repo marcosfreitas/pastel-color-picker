@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { Button } from '../components/ui/button';
 import { Slider } from '../components/ui/slider';
@@ -43,6 +43,44 @@ export function ColorPickerDialog({
 
   // Live region for screen reader announcements
   const [announcement, setAnnouncement] = useState('');
+
+  // Utility function to get color name from hue
+  const getColorName = useCallback((hue: number): string => {
+    const colorNames = [
+      { range: [0, 15], name: 'red' },
+      { range: [15, 45], name: 'orange' },
+      { range: [45, 75], name: 'yellow' },
+      { range: [75, 105], name: 'yellow-green' },
+      { range: [105, 135], name: 'green' },
+      { range: [135, 165], name: 'blue-green' },
+      { range: [165, 195], name: 'cyan' },
+      { range: [195, 225], name: 'blue' },
+      { range: [225, 255], name: 'purple' },
+      { range: [255, 285], name: 'magenta' },
+      { range: [285, 315], name: 'pink' },
+      { range: [315, 345], name: 'red-pink' },
+      { range: [345, 360], name: 'red' }
+    ];
+    
+    const colorName = colorNames.find(color => 
+      hue >= color.range[0] && hue < color.range[1]
+    );
+    
+    return colorName ? colorName.name : 'unknown';
+  }, []);
+
+  // color announcement
+  const announceColorChange = useCallback((color: ColorValue, context: string = '') => {
+    const colorName = getColorName(color.hsva.h);
+    const saturationLevel = color.hsva.s > 75 ? 'vibrant' : color.hsva.s > 25 ? 'moderate' : 'muted';
+    const lightnessLevel = color.hsva.v > 75 ? 'light' : color.hsva.v > 25 ? 'medium' : 'dark';
+    
+    setAnnouncement(
+      `${context} Color changed to ${saturationLevel} ${lightnessLevel} ${colorName}. ` +
+      `Hex value ${color.hexa}. ` +
+      `RGB ${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b}${showAlpha ? `, Alpha ${Math.round(color.rgba.a * 100)}%` : ''}.`
+    );
+  }, [showAlpha, getColorName]);
 
   if (!defaultColor || !presets) {
     console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
@@ -113,44 +151,6 @@ export function ColorPickerDialog({
 
   // Checkered pattern for transparency - always present
   const checkerPattern = `url("data:image/svg+xml,%3csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3e%3cdefs%3e%3cpattern id='checkerboard' x='0' y='0' width='20' height='20' patternUnits='userSpaceOnUse'%3e%3crect x='0' y='0' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='10' y='10' width='10' height='10' fill='%23f0f0f0'/%3e%3crect x='0' y='10' width='10' height='10' fill='%23e0e0e0'/%3e%3crect x='10' y='0' width='10' height='10' fill='%23e0e0e0'/%3e%3c/pattern%3e%3c/defs%3e%3crect width='100%25' height='100%25' fill='url(%23checkerboard)'/%3e%3c/svg%3e")`;
-
-  // Utility function to get color name from hue
-  const getColorName = (hue: number): string => {
-    const colorNames = [
-      { range: [0, 15], name: 'red' },
-      { range: [15, 45], name: 'orange' },
-      { range: [45, 75], name: 'yellow' },
-      { range: [75, 105], name: 'yellow-green' },
-      { range: [105, 135], name: 'green' },
-      { range: [135, 165], name: 'blue-green' },
-      { range: [165, 195], name: 'cyan' },
-      { range: [195, 225], name: 'blue' },
-      { range: [225, 255], name: 'purple' },
-      { range: [255, 285], name: 'magenta' },
-      { range: [285, 315], name: 'pink' },
-      { range: [315, 345], name: 'red-pink' },
-      { range: [345, 360], name: 'red' }
-    ];
-    
-    const colorName = colorNames.find(color => 
-      hue >= color.range[0] && hue < color.range[1]
-    );
-    
-    return colorName ? colorName.name : 'unknown';
-  };
-
-  // color announcement
-  const announceColorChange = React.useCallback((color: ColorValue, context: string = '') => {
-    const colorName = getColorName(color.hsva.h);
-    const saturationLevel = color.hsva.s > 75 ? 'vibrant' : color.hsva.s > 25 ? 'moderate' : 'muted';
-    const lightnessLevel = color.hsva.v > 75 ? 'light' : color.hsva.v > 25 ? 'medium' : 'dark';
-    
-    setAnnouncement(
-      `${context} Color changed to ${saturationLevel} ${lightnessLevel} ${colorName}. ` +
-      `Hex value ${color.hexa}. ` +
-      `RGB ${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b}${showAlpha ? `, Alpha ${Math.round(color.rgba.a * 100)}%` : ''}.`
-    );
-  }, [showAlpha]);
 
   return (
     <DialogContent 
