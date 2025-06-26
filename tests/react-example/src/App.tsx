@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 // Import the built color picker components and CSS
 import { ColorModeEnum, ColorPicker } from '../../../dist/index.esm.js';
 // types only exist in declaration files
-import type { ColorValue, ColorPickerVariantProps } from '../../../dist/index';
+import type { ColorValue } from '../../../dist/index';
 import '../../../dist/style.css';
 
 interface TestState {
@@ -18,11 +18,11 @@ function App() {
   const [headlessTest, setHeadlessTest] = useState<TestState>({ color: undefined, status: 'Not selected' });
 
   const handleColorChange = (setter: React.Dispatch<React.SetStateAction<TestState>>) => 
-    (color: any) => {
+    (color: ColorValue) => {
       setter({ color, status: 'Color selected' });
     };
 
-  const formatColorInfo = (color: any) => {
+  const formatColorInfo = (color: ColorValue) => {
     if (!color) return null;
     return {
       hex: color.hexa,
