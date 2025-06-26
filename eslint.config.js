@@ -97,6 +97,6 @@ export default [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', '.eslintrc.cjs', 'scripts/**'],
+    ignores: ['dist/**', 'node_modules/**', '.eslintrc.cjs', 'scripts/**', '**/dist/**', 'tests/**/dist/**'],
   },
 ]; 
