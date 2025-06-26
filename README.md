@@ -4,8 +4,45 @@
 [![Node.js](https://img.shields.io/badge/Node.js-22+-brightgreen.svg)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-19+-green.svg)](https://reactjs.org/)
+[![Accessibility](https://img.shields.io/badge/a11y-WCAG%202.1%20AA-green.svg)](https://www.w3.org/WAI/WCAG21/Understanding/)
+
+## 📋 Summary
 
 A comprehensive React color picker component with multiple variants, pastel color support, and alpha channel control. Built with Radix UI primitives and modern CSS architecture.
+
+**Key Features:**
+- 🎯 **Multiple Variants** - Button, Circles, and Random selection modes
+- 🌈 **Pastel & Vivid Colors** - Smart color generation for different aesthetics  
+- 💧 **Alpha Channel Support** - Transparency control with visual feedback
+- ♿ **WCAG 2.1 AA Compliant** - Full accessibility with screen reader support
+- 🔧 **TypeScript Ready** - Complete type safety with detailed interfaces
+- ⚡ **Modern Stack** - Built with Radix UI primitives and BEM CSS methodology
+- 📦 **Flexible Installation** - Self-contained, headless, or source import options
+
+## 📑 Table of Contents
+
+- [✨ Features](#-features)
+- [🎯 How It Works](#-how-it-works)
+- [🚀 Demo](#-demo)
+- [📦 Installation](#-installation)
+- [🎯 Quick Start](#-quick-start)
+- [🔧 API Reference](#-api-reference)
+  - [🔍 Import Clarification](#-import-clarification)
+  - [ColorPickerProps](#colorpickerprops)
+  - [Event Callbacks](#event-callbacks)
+  - [ColorValue Interface](#colorvalue-interface)
+  - [ColorMode Enum](#colormode-enum)
+- [🎨 Variants](#-variants)
+  - [Button Variant](#button-variant-default)
+  - [Circles Variant](#circles-variant)
+  - [Random Variant](#random-variant)
+  - [Variant Comparison](#-variant-comparison)
+- [🌈 Color Modes](#-color-modes)
+- [🎨 Styling](#-styling)
+- [♿ Accessibility](#-accessibility)
+- [🤝 Contributing](#-contributing)
+- [📝 License](#-license)
+- [🙏 Acknowledgments](#-acknowledgments)
 
 ## ✨ Features
 
@@ -29,37 +66,7 @@ The color picker uses the **HSV (Hue, Saturation, Value)** color model, which pr
 - **Saturation (S)**: Color intensity (0-100%) - Gray to Vivid
 - **Value (V)**: Brightness (0-100%) - Black to Bright
 
-### 🔄 User Selection Process
 
-1. **🎨 Choose Base Color (Hue)**
-   - Use the hue slider to select the base color type
-   - Range: 0-360° (Red → Orange → Yellow → Green → Blue → Purple → Red)
-
-2. **📊 Visual Reference Bar**
-   - A thin color bar displays: `White → Selected Hue → Black`
-   - Shows the full spectrum for your chosen hue
-   - Position indicator shows where your current color sits
-
-3. **🎛️ Fine-tune Color Properties**
-   - **Saturation Slider**: Adjust color intensity (0% = Gray ↔ 100% = Vivid)
-   - **Value Slider**: Adjust brightness (0% = Black ↔ 100% = Bright)
-   - **Alpha Slider**: Control transparency (optional)
-
-4. **📍 Real-time Feedback**
-   - Position indicator moves on the color bar as you adjust sliders
-   - Live color preview updates instantly
-   - RGB and HEX values displayed
-
-### 💡 Example Workflow
-
-```
-Step 1: "I want a blue color" → Move hue slider to ~240°
-Step 2: Color bar shows [White ████ Blue ████ Black]
-Step 3: "Make it more vivid" → Increase saturation to 80%
-Step 4: "Make it brighter" → Increase value to 70%
-Step 5: Position indicator shows exactly where your color is: [White ██●█ Blue ████ Black]
-Result: Beautiful bright blue color! 🎉
-```
 
 ### 🎨 Color Variants
 
@@ -90,7 +97,11 @@ npm install react react-dom
 ## 🎯 Quick Start
 
 ```tsx
-import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+// Runtime imports (from .js files)
+import { ColorPicker, ColorModeEnum } from '@marcosfreitas/pastel-color-picker';
+// Type imports (from .d.ts files)
+import type { ColorValue } from '@marcosfreitas/pastel-color-picker';
+// CSS import
 import '@marcosfreitas/pastel-color-picker/style.css';
 import { useState } from 'react';
 
@@ -102,7 +113,8 @@ function App() {
       defaultColor={color}
       onColorChange={setColor}
       variant="button"
-      colorMode={ColorMode.PASTEL}
+      colorMode={ColorModeEnum.PASTEL}  // Use enum for runtime
+      // OR colorMode="pastel"         // Use string literal
       showAlpha={true}
     />
   );
@@ -110,6 +122,19 @@ function App() {
 ```
 
 ## 🔧 API Reference
+
+### 🔍 Import Clarification
+
+**Important:** Types (`ColorValue`, `ColorMode`, etc.) must be imported separately from runtime values:
+
+```tsx
+// ✅ Correct - Import types separately
+import { ColorPicker, ColorModeEnum } from '@marcosfreitas/pastel-color-picker';
+import type { ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+
+// ❌ Incorrect - Types don't exist in JS runtime
+import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+```
 
 ### ColorPickerProps
 
@@ -237,132 +262,6 @@ When `colorMode="vivid"`:
 - Value: 40-80%
 - Great for bold, energetic designs
 
-## 🎯 Advanced Usage
-
-### Custom Theme Integration
-
-```tsx
-import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
-import '@marcosfreitas/pastel-color-picker/style.css';
-
-function ThemeColorPicker() {
-  const [themeColor, setThemeColor] = useState<ColorValue>();
-
-  const handleColorChange = (color: ColorValue) => {
-    setThemeColor(color);
-    // Update CSS custom properties
-    document.documentElement.style.setProperty('--theme-color', color.hexa);
-    document.documentElement.style.setProperty(
-      '--theme-color-rgb', 
-      `${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b}`
-    );
-  };
-
-  return (
-    <ColorPicker
-      variant="button"
-      defaultColor={themeColor}
-      onColorChange={handleColorChange}
-      showAlpha={false}
-      colorMode={ColorMode.VIVID}
-    />
-  );
-}
-```
-
-### Brand Color Selector
-
-```tsx
-const brandColors = [
-  '#1a73e8', '#ea4335', '#fbbc04', '#34a853',
-  '#9aa0a6', '#5f6368', '#202124', '#fff'
-];
-
-<ColorPicker
-  variant="circles"
-  presets={brandColors}
-  showPresets={true}
-  colorMode={ColorMode.VIVID}
-  onColorChange={(color) => console.log('Brand color:', color)}
-/>
-```
-
-### Minimalist Color Picker
-
-```tsx
-function MinimalistPicker() {
-  const [color, setColor] = useState<ColorValue>();
-
-  return (
-    <ColorPicker
-      variant="button"
-      defaultColor={color}
-      onColorChange={setColor}
-      hideSliders={true}
-      showColorArea={true}
-      showPresets={false}
-      label="Pick Color"
-    />
-  );
-}
-```
-
-### Transparency-Aware Color Picker
-
-```tsx
-function TransparencyPicker() {
-  const [bgColor, setBgColor] = useState<ColorValue>();
-
-  return (
-    <ColorPicker
-      variant="button"
-      defaultColor={bgColor}
-      onColorChange={setBgColor}
-      showAlpha={true}
-      showColorArea={true}
-      hideSliders={false}
-    />
-  );
-}
-```
-
-### Form Integration
-
-```tsx
-function ColorForm() {
-  const [formData, setFormData] = useState({
-    backgroundColor: null as ColorValue | null,
-    textColor: null as ColorValue | null,
-  });
-
-  return (
-    <form>
-      <div>
-        <label>Background Color</label>
-        <ColorPicker
-          defaultColor={formData.backgroundColor}
-          onColorChange={(color) => setFormData(prev => ({
-            ...prev,
-            backgroundColor: color
-          }))}
-        />
-      </div>
-      
-      <div>
-        <label>Text Color</label>
-        <ColorPicker
-          defaultColor={formData.textColor}
-          onColorChange={(color) => setFormData(prev => ({
-            ...prev,
-            textColor: color
-          }))}
-          showAlpha={false}
-        />
-      </div>
-    </form>
-  );
-}
-```
 
 ## 🎨 Styling
 
@@ -403,12 +302,6 @@ For comprehensive accessibility implementation details, testing procedures, and 
 
 **This component sets the standard for accessible color picker implementations.**
 
-## 🌐 Browser Support
-
-- Chrome/Edge: 88+
-- Firefox: 78+
-- Safari: 14+
-
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
@@ -432,120 +325,3 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 ---
 
 Made with ❤️ by [Marcos Freitas](https://marcosfreitas.co/)
-
-## 📖 Usage Options
-
-This library provides **three different usage patterns** to fit different needs:
-
-### Option 1: Self-Contained (Recommended for Quick Setup)
-
-```typescript
-import { ColorPicker, ColorMode } from '@marcosfreitas/pastel-color-picker';
-import '@marcosfreitas/pastel-color-picker/style.css';
-
-// Works out of the box - no additional setup needed
-```
-
-### Option 2: Headless (Best for Tailwind v4 Projects)
-
-```typescript
-import { ColorPicker, ColorMode } from '@marcosfreitas/pastel-color-picker/headless';
-
-// No CSS import needed - uses your Tailwind config
-// Ensure your tailwind.config includes the package in content:
-// content: ['./node_modules/@marcosfreitas/pastel-color-picker/**/*.js']
-```
-
-**What is "Headless"?**
-- ✅ **Same components & functionality** as the regular version
-- ✅ **Zero bundled CSS** - uses your project's Tailwind utilities
-- ✅ **Smaller bundle size** (~35KB CSS savings)
-- ✅ **Perfect integration** with existing Tailwind v4 projects
-- ⚠️ **Requires** your project to have all necessary Tailwind utilities
-
-**Best for:**
-- Projects already using Tailwind CSS v4
-- Teams with custom design systems
-- Performance-critical applications
-- When you want full control over styling
-
-### Option 3: Source Import (Maximum Customization)
-
-```typescript
-import { ColorPicker, ColorMode } from '@marcosfreitas/pastel-color-picker/src';
-
-// Direct source import - full control over styling
-```
-
-**Which option to choose:**
-
-| Scenario | Use This | Why |
-|----------|----------|-----|
-| 🚀 **Quick prototyping** | Self-contained | Works immediately, no setup |
-| ⚡ **Existing Tailwind v4 project** | **Headless** | Avoids duplicate CSS, smaller bundle |
-| 🎨 **Custom design system** | Headless or Source | Full control over styling |
-| 🔧 **Need to modify components** | Source | Direct access to component code |
-| 📦 **Bundle size matters** | **Headless** | ~35KB CSS savings |
-
-## 🚀 Complete Example
-
-```tsx
-import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
-import '@marcosfreitas/pastel-color-picker/style.css';
-import { useState } from 'react';
-
-function App() {
-  const [color, setColor] = useState<ColorValue>();
-
-  const handleColorChange = (newColor: ColorValue, isRandom?: boolean) => {
-    console.log('Color changed:', newColor);
-    if (isRandom) {
-      console.log('This was a random color generation!');
-    }
-    setColor(newColor);
-  };
-
-  return (
-    <div>
-      <h1>My Color Picker App</h1>
-      
-      <ColorPicker
-        variant="circles"
-        defaultColor={color}
-        onColorChange={handleColorChange}
-        colorMode={ColorMode.PASTEL}
-        showAlpha={true}
-        title="Choose Your Color"
-        onPresetClick={(presetColor) => console.log('Preset clicked:', presetColor)}
-      />
-      
-      {color && (
-        <div 
-          style={{ 
-            width: 100, 
-            height: 100, 
-            backgroundColor: color.hexa,
-            marginTop: 20
-          }}
-        >
-          Selected: {color.hexa}
-        </div>
-      )}
-    </div>
-  );
-}
-```
-
-## 🔧 Headless Version Setup
-
-For the headless version, ensure your `tailwind.config.js` includes:
-
-```javascript
-module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-    './node_modules/@marcosfreitas/pastel-color-picker/**/*.js', // Add this!
-  ],
-  // ... rest of your config
-};
-```

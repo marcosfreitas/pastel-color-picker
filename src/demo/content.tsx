@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ColorValue, ColorMode } from '../types';
+import { ColorValue, ColorModeEnum } from '../types';
 import { X, Menu, Settings, PaintBucket, Wrench, Download, Github } from 'lucide-react';
 
 // Import section components
@@ -23,7 +23,7 @@ export function Content() {
       config: {
         size: 'md' as 'sm' | 'md' | 'lg',
         disabled: false,
-        colorMode: ColorMode.PASTEL,
+        colorMode: ColorModeEnum.PASTEL,
         showColorArea: false,
         showPresets: true,
         showHue: true,
@@ -38,7 +38,7 @@ export function Content() {
       config: {
         size: 'md' as 'sm' | 'md' | 'lg',
         disabled: false,
-        colorMode: ColorMode.VIVID,
+        colorMode: ColorModeEnum.VIVID,
         showColorArea: false,
         showPresets: true,
         showHue: true,
@@ -55,7 +55,7 @@ export function Content() {
         size: 'lg' as 'sm' | 'md' | 'lg',
         disabled: false,
         title: 'Random Color Generator',
-        colorMode: ColorMode.PASTEL,
+        colorMode: ColorModeEnum.PASTEL,
         showColorArea: false,
         showPresets: false,
         showHue: false,

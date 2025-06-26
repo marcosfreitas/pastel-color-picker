@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card } from '../../components/ui/card';
 import { Label } from '../../components/ui/label';
 import { ColorPicker } from '../../ColorPicker';
-import { ColorValue, ColorMode } from '../../types';
+import { ColorValue, ColorModeEnum } from '../../types';
 import { PRESET_COLORS, PRESET_PASTEL_COLORS } from '../../constants';
 
 export function CustomPresetColorsSection() {
@@ -33,7 +33,7 @@ export function CustomPresetColorsSection() {
                 '#000077', '#000066', '#000055', '#000044',
                 '#000033', '#000022', '#000011', '#000000',
               ]}
-              colorMode={ColorMode.VIVID}
+              colorMode={ColorModeEnum.VIVID}
               label="Custom Colors"
               onColorChange={() => {}}
             />
@@ -53,7 +53,7 @@ export function CustomPresetColorsSection() {
     '#000077', '#000066', '#000055', '#000044',
     '#000033', '#000022', '#000011', '#000000',
   ]}
-  colorMode={ColorMode.VIVID}
+  colorMode={ColorModeEnum.VIVID}
   label="Custom Colors"
 />`}
             </pre>
@@ -78,7 +78,7 @@ export function CustomPresetColorsSection() {
                   variant="button"
                   size="md"
                   disabled={false}
-                  colorMode={ColorMode.PASTEL}
+                  colorMode={ColorModeEnum.PASTEL}
                   presets={PRESET_PASTEL_COLORS}
                   label="Pastel"
                   onColorChange={(color) => setCustomDefaultPastelColor(color)}
@@ -101,7 +101,7 @@ export function CustomPresetColorsSection() {
                   variant="button"
                   size="md"
                   disabled={false}
-                  colorMode={ColorMode.VIVID}
+                  colorMode={ColorModeEnum.VIVID}
                   presets={PRESET_COLORS}
                   label="Vibrant"
                   onColorChange={(color) => setCustomDefaultVibrantColor(color)}

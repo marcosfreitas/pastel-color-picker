@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import { ColorMode, ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from './types';
+import { ColorModeEnum, ColorPickerDialogProps, ColorPickerVariantProps, ColorValue } from './types';
 import { PRESET_COLORS, PRESET_PASTEL_COLORS } from './constants';
 import { generateRandomColor, hexToColorValue, hsvToRgb, rgbToHex } from './utils/colorUtils';
 import { ButtonVariant } from './variants/ButtonVariant';
@@ -24,13 +24,13 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     title = 'Pick a color',
     defaultColor,
     presets,
-    colorMode = ColorMode.PASTEL,
+    colorMode = ColorModeEnum.PASTEL,
     showColorArea = false,
     showPresets = true,
     hideSliders = false,
     showHue = true,
-    showSaturation = true,
-    showLightness = true,
+    showSaturation = false,
+    showLightness = false,
     showAlpha = true,
     showRandomButton = true,
     onPresetClick,
@@ -46,7 +46,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
   // Determine the appropriate preset list and default color
   const presetColors = useMemo(() => {
     if (presets) return presets;
-    return colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS;
+    return colorMode === ColorModeEnum.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS;
   }, [presets, colorMode]);
 
   // Get default color from first preset color
@@ -80,7 +80,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
 
   const handleColorChange = useCallback((color: ColorValue, random?: boolean) => {
     if (random) {
-      const randomColor = generateRandomColor(colorMode === ColorMode.PASTEL);
+      const randomColor = generateRandomColor(colorMode === ColorModeEnum.PASTEL);
       setLocalColor(randomColor);
       onColorChange?.(randomColor);
     } else {

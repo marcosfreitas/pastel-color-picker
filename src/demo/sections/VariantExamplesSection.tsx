@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ColorPicker } from '../../ColorPicker';
 import { Switch } from '../../components/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
 import { Label } from '../../components/ui/label';
-import { Palette, Circle, Shuffle } from 'lucide-react';
-import { ColorValue, ColorMode } from '../../types';
+import { Palette, Circle, Shuffle, ChevronDown, ChevronUp } from 'lucide-react';
+import { ColorValue, ColorModeEnum } from '../../types';
 import { PRESET_COLORS, PRESET_PASTEL_COLORS } from '../../constants';
 import { cn } from '../../utils/cn';
 
@@ -14,7 +14,7 @@ interface VariantState {
     size: 'sm' | 'md' | 'lg';
     disabled: boolean;
     title?: string;
-    colorMode: ColorMode;
+    colorMode: ColorModeEnum;
     showColorArea: boolean;
     showPresets: boolean;
     showHue: boolean;
@@ -41,16 +41,38 @@ export function VariantExamplesSection({
   updateVariantConfig,
   updateVariantColor
 }: VariantExamplesSectionProps) {
+  const [expandedConfigs, setExpandedConfigs] = useState<Record<string, boolean>>({
+    button: false,
+    circles: false,
+    random: false,
+  });
+
+  const toggleConfig = (variant: string) => {
+    setExpandedConfigs(prev => ({
+      ...prev,
+      [variant]: !prev[variant]
+    }));
+  };
+
   // Configuration panel component
   const ConfigurationPanel = ({ variant, title }: { variant: keyof typeof variantStates, title: string }) => {
     const state = variantStates[variant];
     
     return (
       <Card className="w-full border border-border">
-        <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-medium">🎨 {title} Configuration</CardTitle>
+        <CardHeader 
+          className="select-none pb-3 cursor-pointer hover:bg-gray-50 transition-colors flex flex-row items-center justify-between"
+          onClick={() => toggleConfig(variant)}
+        >
+          <CardTitle className="text-sm font-medium">{title} Configuration</CardTitle>
+          {expandedConfigs[variant] ? (
+            <ChevronUp className="h-4 w-4 text-gray-600" />
+          ) : (
+            <ChevronDown className="h-4 w-4 text-gray-600" />
+          )}
         </CardHeader>
-        <CardContent className="space-y-4">
+        {expandedConfigs[variant] && (
+          <CardContent className="space-y-6">
           {/* Basic Props */}
           <div className="space-y-3">
             <Label className="text-xs font-medium">Basic Properties</Label>
@@ -90,18 +112,18 @@ export function VariantExamplesSection({
             <div className="mt-4 flex gap-1" role="group" aria-label="Color mode selection">
               <button
                 type="button"
-                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.colorMode === ColorMode.PASTEL ? 'border-2' : '')}
-                onClick={() => updateVariantConfig(variant, { colorMode: ColorMode.PASTEL })}
-                aria-pressed={state.config.colorMode === ColorMode.PASTEL}
+                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.colorMode === ColorModeEnum.PASTEL ? 'border-2' : '')}
+                onClick={() => updateVariantConfig(variant, { colorMode: ColorModeEnum.PASTEL })}
+                aria-pressed={state.config.colorMode === ColorModeEnum.PASTEL}
                 aria-label="Set color mode to pastel"
               >
                 Pastel
               </button>
               <button
                 type="button"
-                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.colorMode === ColorMode.VIVID ? 'border-2' : '')}
-                onClick={() => updateVariantConfig(variant, { colorMode: ColorMode.VIVID })}
-                aria-pressed={state.config.colorMode === ColorMode.VIVID}
+                className={cn("text-xs px-2 h-7 rounded-md bg-secondary text-primary demo-nav-button", state.config.colorMode === ColorModeEnum.VIVID ? 'border-2' : '')}
+                onClick={() => updateVariantConfig(variant, { colorMode: ColorModeEnum.VIVID })}
+                aria-pressed={state.config.colorMode === ColorModeEnum.VIVID}
                 aria-label="Set color mode to vivid"
               >
                 Vivid
@@ -191,7 +213,8 @@ export function VariantExamplesSection({
               </p>
             </div>
           )}
-        </CardContent>
+          </CardContent>
+        )}
       </Card>
     );
   };
@@ -214,17 +237,16 @@ export function VariantExamplesSection({
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4 justify-between">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Live Examples</Label>
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg flex-wrap">
+                <div className="flex items-center justify-evenly gap-4 p-4 bg-gray-50 rounded-lg flex-wrap">
                   {/* Color only button */}
                   <ColorPicker
                     variant="button"
                     size={variantStates.button.config.size}
                     disabled={variantStates.button.config.disabled}
                     title={variantStates.button.config.title}
-                    presets={variantStates.button.config.colorMode === ColorMode.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
+                    presets={variantStates.button.config.colorMode === ColorModeEnum.PASTEL ? PRESET_PASTEL_COLORS : PRESET_COLORS}
                     colorMode={variantStates.button.config.colorMode}
                     showColorArea={variantStates.button.config.showColorArea}
                     showPresets={variantStates.button.config.showPresets}
@@ -296,10 +318,9 @@ export function VariantExamplesSection({
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4 justify-between">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Live Example</Label>
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-center gap-4 p-4 bg-gray-50 rounded-lg">
                   <ColorPicker
                     variant="circles"
                     size={variantStates.circles.config.size}
@@ -339,10 +360,9 @@ export function VariantExamplesSection({
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
-            <div className="space-y-4">
+            <div className="flex flex-col gap-4 justify-between">
               <div className="space-y-2">
-                <Label className="text-sm font-medium">Live Examples</Label>
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg flex-wrap">
+                <div className="flex items-center justify-evenly gap-4 p-4 bg-gray-50 rounded-lg flex-wrap">
                   <ColorPicker
                     variant="random"
                     size={variantStates.random.config.size}
@@ -360,18 +380,6 @@ export function VariantExamplesSection({
                   >
                     <Shuffle className="w-4 h-4" />
                   </ColorPicker>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">Current Color</Label>
-                <div className="flex items-center gap-2 text-sm">
-                  <div 
-                    className="w-6 h-6 rounded border border-gray-300"
-                    style={{ backgroundColor: variantStates.random.color ? variantStates.random.color.hexa : 'undefined' }}
-                  ></div>
-                  <code className="bg-gray-100 px-2 py-1 rounded text-xs">
-                    {variantStates.random.color ? variantStates.random.color.hexa : 'undefined'}
-                  </code>
                 </div>
               </div>
               <ConfigurationPanel variant="random" title="Random" />

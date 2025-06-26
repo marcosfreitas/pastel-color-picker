@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 
 // Import the built color picker components and CSS
-import { ColorPicker } from '../../../dist/index.esm.js';
+import { ColorModeEnum, ColorPicker } from '../../../dist/index.esm.js';
+// types only exist in declaration files
+import type { ColorValue, ColorPickerVariantProps } from '../../../dist/index';
 import '../../../dist/style.css';
 
 interface TestState {
-  color: any;
+  color: ColorValue | undefined;
   status: string;
 }
 
@@ -49,7 +51,7 @@ function App() {
             <ColorPicker
               variant="button"
               size="md"
-              colorMode="pastel"
+              colorMode="pastel" // we can use the enum or the string
               onColorChange={handleColorChange(setButtonTest)}
               showAlpha={true}
               showPresets={true}
@@ -86,7 +88,7 @@ function App() {
             <ColorPicker
               variant="circles"
               size="md" 
-              colorMode="vivid"
+              colorMode={ColorModeEnum.VIVID}
               onColorChange={handleColorChange(setCirclesTest)}
               showAlpha={false}
               showPresets={true}
@@ -119,7 +121,7 @@ function App() {
             <ColorPicker
               variant="random"
               size="lg"
-              colorMode="pastel"
+              colorMode={ColorModeEnum.PASTEL}
               onColorChange={handleColorChange(setRandomTest)}
               label="Generate Random Pastel"
             />
@@ -151,7 +153,7 @@ function App() {
             <ColorPicker
               variant="button"
               size="sm"
-              colorMode="vivid"
+              colorMode={ColorModeEnum.VIVID}
               onColorChange={handleColorChange(setHeadlessTest)}
               showColorArea={true}
               showAlpha={true}

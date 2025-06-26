@@ -46,7 +46,11 @@ export function InstallationSection() {
               Works immediately with bundled CSS utilities. Perfect for quick prototyping and new projects.
             </p>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker';
+{`// Runtime imports (from .js files)
+import { ColorPicker, ColorModeEnum } from '@marcosfreitas/pastel-color-picker';
+// Type imports (from .d.ts files)
+import type { ColorValue } from '@marcosfreitas/pastel-color-picker';
+// CSS import
 import '@marcosfreitas/pastel-color-picker/style.css';
 import { useState } from 'react';
 
@@ -58,7 +62,8 @@ function App() {
       defaultColor={color}
       onColorChange={setColor}
       variant="button"
-      colorMode={ColorMode.PASTEL}
+      colorMode={ColorModeEnum.PASTEL}  // Use enum for runtime
+      // OR colorMode="pastel"         // Use string literal
       showAlpha={true}
     />
   );
@@ -76,7 +81,10 @@ function App() {
               Uses your project's css utilities. Smaller bundle size (~35KB CSS savings).
             </p>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker/headless';
+{`// Runtime imports (from headless .js files)
+import { ColorPicker, ColorModeEnum } from '@marcosfreitas/pastel-color-picker/headless';
+// Type imports
+import type { ColorValue } from '@marcosfreitas/pastel-color-picker/headless';
 import { useState } from 'react';
 
 function App() {
@@ -87,7 +95,8 @@ function App() {
       defaultColor={color}
       onColorChange={setColor}
       variant="button"
-      colorMode={ColorMode.PASTEL}
+      colorMode={ColorModeEnum.PASTEL}  // Use enum for runtime
+      // OR colorMode="pastel"         // Use string literal
       showAlpha={true}
     />
   );
@@ -105,7 +114,10 @@ function App() {
               Direct access to source code for maximum customization and modification.
             </p>
             <pre className="text-sm bg-muted p-3 rounded-md overflow-x-auto whitespace-pre-wrap break-words">
-{`import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-picker/src';
+{`// Runtime imports (from source files)
+import { ColorPicker, ColorModeEnum } from '@marcosfreitas/pastel-color-picker/src';
+// Type imports
+import type { ColorValue } from '@marcosfreitas/pastel-color-picker/src';
 import { useState } from 'react';
 
 function App() {
@@ -116,7 +128,8 @@ function App() {
       defaultColor={color}
       onColorChange={setColor}
       variant="button"
-      colorMode={ColorMode.PASTEL}
+      colorMode={ColorModeEnum.PASTEL}  // Use enum for runtime
+      // OR colorMode="pastel"         // Use string literal
       showAlpha={true}
     />
   );

@@ -1,6 +1,7 @@
 // Main exports
 export { ColorPicker } from './ColorPicker';
-export type { ColorValue, ColorPickerDialogProps, ColorPickerVariant, ColorMode, ColorPickerVariantProps } from './types';
+export type { ColorPickerVariant, ColorValue, ColorPickerDialogProps, ColorPickerVariantProps, ColorMode } from './types';
+export { ColorModeEnum } from './types';
 
 // Component exports
 export { ButtonVariant } from './variants/ButtonVariant';
