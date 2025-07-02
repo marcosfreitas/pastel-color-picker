@@ -27,9 +27,20 @@
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   transform: scale(1.05);
 }
+[data-theme="dark"] .pcp-circles__circle--selected,
+.dark .pcp-circles__circle--selected {
+  border-color: rgb(255 255 255);
+  box-shadow: 0 4px 6px -1px rgb(255 255 255 / 0.1);
+}
+
 .pcp-circles__circle:hover:not(:disabled) {
   transform: scale(1.1);
   border-color: rgb(0 0 0 / 0.5);
+}
+
+[data-theme="dark"] .pcp-circles__circle:hover:not(:disabled),
+.dark .pcp-circles__circle:hover:not(:disabled) {
+  border-color: rgb(255 255 255 / 0.5);
 }
 
 .pcp-circles__circle:focus-visible {
@@ -37,6 +48,12 @@
   outline: 2px solid hsl(var(--pcp-color-ring));
   outline-offset: 2px;
   box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background));
+}
+
+[data-theme="dark"] .pcp-circles__circle:focus-visible,
+.dark .pcp-circles__circle:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
 }
 
 /* Element: pcp-circles__more-button - More colors button */
@@ -54,10 +71,23 @@
   color: rgb(107 114 128);
 }
 
+[data-theme="dark"] .pcp-circles__more-button,
+.dark .pcp-circles__more-button {
+  border-color: rgb(255 255 255 / 0.5);
+  background-color: rgb(255 255 255 / 0.1);
+  color: rgb(255 255 255);
+}
+
 .pcp-circles__more-button:hover:not(:disabled) {
   transform: scale(1.1);
   border-color: rgb(156 163 175);
   background-color: rgb(243 244 246);
+}
+
+[data-theme="dark"] .pcp-circles__more-button:hover:not(:disabled),
+.dark .pcp-circles__more-button:hover:not(:disabled) {
+  border-color: rgb(255 255 255 / 0.5);
+  background-color: rgb(255 255 255 / 0.1);
 }
 
 .pcp-circles__more-button:focus-visible {
@@ -65,6 +95,12 @@
   outline-offset: 2px;
   box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background));
 }
+
+[data-theme="dark"] .pcp-circles__more-button:focus-visible,
+.dark .pcp-circles__more-button:focus-visible {
+  outline: 2px solid hsl(var(--pcp-color-ring));
+  outline-offset: 2px;
+}   
 
 /* Modifier: pcp-circles__circle--disabled - Disabled circle */
 .pcp-circles__circle--disabled {
@@ -87,6 +123,12 @@
   transform: none;
   border-color: rgb(209 213 219);
   background-color: rgb(249 250 251);
+}
+
+[data-theme="dark"] .pcp-circles__more-button--disabled:hover,
+.dark .pcp-circles__more-button--disabled:hover {
+  border-color: rgb(255 255 255 / 0.5);
+  background-color: rgb(255 255 255 / 0.1);
 }
 
 /* Modifier: pcp-circles--disabled - Disabled circles container */

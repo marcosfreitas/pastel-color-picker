@@ -1,4 +1,5 @@
-import { ColorValue } from '../types';
+import { ColorMode, ColorModeEnum, ColorValue } from '../types';
+import { constrainToColorMode, COLOR_MODE_CONFIG } from './colorModeConfig';
 
 // HSL to RGB conversion
 export function hslToRgb(h: number, s: number, l: number): [number, number, number] {
@@ -101,7 +102,9 @@ export function rgbToHsv(r: number, g: number, b: number): [number, number, numb
 
 // HSV to RGB conversion
 export function hsvToRgb(h: number, s: number, v: number): [number, number, number] {
-  h = h / 360;
+  // Normalize hue to 0-360 range and handle edge case
+  h = ((h % 360) + 360) % 360; // Ensure positive value in 0-359.99 range
+  h = h / 360; // Convert to 0-1 range
   s = s / 100;
   v = v / 100;
 
@@ -121,7 +124,7 @@ export function hsvToRgb(h: number, s: number, v: number): [number, number, numb
     r = 0; g = x; b = c;
   } else if (4/6 <= h && h < 5/6) {
     r = x; g = 0; b = c;
-  } else if (5/6 <= h && h < 1) {
+  } else if (5/6 <= h && h <= 1) { // Changed < to <= to handle h === 1
     r = c; g = 0; b = x;
   }
 
@@ -135,14 +138,15 @@ export function hsvToRgb(h: number, s: number, v: number): [number, number, numb
 // Generate random pastel color
 // Based on RGB(226, 115, 126) analysis: H≈351°, S≈62%, V≈89%
 // This creates colors with similar pastel intensity and softness
-export function generateRandomColor(isPastel: boolean = true): ColorValue {
+export function generateRandomColor(colorMode: ColorMode = ColorModeEnum.PASTEL): ColorValue {
   const h = Math.floor(Math.random() * 360);
   
-  if (isPastel) {
-    // Pastel colors: moderate saturation (45-75%) and higher brightness (75-95%)
-    // This matches the intensity of RGB(226, 115, 126) which has S≈62%, V≈89%
-    const s = 45 + Math.random() * 30; // 45-75% saturation
-    const v = 75 + Math.random() * 20; // 75-95% brightness
+  const config = COLOR_MODE_CONFIG[colorMode];
+  
+  if (config) {
+    // Use the configuration for any known mode
+    const s = config.saturation.min + Math.random() * (config.saturation.max - config.saturation.min);
+    const v = config.value.min + Math.random() * (config.value.max - config.value.min);
     
     const [r, g, b] = hsvToRgb(h, s, v);
     const hex = rgbToHex(r, g, b);
@@ -153,9 +157,9 @@ export function generateRandomColor(isPastel: boolean = true): ColorValue {
       hsva: { h, s, v, a: 1 }
     };
   } else {
-    // Vibrant colors: higher saturation and varied brightness
-    const s = 60 + Math.random() * 40; // 60-100% saturation
-    const v = 50 + Math.random() * 50; // 50-100% brightness
+    // Fallback for unknown modes - use vivid ranges
+    const s = 60 + Math.random() * 40;
+    const v = 50 + Math.random() * 50;
     
     const [r, g, b] = hsvToRgb(h, s, v);
     const hex = rgbToHex(r, g, b);

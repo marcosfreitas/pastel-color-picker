@@ -5,7 +5,6 @@ const config: Config = {
     './src/demo/**/*.{js,ts,jsx,tsx}',
     './index.html'
   ],
-  darkMode: false, // Disable dark mode for demo page
   theme: {
     extend: {
       colors: {

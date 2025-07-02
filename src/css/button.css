@@ -54,13 +54,13 @@
 /* Modifier: pcp-button--variant-outline - Outline button variant */
 .pcp-button--variant-outline {
   border: 1px solid hsl(var(--pcp-color-border));
-  background-color: hsl(var(--pcp-color-background));
+  background-color: hsl(var(--pcp-color-accent));
   color: hsl(var(--pcp-color-foreground));
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
 }
 
 .pcp-button--variant-outline:hover:not(:disabled) {
-  background-color: hsl(var(--pcp-color-accent));
+  background-color: hsl(var(--pcp-color-accent) / .8);
   color: hsl(var(--pcp-color-accent-foreground));
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
@@ -123,6 +123,13 @@
   color: hsl(var(--pcp-color-foreground));
   border-radius: 0.5rem;
   transition: all 200ms ease;
+}
+
+[data-theme="dark"] .pcp-button--color-picker,
+.dark .pcp-button--color-picker {
+  border-color: rgb(255 255 255 / 0.5);
+  background-color: hsl(var(--pcp-color-accent));
+  color: hsl(var(--pcp-color-accent-foreground));
 }
 
 .pcp-button--color-picker:hover:not(:disabled) {

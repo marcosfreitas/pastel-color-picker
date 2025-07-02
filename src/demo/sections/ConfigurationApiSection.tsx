@@ -5,22 +5,22 @@ export function ConfigurationApiSection() {
   return (
     <section id="configuration-api" className="space-y-8">
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold text-gray-900">Configuration API</h2>
-        <p className="text-gray-600 max-w-3xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Configuration API</h2>
+        <p className="text-gray-600 max-w-3xl mx-auto dark:text-gray-400">
           Complete reference for all available props and configuration options.
         </p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6">
-        <Card className="border border-border">
+        <Card className="border border-border dark:border-gray-700 dark:bg-gray-900">
           <CardHeader>
-            <CardTitle>Variant Props</CardTitle>
-            <CardDescription>Essential properties for all variants</CardDescription>
+            <CardTitle className="dark:text-gray-100">Variant Props</CardTitle>
+            <CardDescription className="dark:text-gray-400">Essential properties for all variants</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm dark:text-gray-100">
                   <thead>
                     <tr className="border-b">
                       <th className="text-left p-2 font-medium">Prop</th>
@@ -66,14 +66,14 @@ export function ConfigurationApiSection() {
           </CardContent>
         </Card>
 
-        <Card className="border border-border">
+        <Card className="border border-border dark:border-gray-700 dark:bg-gray-900">
           <CardHeader>
-            <CardTitle>Dialog Configuration</CardTitle>
-            <CardDescription>Control the color picker dialog features</CardDescription>
+            <CardTitle className="dark:text-gray-100">Dialog Configuration</CardTitle>
+            <CardDescription className="dark:text-gray-400">Control the color picker dialog features</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm dark:text-gray-100">
                 <thead>
                   <tr className="border-b">
                     <th className="text-left p-2 font-medium">Prop</th>
@@ -98,14 +98,19 @@ export function ConfigurationApiSection() {
                     <td className="p-2">pastel colors</td>
                   </tr>
                   <tr className="border-b">
-                    <td className="p-2 font-mono">colorMode</td>
-                    <td className="p-2">'pastel' | 'vivid'</td>
+                    <td className="p-2 font-mono">colorMode<span className="text-red-500">*</span></td>
+                    <td className="p-2">'normal' | 'pastel' | 'vivid'</td>
                     <td className="p-2">'pastel'</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-2 font-mono">showColorArea</td>
                     <td className="p-2">boolean</td>
                     <td className="p-2">false</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-2 font-mono">showColorBar</td>
+                    <td className="p-2">boolean</td>
+                    <td className="p-2">true</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-2 font-mono">hideSliders</td>
@@ -145,19 +150,27 @@ export function ConfigurationApiSection() {
                 </tbody>
               </table>
             </div>
+            <div className="mt-4">
+              <p className="text-xs text-muted-foreground dark:text-gray-400">
+                <strong>Note:</strong> Normal color mode enable you to use the color area and color bar.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2 dark:text-gray-400">
+                (*) Required props for the dialog to work.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="mt-8">
-        <Card className="border border-border">
+        <Card className="border border-border dark:border-gray-700 dark:bg-gray-900">
           <CardHeader>
-            <CardTitle>Event Callbacks</CardTitle>
-            <CardDescription>Handler functions for color picker events</CardDescription>
+            <CardTitle className="dark:text-gray-100">Event Callbacks</CardTitle>
+            <CardDescription className="dark:text-gray-400">Handler functions for color picker events</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm dark:text-gray-100">
                 <thead>
                   <tr className="border-b">
                     <th className="text-left p-2 font-medium">Callback</th>
@@ -167,7 +180,7 @@ export function ConfigurationApiSection() {
                 </thead>
                 <tbody className="text-xs">
                   <tr className="border-b">
-                    <td className="p-2 font-mono">onColorChange</td>
+                    <td className="p-2 font-mono">onColorChange<span className="text-red-500">*</span></td>
                     <td className="p-2">(color: ColorValue, random?: boolean) =&gt; void</td>
                     <td className="p-2">Called when color changes</td>
                   </tr>
@@ -199,6 +212,11 @@ export function ConfigurationApiSection() {
                 </tbody>
               </table>
             </div>
+            <div className="mt-4">
+              <p className="text-xs text-muted-foreground dark:text-gray-400">
+                (*) Required props for the dialog to work.
+              </p>
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -206,20 +224,20 @@ export function ConfigurationApiSection() {
       {/* Variant Feature Matrix */}
       <div className="mt-12">
         <div className="text-center space-y-4 mb-8">
-          <h3 id="variant-feature-matrix" className="text-2xl font-bold text-gray-900">Variant Feature Matrix</h3>
-          <p className="text-gray-600 max-w-3xl mx-auto">
+          <h3 id="variant-feature-matrix" className="text-2xl font-bold text-gray-900 dark:text-gray-100">Variant Feature Matrix</h3>
+          <p className="text-gray-600 max-w-3xl mx-auto dark:text-gray-400">
             This matrix shows which properties are supported by each variant, ordered from most configurable to least configurable.
           </p>
         </div>
 
-        <Card className="border border-border">
+        <Card className="border border-border dark:border-gray-700 dark:bg-gray-900">
           <CardHeader>
-            <CardTitle>Property Support by Variant</CardTitle>
-            <CardDescription>✅ = Supported, ❌ = Not supported</CardDescription>
+            <CardTitle className="dark:text-gray-100">Property Support by Variant</CardTitle>
+            <CardDescription className="dark:text-gray-400">✅ = Supported, ❌ = Not supported</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+              <table className="w-full text-sm dark:text-gray-100">
                 <thead>
                   <tr className="border-b">
                     <th className="text-left p-3 font-medium">Property</th>
@@ -230,7 +248,7 @@ export function ConfigurationApiSection() {
                 </thead>
                 <tbody className="text-xs">
                   <tr className="border-b bg-gray-50">
-                    <td colSpan={4} className="p-2 font-semibold text-gray-700">Variant Props</td>
+                    <td colSpan={4} className="p-2 font-semibold text-gray-700 dark:text-gray-100 dark:bg-gray-800">Variant Props</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">size</td>
@@ -264,7 +282,7 @@ export function ConfigurationApiSection() {
                   </tr>
                   
                   <tr className="border-b bg-gray-50">
-                    <td colSpan={4} className="p-2 font-semibold text-gray-700">Color Configuration</td>
+                    <td colSpan={4} className="p-2 font-semibold text-gray-700 dark:text-gray-100 dark:bg-gray-800">Color Configuration</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">defaultColor</td>
@@ -286,7 +304,7 @@ export function ConfigurationApiSection() {
                   </tr>
                   
                   <tr className="border-b bg-gray-50">
-                    <td colSpan={4} className="p-2 font-semibold text-gray-700">Dialog Features</td>
+                    <td colSpan={4} className="p-2 font-semibold text-gray-700 dark:text-gray-100 dark:bg-gray-800">Dialog Features</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">title</td>
@@ -296,6 +314,12 @@ export function ConfigurationApiSection() {
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">showColorArea</td>
+                    <td className="text-center p-3">✅</td>
+                    <td className="text-center p-3">✅</td>
+                    <td className="text-center p-3">❌</td>
+                  </tr>
+                  <tr className="border-b">
+                    <td className="p-3 font-mono">showColorBar</td>
                     <td className="text-center p-3">✅</td>
                     <td className="text-center p-3">✅</td>
                     <td className="text-center p-3">❌</td>
@@ -344,7 +368,7 @@ export function ConfigurationApiSection() {
                   </tr>
                   
                   <tr className="border-b bg-gray-50">
-                    <td colSpan={4} className="p-2 font-semibold text-gray-700">Event Callbacks</td>
+                    <td colSpan={4} className="p-2 font-semibold text-gray-700 dark:text-gray-100 dark:bg-gray-800">Event Callbacks</td>
                   </tr>
                   <tr className="border-b">
                     <td className="p-3 font-mono">onColorChange</td>
@@ -386,19 +410,19 @@ export function ConfigurationApiSection() {
               </table>
             </div>
             
-            <div className="mt-6 space-y-3 text-sm text-gray-600">
+            <div className="mt-6 space-y-3 text-sm text-gray-600 dark:text-gray-400">
               <div className="grid md:grid-cols-3 gap-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Button Variant</h4>
+                  <h4 className="font-medium text-gray-900 mb-2 dark:text-gray-100">Button Variant</h4>
                   <p>Full-featured dialog with all controls and customization options. Best for complex color selection needs.</p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Circles Variant</h4>
+                  <h4 className="font-medium text-gray-900 mb-2 dark:text-gray-100">Circles Variant</h4>
                   <p>Quick preset selection with dialog fallback. Ideal for palette-based color picking with advanced options.</p>
                   <p className="text-xs text-amber-700 mt-1"><strong>Note:</strong> Does not render label or children - uses preset circles instead.</p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">Random Variant</h4>
+                  <h4 className="font-medium text-gray-900 mb-2 dark:text-gray-100">Random Variant</h4>
                   <p>Simple random color generation. Perfect for creative workflows and inspiration-based color selection.</p>
                   <p className="text-xs text-amber-700 mt-1"><strong>Note:</strong> Does not use presets array - generates colors based on colorMode only.</p>
                 </div>

@@ -1,10 +1,23 @@
 @import "tailwindcss";
 
+/* Tailwind CSS v4 custom dark mode variant - class-based instead of prefers-color-scheme */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* Demo page styles - uses Tailwind CSS v4 for demo layout only */
 /* The component library itself is completely independent of Tailwind */
 
+/* Tailwind class-based dark mode support */
+html.light {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
 :root {
   --radius: 0.5rem;
+  /* Light theme (default) */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -66,59 +79,16 @@
 
 /* Ensure color picker focus styles override Tailwind */
 @layer components {
-  /* Button focus styles with higher specificity */
-  .pcp-button:focus-visible,
-  button.pcp-button:focus-visible {
-    outline: 2px solid hsl(var(--pcp-color-ring)) !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background)) !important;
-  }
-  
-  /* Circles focus styles with higher specificity */
-  .pcp-circles__circle:focus-visible,
-  button.pcp-circles__circle:focus-visible {
-    outline: 2px solid hsl(var(--pcp-color-ring)) !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background)) !important;
-  }
-  
-  .pcp-circles__more-button:focus-visible,
-  button.pcp-circles__more-button:focus-visible {
-    outline: 2px solid hsl(var(--pcp-color-ring)) !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 2px hsl(var(--pcp-color-ring)), 0 0 0 4px hsl(var(--pcp-color-background)) !important;
-  }
-  
-  /* Demo navigation buttons focus styles */
-  .demo-nav-button:focus-visible {
-outline: 2px solid #000 !important;
-    outline-offset: 2px !important;
-  }
-  
-  /* Demo sidebar buttons focus styles */
-  .demo-sidebar-nav:focus-visible {
-    outline: 2px solid #000 !important;
-    outline-offset: 2px !important;
-  }
-  
-  /* Ensure switch focus styles are visible */
-  [data-radix-switch-root]:focus-visible {
-    outline: 2px solid #000 !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 2px #000 !important;
-  }
-  
-  /* Ensure all interactive elements have consistent focus */
-  a:focus-visible,
-  button:focus-visible,
-  [role="button"]:focus-visible {
-    outline: 2px solid #000 !important;
-    outline-offset: 2px !important;
-  }
 }
 /* Demo-specific color overrides */
 .example-bg {
   background-color: #FDF9EF;
+  transition: background-color 0.3s ease;
+}
+
+[data-theme="dark"] .example-bg,
+.dark .example-bg {
+  background-color: #0A0A0B;
   transition: background-color 0.3s ease;
 }
 
@@ -127,12 +97,31 @@ outline: 2px solid #000 !important;
   transition: color 0.3s ease;
 }
 
+[data-theme="dark"] .example-title-main,
+.dark .example-title-main {
+  color: #E1E7EF;
+  transition: color 0.3s ease;
+}
+
+
 .example-title-secondary {
   color: #388BE9;
+  transition: color 0.3s ease;
+}
+
+[data-theme="dark"] .example-title-secondary,
+.dark .example-title-secondary {
+  color: #7BB3F0;
   transition: color 0.3s ease;
 }
 
 .example-text {
   color: #0B3462;
   transition: color 0.3s ease;
-} 
+}
+
+[data-theme="dark"] .example-text,
+.dark .example-text {
+  color: #B3C5D7;
+  transition: color 0.3s ease;
+}

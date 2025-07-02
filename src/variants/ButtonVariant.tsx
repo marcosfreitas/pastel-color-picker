@@ -19,6 +19,7 @@ export function ButtonVariant({
   defaultColor,
   presets,
   colorMode,
+  showColorBar,
   showColorArea,
   hideSliders,
   showPresets,
@@ -82,6 +83,7 @@ export function ButtonVariant({
         defaultColor={defaultColor}
         presets={presets}
         colorMode={colorMode}
+        showColorBar={showColorBar}
         showColorArea={showColorArea}
         hideSliders={hideSliders}
         showPresets={showPresets}

@@ -10,7 +10,8 @@
   touch-action: none;
   user-select: none;
   align-items: center;
-  overflow: visible
+  overflow: visible;
+  user-select: none;
 }
 
 /* Element: pcp-slider__track - Slider track */
@@ -30,9 +31,11 @@
   height: 0.5rem;
   top:0;
   left:0;
-  background-color: hsl(var(--pcp-color-primary));
-  border-radius: 0.5rem;
+  background-color: hsl(var(--pcp-color-primary) / 0.8);
+  border-top-left-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
+
 
 /* Element: pcp-slider__thumb - Slider thumb/handle */
 .pcp-slider__thumb {
@@ -98,14 +101,10 @@
     linear-gradient(
       to right,
       transparent,
-      var(--pcp-current-color, #000)
-    ),
-    linear-gradient(45deg, #ccc 25%, transparent 25%), 
-    linear-gradient(-45deg, #ccc 25%, transparent 25%), 
-    linear-gradient(45deg, transparent 75%, #ccc 75%), 
-    linear-gradient(-45deg, transparent 75%, #ccc 75%);
-  background-size: 100% 100%, 8px 8px, 8px 8px, 8px 8px, 8px 8px;
-  background-position: 0 0, 0 0, 4px 0, 4px -4px, 0px 4px;
+      var(--pcp-current-color, #fff)
+    );
+  background-size: 100% 100%;
+  background-position: 0 0;
 }
 
 /* Modifier: pcp-slider--disabled - Disabled slider */

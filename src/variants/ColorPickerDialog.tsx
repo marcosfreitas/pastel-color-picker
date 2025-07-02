@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
+import { DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
 import { Button } from '../components/ui/button';
 import { Slider } from '../components/ui/slider';
-import { Shuffle } from 'lucide-react';
-import { ColorValue, ColorPickerDialogProps } from '../types';
+import { Shuffle, Copy, Check } from 'lucide-react';
+import { ColorValue, ColorPickerDialogProps, ColorModeEnum } from '../types';
 import { hexToColorValue, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
+import { constrainToColorMode, shouldApplyColorModeConstraints, COLOR_MODE_CONFIG } from '../utils/colorModeConfig';
 
 
 export function ColorPickerDialog({
@@ -16,6 +17,7 @@ export function ColorPickerDialog({
   defaultColor,
   presets,
   colorMode,
+  showColorBar,
   showColorArea,
   showPresets,
   hideSliders,
@@ -33,8 +35,8 @@ export function ColorPickerDialog({
 }: ColorPickerDialogProps) {
   // Track which control is currently being dragged
   const [dragStates, setDragStates] = useState({
-    colorBar: false,
     colorArea: false,
+    colorBar: false,
     hue: false,
     saturation: false,
     lightness: false,
@@ -43,6 +45,9 @@ export function ColorPickerDialog({
 
   // Live region for screen reader announcements
   const [announcement, setAnnouncement] = useState('');
+
+  // Copy to clipboard state
+  const [copyFeedback, setCopyFeedback] = useState<'idle' | 'copying' | 'copied'>('idle');
 
   // Utility function to get color name from hue
   const getColorName = useCallback((hue: number): string => {
@@ -82,23 +87,98 @@ export function ColorPickerDialog({
     );
   }, [showAlpha, getColorName]);
 
+  // Copy to clipboard handler
+  const handleCopyToClipboard = useCallback(async () => {
+    if (!defaultColor?.hexa) return;
+    
+    setCopyFeedback('copying');
+    
+    try {
+      await navigator.clipboard.writeText(defaultColor.hexa);
+      setCopyFeedback('copied');
+      setAnnouncement(`Color ${defaultColor.hexa} copied to clipboard.`);
+      
+      // Reset feedback after 2 seconds
+      setTimeout(() => {
+        setCopyFeedback('idle');
+      }, 2000);
+    } catch (err) {
+      // Fallback for older browsers
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = defaultColor.hexa;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        setCopyFeedback('copied');
+        setAnnouncement(`Color ${defaultColor.hexa} copied to clipboard.`);
+        
+        setTimeout(() => {
+          setCopyFeedback('idle');
+        }, 2000);
+      } catch (fallbackErr) {
+        setCopyFeedback('idle');
+        setAnnouncement('Unable to copy to clipboard. Please copy manually.');
+      }
+    }
+  }, [defaultColor?.hexa]);
+
   if (!defaultColor || !presets) {
     console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
     return null;
   }
 
-  const handleColorAreaChange = (saturation: number, value: number, random: boolean = false) => {
-    // Only update if individual sliders are not being dragged
-    if (!dragStates.hue && !dragStates.saturation && !dragStates.lightness && !dragStates.alpha) {
-      const [r, g, b] = hsvToRgb(defaultColor.hsva.h, saturation, value);
-      const hex = rgbToHex(r, g, b);
-      const newColor: ColorValue = {
-        hexa: hex,
-        rgba: { r, g, b, a: defaultColor.rgba.a },
-        hsva: { ...defaultColor.hsva, s: saturation, v: value }
-      };
-      onColorChange(newColor, random);
+  const handleHueChange = useCallback((hue: number[]) => {
+    let newSaturation = defaultColor.hsva.s;
+    let newValue = defaultColor.hsva.v;
+
+    // Apply constraints if sliders are hidden and color mode is not NORMAL
+    if (shouldApplyColorModeConstraints(colorMode, showSaturation, showLightness)) {
+      const constrained = constrainToColorMode(newSaturation, newValue, colorMode);
+      newSaturation = constrained.saturation;
+      newValue = constrained.value;
     }
+
+    const [r, g, b] = hsvToRgb(hue[0], newSaturation, newValue);
+    const hex = rgbToHex(r, g, b);
+    const newColor: ColorValue = {
+      hexa: hex,
+      rgba: { r, g, b, a: defaultColor.rgba.a },
+      hsva: { h: hue[0], s: newSaturation, v: newValue, a: defaultColor.hsva.a }
+    };
+
+    onColorChange(newColor);
+    onHueChange?.(hue);
+  }, [defaultColor, colorMode, showSaturation, showLightness, onColorChange, onHueChange]);
+
+  const handleColorAreaChange = (saturation: number, value: number, random: boolean = false) => {
+    let finalSaturation = saturation;
+    let finalValue = value;
+
+    /**
+     * constraints are only applied if the sliders are hidden
+     * and the color mode is set
+     */
+    if (shouldApplyColorModeConstraints(colorMode, showSaturation, showLightness)) {
+      const constrained = constrainToColorMode(saturation, value, colorMode);
+      finalSaturation = constrained.saturation;
+      finalValue = constrained.value;
+    }
+
+    const [r, g, b] = hsvToRgb(defaultColor.hsva.h, finalSaturation, finalValue);
+    const hex = rgbToHex(r, g, b);
+    const newColor: ColorValue = {
+      hexa: hex,
+      rgba: { r, g, b, a: defaultColor.rgba.a },
+      hsva: { ...defaultColor.hsva, s: finalSaturation, v: finalValue }
+    };
+    onColorChange(newColor, random);
   };
 
   // Enhanced slider handlers with drag state tracking
@@ -108,7 +188,7 @@ export function ColorPickerDialog({
         // Always call the original handler for immediate updates
         originalHandler?.(values);
       },
-      onValueCommit: (_values: number[]) => {
+      onValueCommit: () => {
         // Mark slider as not dragging when commit happens
         setDragStates(prev => ({ ...prev, [sliderType]: false }));
       },
@@ -119,7 +199,23 @@ export function ColorPickerDialog({
     };
   };
 
-  const hueSliderHandlers = createSliderHandler('hue', onHueChange);
+  const createColorHandler = (sliderType: keyof typeof dragStates, originalHandler?: (saturation: number, value: number, random?: boolean) => void) => {
+    return {
+      onValueChange: (saturation: number, value: number) => {
+        originalHandler?.(saturation, value, false);
+      },
+      onValueCommit: () => {
+        setDragStates(prev => ({ ...prev, [sliderType]: false }));
+      },
+      onPointerDown: () => {
+        setDragStates(prev => ({ ...prev, [sliderType]: true }));
+      }
+    };
+  };
+
+  const colorAreaHandlers = createColorHandler('colorArea', handleColorAreaChange);
+  const colorBarHandlers = createColorHandler('colorBar', handleColorAreaChange);
+  const hueSliderHandlers = createSliderHandler('hue', handleHueChange);
   const saturationSliderHandlers = createSliderHandler('saturation', onSaturationChange);
   const lightnessSliderHandlers = createSliderHandler('lightness', onLightnessChange);
   const alphaSliderHandlers = createSliderHandler('alpha', onAlphaChange);
@@ -144,7 +240,7 @@ export function ColorPickerDialog({
   // Create the gradient with alpha
   const gradientWithAlpha = `linear-gradient(
     to right,
-    rgba(255, 255, 255, ${defaultColor.rgba.a}),
+    rgba(0, 0, 0, ${defaultColor.rgba.a}),
     hsla(${defaultColor.hsva.h}, 100%, 50%, ${defaultColor.rgba.a}),
     rgba(0, 0, 0, ${defaultColor.rgba.a})
   )`;
@@ -154,19 +250,18 @@ export function ColorPickerDialog({
 
   return (
     <DialogContent 
-      className="pcp-dialog__content" 
-      aria-describedby="color-picker-description"
+      className="pcp-dialog__content pcp-dialog__content--responsive" 
       role="dialog"
       aria-modal="true"
     >
-      {/* Screen reader instructions and live region */}
-      <div id="color-picker-description" className="pcp-sr-only">
+      {/* Screen reader instructions */}
+      <DialogDescription className="pcp-sr-only">
         Interactive color picker with sliders for hue, saturation, lightness{showAlpha ? ', and transparency' : ''}. 
         Use arrow keys to navigate preset colors, or use sliders to create custom colors.
         {showColorArea ? ' Use the color area to select saturation and lightness by clicking and dragging, or use arrow keys when focused.' : ''}
         {showRandomButton ? ' Use the shuffle button to generate random colors.' : ''}
         Tip: Hold Shift while using arrow keys for larger increments on all controls.
-      </div>
+      </DialogDescription>
       
       {/* Hidden instructions for color area keyboard navigation */}
       {showColorArea && (
@@ -179,57 +274,111 @@ export function ColorPickerDialog({
         {announcement}
       </div>
 
-      <DialogHeader className="pcp-dialog__header">
-        <DialogTitle className="pcp-dialog__title">{title}</DialogTitle>
-      </DialogHeader>
-      
-      <div className="pcp-color-picker__controls">
-        {/* Current Color Preview */}
+      {/* Fixed header section */}
+      <div className="pcp-dialog__header-section">
+        <DialogHeader className="pcp-dialog__header">
+          <DialogTitle className="pcp-dialog__title">{title}</DialogTitle>
+        </DialogHeader>
+        
+        {/* Current Color Preview - Fixed in header */}
         <div className="pcp-color-picker__preview-container">
           <div
             className="pcp-color-picker__preview"
             style={{
-              backgroundColor: `rgba(${defaultColor.rgba.r}, ${defaultColor.rgba.g}, ${defaultColor.rgba.b}, ${defaultColor.rgba.a})`,
+              backgroundImage: `${checkerPattern}`,
               width: '4rem',
               height: '4rem'
             }}
-          />
+            >
+            <div className="pcp-color-picker__preview-inner"
+              style={{
+                backgroundColor: `rgba(${defaultColor.rgba.r}, ${defaultColor.rgba.g}, ${defaultColor.rgba.b}, ${defaultColor.rgba.a})`,
+              }}
+            />
+          </div>
           <div className="pcp-color-picker__info">
-            <div className="pcp-color-picker__badge">
-              {defaultColor.hexa}
+            <div className="pcp-color-picker__hex-section">
+              <div className="pcp-color-picker__badge">
+                {defaultColor.hexa}
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyToClipboard}
+                disabled={copyFeedback === 'copying'}
+                className="pcp-color-picker__copy-button"
+                aria-label={`Copy hex color ${defaultColor.hexa} to clipboard`}
+                aria-describedby="copy-button-status"
+              >
+                {copyFeedback === 'copied' ? (
+                  <Check className="pcp-copy-button__icon pcp-copy-button__icon--success" aria-hidden="true" />
+                ) : (
+                  <Copy className="pcp-copy-button__icon" aria-hidden="true" />
+                )}
+                <span className="pcp-sr-only">
+                  {copyFeedback === 'copying' ? 'Copying...' : copyFeedback === 'copied' ? 'Copied!' : 'Copy'}
+                </span>
+              </Button>
             </div>
             <div className="pcp-color-picker__value">
               RGB({defaultColor.rgba.r}, {defaultColor.rgba.g}, {defaultColor.rgba.b})
               {showAlpha && `, A: ${Math.round(defaultColor.rgba.a * 100)}%`}
             </div>
+            <div id="copy-button-status" className="pcp-sr-only" aria-live="polite">
+              {copyFeedback === 'copying' && 'Copying color to clipboard'}
+              {copyFeedback === 'copied' && 'Color copied to clipboard successfully'}
+            </div>
           </div>
         </div>
+      </div>
+
+             {/* Scrollable controls section */}
+       <div className="pcp-color-picker__controls pcp-color-picker__controls--scrollable">
 
         {/* Color Reference */}
-        <div className="pcp-color-picker__slider-group">
-          <span className="pcp-color-picker__label">Color</span>
-          {showColorArea ? (
-            <ColorArea
-              hue={defaultColor.hsva.h}
-              saturation={defaultColor.hsva.s}
-              lightness={defaultColor.hsva.v}
-              alpha={defaultColor.rgba.a}
-              onChange={handleColorAreaChange}
-              onDragStart={() => setDragStates(prev => ({ ...prev, colorArea: true }))}
-              onDragEnd={() => setDragStates(prev => ({ ...prev, colorArea: false }))}
-            />
-          ) : (
-            <ColorBar 
-              hue={defaultColor.hsva.h} 
-              saturation={defaultColor.hsva.s} 
-              lightness={defaultColor.hsva.v}
-              alpha={defaultColor.rgba.a}
-              onChange={handleColorAreaChange}
-              onDragStart={() => setDragStates(prev => ({ ...prev, colorBar: true }))}
-              onDragEnd={() => setDragStates(prev => ({ ...prev, colorBar: false }))}
-            />
-          )}
-        </div>
+        {(showColorBar || showColorArea) && (
+          <div className="pcp-color-picker__slider-group">
+            <span className="pcp-color-picker__label">Color</span>
+
+            {/* warns about color mode constraints and bad UX if showColorArea or showColorBar are true */}
+            {(showColorArea || showColorBar) && (!showSaturation && !showLightness) && colorMode !== ColorModeEnum.NORMAL && (
+              <div className="pcp-color-picker__warning">
+                <p>
+                  <strong>Warning:</strong> Color Area and Color bar are better used with Normal color mode.
+                </p>
+                <p>
+                  Color mode constraints are applied for Pastel and Vivid colors when sliders are hidden, and provide a limited range for color selection. Disable the color area or color bar to not impact the user experience.
+                </p>
+              </div>
+            )}
+
+
+            {showColorArea && (
+              <ColorArea
+                hue={defaultColor.hsva.h}
+                saturation={defaultColor.hsva.s}
+                lightness={defaultColor.hsva.v}
+                alpha={defaultColor.rgba.a}
+                onChange={colorAreaHandlers.onValueChange}
+                onDragStart={() => setDragStates(prev => ({ ...prev, colorArea: true }))}
+                onDragEnd={() => setDragStates(prev => ({ ...prev, colorArea: false }))}
+              />
+            )}
+
+            {!showColorArea && showColorBar && (
+              <ColorBar 
+                hue={defaultColor.hsva.h} 
+                saturation={defaultColor.hsva.s} 
+                lightness={defaultColor.hsva.v}
+                alpha={defaultColor.rgba.a}
+                onChange={colorBarHandlers.onValueChange}
+                onDragStart={() => setDragStates(prev => ({ ...prev, colorBar: true }))}
+                onDragEnd={() => setDragStates(prev => ({ ...prev, colorBar: false }))}
+              />
+            )}
+          </div>
+        )}
 
         {/* Color Controls */}
         {(!hideSliders) && (
@@ -365,14 +514,14 @@ export function ColorPickerDialog({
                   onColorChange(defaultColor, true);
                   setAnnouncement('Random color generated. New color will be announced shortly.');
                 }}
-                aria-label={`Generate random ${colorMode === 'pastel' ? 'pastel' : 'vibrant'} color`}
+                aria-label={`Generate random ${colorMode === ColorModeEnum.PASTEL ? 'pastel' : 'vibrant'} color`}
                 aria-describedby="random-button-description"
               >
                 <Shuffle className="pcp-random__icon" aria-hidden="true" />
-                Random {colorMode === 'pastel' ? 'Pastel' : 'Color'}
+                Random {colorMode === ColorModeEnum.PASTEL ? 'Pastel' : 'Color'}
               </Button>
               <div id="random-button-description" className="pcp-sr-only">
-                Generates a new random color in {colorMode === 'pastel' ? 'pastel' : 'vibrant'} style
+                Generates a new random color in {colorMode === ColorModeEnum.PASTEL ? 'pastel' : 'vibrant'} style
               </div>
             </div>
           </>

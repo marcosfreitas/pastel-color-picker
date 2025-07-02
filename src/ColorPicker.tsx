@@ -25,6 +25,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     defaultColor,
     presets,
     colorMode = ColorModeEnum.PASTEL,
+    showColorBar = true,
     showColorArea = false,
     showPresets = true,
     hideSliders = false,
@@ -80,7 +81,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
 
   const handleColorChange = useCallback((color: ColorValue, random?: boolean) => {
     if (random) {
-      const randomColor = generateRandomColor(colorMode === ColorModeEnum.PASTEL);
+      const randomColor = generateRandomColor(colorMode);
       setLocalColor(randomColor);
       onColorChange?.(randomColor);
     } else {
@@ -147,6 +148,7 @@ export function ColorPicker(props: ColorPickerVariantProps & ColorPickerDialogPr
     defaultColor: localColor,
     presets: presetColors,
     colorMode,
+    showColorBar,
     showColorArea,
     hideSliders,
     showPresets,
