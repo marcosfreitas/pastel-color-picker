@@ -8,9 +8,11 @@ export interface ColorValue {
 
 export type ColorPickerVariant = 'circles' | 'button' | 'random' | 'simple';
 
+export type ColorPickerSize = 'sm' | 'md' | 'lg';
+
 export interface ColorPickerVariantProps {
   variant?: ColorPickerVariant;
-  size?: 'sm' | 'md' | 'lg';
+  size?: ColorPickerSize;
   disabled?: boolean;
   /** Label text to display with the button/random/simple variants */
   label?: string;
@@ -20,11 +22,12 @@ export interface ColorPickerVariantProps {
 }
 
 export enum ColorModeEnum {
+  NORMAL = 'normal',
   PASTEL = 'pastel',
   VIVID = 'vivid'
 }
 
-export type ColorMode = 'pastel' | 'vivid';
+export type ColorMode = 'normal' | 'pastel' | 'vivid';
 
 export interface ColorPickerDialogProps {
   /** Title of the color picker */
@@ -34,6 +37,8 @@ export interface ColorPickerDialogProps {
   presets?: string[];
   /** Whether to use pastel colors */
   colorMode: ColorMode;
+  /** Whether to show the color bar */
+  showColorBar?: boolean;
   /** Whether to show the 2D color area (disabled by default) */
   showColorArea?: boolean;
   /** Whether to hide all slider controls in dialogs */

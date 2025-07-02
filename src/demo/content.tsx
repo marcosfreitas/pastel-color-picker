@@ -1,16 +1,17 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ColorValue, ColorModeEnum } from '../types';
+import { ColorValue, ColorModeEnum, ColorMode, ColorPickerSize } from '../types';
 import { X, Menu, Settings, PaintBucket, Wrench, Download, Github } from 'lucide-react';
 
 // Import section components
 import { HeroSection } from './sections/HeroSection';
-import { VariantExamplesSection } from './sections/VariantExamplesSection';
+import { VariantExamplesSection, VariantState } from './sections/VariantExamplesSection';
 
 import { CustomPresetColorsSection } from './sections/CustomPresetColorsSection';
 import { ConfigurationApiSection } from './sections/ConfigurationApiSection';
 import { InstallationSection } from './sections/InstallationSection';
+import { ThemeToggle } from './components/ThemeToggle';
 
 export function Content() {
 
@@ -18,17 +19,21 @@ export function Content() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // State for each variant with individual configurations
-  const [variantStates, setVariantStates] = useState({
+  const [variantStates, setVariantStates] = useState<{
+    button: VariantState;
+    circles: VariantState;
+    random: VariantState;
+  }>({
     button: {
       config: {
-        size: 'md' as 'sm' | 'md' | 'lg',
+        size: 'md' as ColorPickerSize,
         disabled: false,
         colorMode: ColorModeEnum.PASTEL,
-        showColorArea: false,
+        showColorBar: false,
         showPresets: true,
         showHue: true,
-        showSaturation: true,
-        showLightness: true,
+        showSaturation: false,
+        showLightness: false,
         showAlpha: true,
         showRandomButton: true,
         hideSliders: false
@@ -36,10 +41,10 @@ export function Content() {
     },
     circles: {
       config: {
-        size: 'md' as 'sm' | 'md' | 'lg',
+        size: 'md' as ColorPickerSize,
         disabled: false,
-        colorMode: ColorModeEnum.VIVID,
-        showColorArea: false,
+        colorMode: ColorModeEnum.NORMAL,
+        showColorArea: true,
         showPresets: true,
         showHue: true,
         showSaturation: false,
@@ -52,11 +57,10 @@ export function Content() {
     random: {
       color: undefined,
       config: {
-        size: 'lg' as 'sm' | 'md' | 'lg',
+        size: 'lg' as ColorPickerSize,
         disabled: false,
         title: 'Random Color Generator',
-        colorMode: ColorModeEnum.PASTEL,
-        showColorArea: false,
+        colorMode: ColorModeEnum.VIVID,
         showPresets: false,
         showHue: false,
         showSaturation: false,
@@ -115,20 +119,20 @@ export function Content() {
     <section className="flex min-h-screen w-full overflow-x-hidden">
       {/* Sidebar - Following backup layout */}
       <aside 
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:inset-0 lg:flex-shrink-0`}
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 lg:static lg:inset-0 lg:flex-shrink-0`}
         aria-label="Navigation sidebar"
         role="complementary"
       >
-        <div className="sticky top-0 h-screen flex flex-col bg-white">
-          <div className="flex flex-col p-4 border-b border-gray-200 flex-shrink-0 space-y-3">
-            <div className="flex items-center justify-between">
+        <div className="sticky top-0 h-screen flex flex-col bg-white dark:bg-gray-900">
+          <div className="flex flex-col p-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0 space-y-3">
+            <div className="flex items-center justify-end">
               <button
                 type="button"
                 onClick={() => setSidebarOpen(false)}
-                className="lg:hidden p-1 rounded-md hover:bg-gray-100 demo-nav-button"
+                className="lg:hidden p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 demo-nav-button"
                 aria-label="Close sidebar"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5 dark:text-gray-100" />
               </button>
             </div>
             
@@ -138,7 +142,7 @@ export function Content() {
                 href="https://www.npmjs.com/package/@marcosfreitas/pastel-color-picker" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 text-xs text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md flex-1 justify-center demo-nav-button"
+                className="flex items-center gap-2 px-3 py-2 text-xs text-black hover:text-white dark:text-white bg-white dark:bg-gray-800 hover:bg-black dark:hover:bg-gray-700 border border-black dark:border-gray-700 transition-all duration-200 rounded-md flex-1 justify-center demo-nav-button"
                 aria-label="View on NPM"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 16 16">
@@ -152,7 +156,7 @@ export function Content() {
                 href="https://github.com/marcosfreitas/pastel-color-picker" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 text-xs text-black hover:text-white bg-white hover:bg-black border border-black transition-all duration-200 rounded-md flex-1 justify-center demo-nav-button"
+                className="flex items-center gap-2 px-3 py-2 text-xs text-black hover:text-white dark:text-white bg-white dark:bg-gray-800 hover:bg-black dark:hover:bg-gray-700 border border-black dark:border-gray-700 transition-all duration-200 rounded-md flex-1 justify-center demo-nav-button"
                 aria-label="View on GitHub"
               >
                 <Github className="w-4 h-4" />
@@ -167,7 +171,7 @@ export function Content() {
                 <button
                   key={section.href}
                   onClick={() => scrollToSection(section.href)}
-                  className="w-full text-left px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition-colors flex items-center gap-3 demo-sidebar-nav"
+                  className="w-full text-left px-3 py-2 rounded-md text-sm dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center gap-3 demo-sidebar-nav"
                   aria-label={`Navigate to ${section.title} section`}
                 >
                   <IconComponent className="w-4 h-4 flex-shrink-0" />
@@ -180,15 +184,19 @@ export function Content() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 lg:ml-0 min-w-0" role="main" aria-label="Main content">
+      <main className="flex-1 lg:ml-0 min-w-0 dark:bg-gray-900" role="main" aria-label="Main content">
         <section className="space-y-8 p-4 sm:p-6 w-full max-w-none sm:max-w-[90%] mx-auto">
+          <div className="flex justify-end fixed top-4 right-10 z-40">
+            <ThemeToggle />
+          </div>
+          
           {/* Mobile menu button */}
           <button
             onClick={() => setSidebarOpen(true)}
-            className="lg:hidden fixed top-4 left-4 z-40 p-2 rounded-md bg-white border border-gray-200 shadow-sm demo-nav-button"
+            className="lg:hidden fixed top-4 left-4 z-40 p-2 rounded-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm demo-nav-button"
             aria-label="Open sidebar menu"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-5 h-5 dark:text-gray-100" />
           </button>
 
           {/* Hero Section */}
@@ -217,7 +225,7 @@ export function Content() {
           className="fixed inset-0 z-40 backdrop-blur-sm lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
-          <div className="fixed w-full h-full inset-0 z-40 bg-white opacity-50 lg:hidden" />
+          <div className="fixed w-full h-full inset-0 z-40 bg-white dark:bg-gray-900 opacity-50 lg:hidden" />
         </div>
       )}
     </section>

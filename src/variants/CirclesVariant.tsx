@@ -20,6 +20,7 @@ export function CirclesVariant({
   defaultColor,
   presets,
   colorMode,
+  showColorBar,
   showColorArea,
   hideSliders,
   showPresets,
@@ -137,6 +138,7 @@ export function CirclesVariant({
           defaultColor={defaultColor}
           presets={presets}
           colorMode={colorMode}
+          showColorBar={showColorBar}
           showColorArea={showColorArea}
           hideSliders={hideSliders}
           showPresets={showPresets}
