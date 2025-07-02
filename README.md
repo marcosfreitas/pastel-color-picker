@@ -143,10 +143,11 @@ import { ColorPicker, ColorValue, ColorMode } from '@marcosfreitas/pastel-color-
 | `defaultColor` | `ColorValue` | first preset color | Current color value |
 | `onColorChange` | `(color: ColorValue, random?: boolean) => void` | - | Callback when color changes |
 | `variant` | `'button' \| 'circles' \| 'random'` | `'button'` | Presentation variant |
-| `colorMode` | `'pastel' \| 'vivid'` | `'pastel'` | Color generation mode |
+| `colorMode` | `'normal' \| 'pastel' \| 'vivid'` | `'pastel'` | Color generation mode |
 | `presets` | `string[]` | pastel/vivid colors | Custom preset colors (hex values) |
 | `title` | `string` | `'Color Picker'` | Dialog title |
 | `showAlpha` | `boolean` | `true` | Whether to show alpha channel controls |
+| `showColorBar` | `boolean` | `true` | Whether to show 1D color bar |
 | `showColorArea` | `boolean` | `false` | Whether to show 2D color area instead of color bar |
 | `hideSliders` | `boolean` | `false` | Whether to hide all slider controls in dialogs |
 | `showPresets` | `boolean` | `true` | Show preset colors in dialog |
@@ -185,6 +186,7 @@ interface ColorValue {
 
 ```tsx
 enum ColorMode {
+  NORMAL = 'normal',
   PASTEL = 'pastel',
   VIVID = 'vivid'
 }
@@ -250,6 +252,12 @@ Generates random colors with a colored bottom border indicator.
 
 ## 🌈 Color Modes
 
+### Normal Colors
+When `colorMode="normal"`:
+- No constraints
+
+Pastel and Vivid colors, with constrained saturation values. For a better UX, the color bar and area should be disabled.
+
 ### Pastel Colors
 When `colorMode="pastel"`:
 - Saturation: 70-100%
@@ -275,8 +283,13 @@ The component uses a modern CSS architecture with BEM methodology and scoped var
   --pcp-color-primary: 222.2 47.4% 11.2%;
   --pcp-color-primary-foreground: 210 40% 98%;
   --pcp-radius: 0.5rem;
+  
+  ....
+
 }
 ```
+Checkout the base CSS file: [/src/css/base.css](https://github.com/marcosfreitas/pastel-color-picker/blob/main/src/css/base.css)
+
 
 ## ♿ Accessibility
 
