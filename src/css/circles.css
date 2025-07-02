@@ -121,6 +121,14 @@
 
 .pcp-circles__more-button--disabled:hover {
   transform: none;
+  border-color: rgb(209 213 219);
+  background-color: rgb(249 250 251);
+}
+
+[data-theme="dark"] .pcp-circles__more-button--disabled:hover,
+.dark .pcp-circles__more-button--disabled:hover {
+  border-color: rgb(255 255 255 / 0.5);
+  background-color: rgb(255 255 255 / 0.1);
 }
 
 /* Modifier: pcp-circles--disabled - Disabled circles container */

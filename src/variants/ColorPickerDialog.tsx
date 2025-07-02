@@ -113,35 +113,27 @@ export function ColorPickerDialog({
   }, [defaultColor, colorMode, showSaturation, showLightness, onColorChange, onHueChange]);
 
   const handleColorAreaChange = (saturation: number, value: number, random: boolean = false) => {
-    // 🛡️ PROTECTION: Only update if NO individual sliders are being dragged
-    //if (!dragStates.hue && !dragStates.saturation && !dragStates.lightness && !dragStates.alpha) {
-      let finalSaturation = saturation;
-      let finalValue = value;
+    let finalSaturation = saturation;
+    let finalValue = value;
 
-      /**
-       * constraints are only applied if the sliders are hidden
-       * and the color mode is set
-       */
-      if (shouldApplyColorModeConstraints(colorMode, showSaturation, showLightness)) {
-        console.log(':x: applying constraints');
-        const constrained = constrainToColorMode(saturation, value, colorMode);
-        finalSaturation = constrained.saturation;
-        finalValue = constrained.value;
-      } else {
-        console.log(':check: no constraints applied');
-      }
+    /**
+     * constraints are only applied if the sliders are hidden
+     * and the color mode is set
+     */
+    if (shouldApplyColorModeConstraints(colorMode, showSaturation, showLightness)) {
+      const constrained = constrainToColorMode(saturation, value, colorMode);
+      finalSaturation = constrained.saturation;
+      finalValue = constrained.value;
+    }
 
-      const [r, g, b] = hsvToRgb(defaultColor.hsva.h, finalSaturation, finalValue);
-      const hex = rgbToHex(r, g, b);
-      const newColor: ColorValue = {
-        hexa: hex,
-        rgba: { r, g, b, a: defaultColor.rgba.a },
-        hsva: { ...defaultColor.hsva, s: finalSaturation, v: finalValue }
-      };
-      onColorChange(newColor, random);
-    //} else {
-    //  console.log(':x: no color changing', dragStates);
-    //}
+    const [r, g, b] = hsvToRgb(defaultColor.hsva.h, finalSaturation, finalValue);
+    const hex = rgbToHex(r, g, b);
+    const newColor: ColorValue = {
+      hexa: hex,
+      rgba: { r, g, b, a: defaultColor.rgba.a },
+      hsva: { ...defaultColor.hsva, s: finalSaturation, v: finalValue }
+    };
+    onColorChange(newColor, random);
   };
 
   // Enhanced slider handlers with drag state tracking
