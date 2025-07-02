@@ -1,5 +1,5 @@
 import { ColorMode, ColorModeEnum, ColorValue } from '../types';
-import { constrainToColorMode, COLOR_MODE_CONFIG } from './colorModeConfig';
+import { COLOR_MODE_CONFIG } from './colorModeConfig';
 
 // HSL to RGB conversion
 export function hslToRgb(h: number, s: number, l: number): [number, number, number] {

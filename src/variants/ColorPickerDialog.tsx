@@ -9,7 +9,7 @@ import { ColorValue, ColorPickerDialogProps, ColorModeEnum } from '../types';
 import { hexToColorValue, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
 import { ColorBar } from './ColorBar';
-import { constrainToColorMode, shouldApplyColorModeConstraints, COLOR_MODE_CONFIG } from '../utils/colorModeConfig';
+import { constrainToColorMode, shouldApplyColorModeConstraints } from '../utils/colorModeConfig';
 
 
 export function ColorPickerDialog({
@@ -34,7 +34,7 @@ export function ColorPickerDialog({
   onAlphaChange
 }: ColorPickerDialogProps) {
   // Track which control is currently being dragged
-  const [dragStates, setDragStates] = useState({
+  const [_dragStates, setDragStates] = useState({
     colorArea: false,
     colorBar: false,
     hue: false,
@@ -102,7 +102,7 @@ export function ColorPickerDialog({
       setTimeout(() => {
         setCopyFeedback('idle');
       }, 2000);
-    } catch (err) {
+    } catch (_err) {
       // Fallback for older browsers
       try {
         const textArea = document.createElement('textarea');
@@ -122,19 +122,17 @@ export function ColorPickerDialog({
         setTimeout(() => {
           setCopyFeedback('idle');
         }, 2000);
-      } catch (fallbackErr) {
+      } catch (_fallbackErr) {
         setCopyFeedback('idle');
         setAnnouncement('Unable to copy to clipboard. Please copy manually.');
       }
     }
   }, [defaultColor?.hexa]);
 
-  if (!defaultColor || !presets) {
-    console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
-    return null;
-  }
-
+  // All useCallback hooks must be declared before early return
   const handleHueChange = useCallback((hue: number[]) => {
+    if (!defaultColor) return;
+    
     let newSaturation = defaultColor.hsva.s;
     let newValue = defaultColor.hsva.v;
 
@@ -156,6 +154,12 @@ export function ColorPickerDialog({
     onColorChange(newColor);
     onHueChange?.(hue);
   }, [defaultColor, colorMode, showSaturation, showLightness, onColorChange, onHueChange]);
+
+  // Early return after all hooks to comply with Rules of Hooks
+  if (!defaultColor || !presets) {
+    console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
+    return null;
+  }
 
   const handleColorAreaChange = (saturation: number, value: number, random: boolean = false) => {
     let finalSaturation = saturation;
@@ -181,8 +185,8 @@ export function ColorPickerDialog({
     onColorChange(newColor, random);
   };
 
-  // Enhanced slider handlers with drag state tracking
-  const createSliderHandler = (sliderType: keyof typeof dragStates, originalHandler?: (values: number[]) => void) => {
+  // Enhanced slider handlers with drag state tracking  
+  const createSliderHandler = (sliderType: keyof typeof _dragStates, originalHandler?: (values: number[]) => void) => {
     return {
       onValueChange: (values: number[]) => {
         // Always call the original handler for immediate updates
@@ -199,7 +203,7 @@ export function ColorPickerDialog({
     };
   };
 
-  const createColorHandler = (sliderType: keyof typeof dragStates, originalHandler?: (saturation: number, value: number, random?: boolean) => void) => {
+  const createColorHandler = (sliderType: keyof typeof _dragStates, originalHandler?: (saturation: number, value: number, random?: boolean) => void) => {
     return {
       onValueChange: (saturation: number, value: number) => {
         originalHandler?.(saturation, value, false);
