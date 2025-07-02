@@ -42,7 +42,7 @@ export const ThemeToggle: React.FC = () => {
   };
 
   const getCurrentIcon = () => {
-    if (theme === 'dark') return <Moon className="w-4 h-4 text-neutral-100" />;
+    if (theme === 'dark') return <Moon className="w-4 h-4 text-gray-100" />;
     if (theme === 'light') return <Sun className="w-4 h-4 text-yellow-600" />;
   };
 
@@ -62,10 +62,10 @@ export const ThemeToggle: React.FC = () => {
       onClick={() => handleThemeChange(getNextTheme())}
       className={cn(
         "relative w-12 h-12 rounded-full",
-        "border-1 border-neutral-200 dark:border-neutral-600",
+        "border-1 border-gray-200 dark:border-gray-600",
         "bg-gradient-to-br",
-        "from-white to-neutral-100 dark:from-neutral-800 dark:to-neutral-900",
-        "hover:from-neutral-100 hover:to-neutral-200 dark:hover:from-neutral-700 dark:hover:to-neutral-800",
+        "from-white to-gray-100 dark:from-gray-800 dark:to-gray-900",
+        "hover:from-gray-100 hover:to-gray-200 dark:hover:from-gray-700 dark:hover:to-gray-800",
         "transition-all duration-300 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus:ring-blue-500 focus:ring-offset-2"
       )}
       title={`Click to switch to ${getThemeLabel(getNextTheme())} theme.`}

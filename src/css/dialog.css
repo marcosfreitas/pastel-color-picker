@@ -65,9 +65,6 @@
 
 /* Element: pcp-dialog__header - Dialog header */
 .pcp-dialog__header {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
   text-align: center;
 }
 
@@ -81,9 +78,15 @@
 .pcp-dialog__title {
   font-size: 1.125rem;
   font-weight: 600;
-  line-height: 1;
+  line-height: 2;
   letter-spacing: -0.025em;
   color: hsl(var(--pcp-color-foreground));
+}
+
+@media (min-width: 640px) {
+  .pcp-dialog__title {
+    line-height: 1;
+  }
 }
 
 /* Element: pcp-dialog__description - Dialog description */

@@ -4,7 +4,7 @@ import React, { useState, useCallback } from 'react';
 import { DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
 import { Button } from '../components/ui/button';
 import { Slider } from '../components/ui/slider';
-import { Shuffle } from 'lucide-react';
+import { Shuffle, Copy, Check } from 'lucide-react';
 import { ColorValue, ColorPickerDialogProps, ColorModeEnum } from '../types';
 import { hexToColorValue, hsvToRgb, rgbToHex } from '../utils/colorUtils';
 import { ColorArea } from './ColorArea';
@@ -46,6 +46,9 @@ export function ColorPickerDialog({
   // Live region for screen reader announcements
   const [announcement, setAnnouncement] = useState('');
 
+  // Copy to clipboard state
+  const [copyFeedback, setCopyFeedback] = useState<'idle' | 'copying' | 'copied'>('idle');
+
   // Utility function to get color name from hue
   const getColorName = useCallback((hue: number): string => {
     const colorNames = [
@@ -83,6 +86,48 @@ export function ColorPickerDialog({
       `RGB ${color.rgba.r}, ${color.rgba.g}, ${color.rgba.b}${showAlpha ? `, Alpha ${Math.round(color.rgba.a * 100)}%` : ''}.`
     );
   }, [showAlpha, getColorName]);
+
+  // Copy to clipboard handler
+  const handleCopyToClipboard = useCallback(async () => {
+    if (!defaultColor?.hexa) return;
+    
+    setCopyFeedback('copying');
+    
+    try {
+      await navigator.clipboard.writeText(defaultColor.hexa);
+      setCopyFeedback('copied');
+      setAnnouncement(`Color ${defaultColor.hexa} copied to clipboard.`);
+      
+      // Reset feedback after 2 seconds
+      setTimeout(() => {
+        setCopyFeedback('idle');
+      }, 2000);
+    } catch (err) {
+      // Fallback for older browsers
+      try {
+        const textArea = document.createElement('textarea');
+        textArea.value = defaultColor.hexa;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        textArea.style.top = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        
+        setCopyFeedback('copied');
+        setAnnouncement(`Color ${defaultColor.hexa} copied to clipboard.`);
+        
+        setTimeout(() => {
+          setCopyFeedback('idle');
+        }, 2000);
+      } catch (fallbackErr) {
+        setCopyFeedback('idle');
+        setAnnouncement('Unable to copy to clipboard. Please copy manually.');
+      }
+    }
+  }, [defaultColor?.hexa]);
 
   if (!defaultColor || !presets) {
     console.error('defaultColor and presets are required. Are you using the ColorPickerDialog directly instead of the ColorPicker component?');
@@ -252,14 +297,38 @@ export function ColorPickerDialog({
             />
           </div>
           <div className="pcp-color-picker__info">
-            <div className="pcp-color-picker__badge">
-              {defaultColor.hexa}
+            <div className="pcp-color-picker__hex-section">
+              <div className="pcp-color-picker__badge">
+                {defaultColor.hexa}
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={handleCopyToClipboard}
+                disabled={copyFeedback === 'copying'}
+                className="pcp-color-picker__copy-button"
+                aria-label={`Copy hex color ${defaultColor.hexa} to clipboard`}
+                aria-describedby="copy-button-status"
+              >
+                {copyFeedback === 'copied' ? (
+                  <Check className="pcp-copy-button__icon pcp-copy-button__icon--success" aria-hidden="true" />
+                ) : (
+                  <Copy className="pcp-copy-button__icon" aria-hidden="true" />
+                )}
+                <span className="pcp-sr-only">
+                  {copyFeedback === 'copying' ? 'Copying...' : copyFeedback === 'copied' ? 'Copied!' : 'Copy'}
+                </span>
+              </Button>
             </div>
             <div className="pcp-color-picker__value">
               RGB({defaultColor.rgba.r}, {defaultColor.rgba.g}, {defaultColor.rgba.b})
               {showAlpha && `, A: ${Math.round(defaultColor.rgba.a * 100)}%`}
             </div>
-            {/* @todo add copy to clipboard button */}
+            <div id="copy-button-status" className="pcp-sr-only" aria-live="polite">
+              {copyFeedback === 'copying' && 'Copying color to clipboard'}
+              {copyFeedback === 'copied' && 'Color copied to clipboard successfully'}
+            </div>
           </div>
         </div>
       </div>

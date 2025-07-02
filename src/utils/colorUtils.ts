@@ -102,7 +102,9 @@ export function rgbToHsv(r: number, g: number, b: number): [number, number, numb
 
 // HSV to RGB conversion
 export function hsvToRgb(h: number, s: number, v: number): [number, number, number] {
-  h = h / 360;
+  // Normalize hue to 0-360 range and handle edge case
+  h = ((h % 360) + 360) % 360; // Ensure positive value in 0-359.99 range
+  h = h / 360; // Convert to 0-1 range
   s = s / 100;
   v = v / 100;
 
@@ -122,7 +124,7 @@ export function hsvToRgb(h: number, s: number, v: number): [number, number, numb
     r = 0; g = x; b = c;
   } else if (4/6 <= h && h < 5/6) {
     r = x; g = 0; b = c;
-  } else if (5/6 <= h && h < 1) {
+  } else if (5/6 <= h && h <= 1) { // Changed < to <= to handle h === 1
     r = c; g = 0; b = x;
   }
 
