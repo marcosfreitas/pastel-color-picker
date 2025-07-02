@@ -36,11 +36,6 @@
   border-bottom-left-radius: 0.5rem;
 }
 
-.dark .pcp-slider__range,
-html:not(.light) [data-pcp-root]:not([data-theme="light"]) .pcp-slider__range {
-  background-color: hsl(var(--pcp-color-muted) / 0.9);
-}
-
 
 /* Element: pcp-slider__thumb - Slider thumb/handle */
 .pcp-slider__thumb {

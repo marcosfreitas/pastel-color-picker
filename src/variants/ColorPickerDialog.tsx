@@ -203,7 +203,7 @@ export function ColorPickerDialog({
   // Create the gradient with alpha
   const gradientWithAlpha = `linear-gradient(
     to right,
-    rgba(255, 255, 255, ${defaultColor.rgba.a}),
+    rgba(0, 0, 0, ${defaultColor.rgba.a}),
     hsla(${defaultColor.hsva.h}, 100%, 50%, ${defaultColor.rgba.a}),
     rgba(0, 0, 0, ${defaultColor.rgba.a})
   )`;

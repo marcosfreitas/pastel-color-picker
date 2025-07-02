@@ -113,9 +113,68 @@ html.dark .pcp-root,
   --pcp-color-card-foreground: 210 40% 98%;
 }
 
-/* Auto theme for external usage based on system preference */
+/* Auto theme based on system preference */
 @media (prefers-color-scheme: dark) {
-  html:not(.light) [data-pcp-root]:not([data-theme="light"]) {
+  /* Apply dark theme to all color picker instances by default */
+  .pcp-root,
+  [data-pcp-root] {
+    --pcp-color-border: 217.2 32.6% 17.5%;
+    --pcp-color-input: 217.2 32.6% 17.5%;
+    --pcp-color-ring: 212.7 26.8% 83.9%;
+    --pcp-color-background: 222.2 84% 4.9%;
+    --pcp-color-foreground: 210 40% 98%;
+    --pcp-color-primary: 210 40% 98%;
+    --pcp-color-primary-foreground: 222.2 47.4% 11.2%;
+    --pcp-color-secondary: 217.2 32.6% 17.5%;
+    --pcp-color-secondary-foreground: 210 40% 98%;
+    --pcp-color-destructive: 0 62.8% 30.6%;
+    --pcp-color-destructive-foreground: 210 40% 98%;
+    --pcp-color-muted: 217.2 32.6% 17.5%;
+    --pcp-color-muted-foreground: 215 20.2% 65.1%;
+    --pcp-color-accent: 217.2 32.6% 17.5%;
+    --pcp-color-accent-foreground: 210 40% 98%;
+    --pcp-color-popover: 222.2 84% 4.9%;
+    --pcp-color-popover-foreground: 210 40% 98%;
+    --pcp-color-card: 222.2 84% 4.9%;
+    --pcp-color-card-foreground: 210 40% 98%;
+  }
+  
+  /* Override: Respect explicit light theme settings */
+  html.light .pcp-root,
+  html.light [data-pcp-root],
+  .pcp-root[data-theme="light"],
+  [data-pcp-root][data-theme="light"] {
+    --pcp-color-border: 0 0% 10%;
+    --pcp-color-input: 0 0% 10%;
+    --pcp-color-ring: 0 0% 20%;
+    --pcp-color-background: 0 0% 100%;
+    --pcp-color-foreground: 222.2 84% 4.9%;
+    --pcp-color-primary: 222.2 47.4% 11.2%;
+    --pcp-color-primary-foreground: 210 40% 98%;
+    --pcp-color-secondary: 210 40% 96%;
+    --pcp-color-secondary-foreground: 222.2 84% 4.9%;
+    --pcp-color-destructive: 0 84.2% 60.2%;
+    --pcp-color-destructive-foreground: 210 40% 98%;
+    --pcp-color-warning: 360 83% 50%;
+    --pcp-color-warning-foreground: 210 40% 98%;
+    --pcp-color-muted: 0 0% 80%;
+    --pcp-color-muted-foreground: 215.4 16.3% 46.9%;
+    --pcp-color-accent: 210 40% 96%;
+    --pcp-color-accent-foreground: 222.2 84% 4.9%;
+    --pcp-color-popover: 0 0% 100%;
+    --pcp-color-popover-foreground: 222.2 84% 4.9%;
+    --pcp-color-card: 0 0% 100%;
+    --pcp-color-card-foreground: 222.2 84% 4.9%;
+  }
+}
+
+/* Auto theme based on system preference - Light mode */
+@media (prefers-color-scheme: light) {
+  /* Override: Respect explicit dark theme settings when system prefers light */
+  html.dark .pcp-root,
+  html.dark [data-pcp-root],
+  .pcp-root[data-theme="dark"],
+  [data-pcp-root][data-theme="dark"] {
     --pcp-color-border: 217.2 32.6% 17.5%;
     --pcp-color-input: 217.2 32.6% 17.5%;
     --pcp-color-ring: 212.7 26.8% 83.9%;
