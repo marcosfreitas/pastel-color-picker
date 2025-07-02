@@ -1,8 +1,8 @@
-// Predefined color palette
+// Predefined vivid color palette
 export const PRESET_COLORS = [
   '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
   '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
-  '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#F4D03F'
+  '#F8C471', '#82E0AA', '#F1948A', '#FFFFFF', '#000000'
 ];
 
 // Enhanced pastel colors - based on RGB(226, 115, 126) intensity
@@ -26,8 +26,8 @@ export const PRESET_PASTEL_COLORS = [
   '#E2D5C2', // Warm beige
   '#F0E8A5', // Soft butter yellow
   '#D1C7E2', // Soft periwinkle
-  '#E8E2C4', // Cream
-  '#C7D1E2', // Light blue-gray
+  '#777777', // pastel black
+  '#fffff5', // pastel light
 ];
 
 // Helper function to generate pastel variations of a color
